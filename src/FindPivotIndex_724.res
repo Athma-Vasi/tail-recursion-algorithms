@@ -13,7 +13,8 @@
 //   loop(0)
 // }
 
-// O(n)
+// T(n) = O(n)
+// S(n) = O(1)
 let findPivotIndex = (numbers: array<int>): int => {
   let length = Array.length(numbers)
   let total = numbers->Array.reduce(0, (acc, curr) => acc + curr)

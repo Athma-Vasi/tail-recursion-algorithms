@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let product = (numbers: array<int>): int => {
   let rec helper = (accumulator: int, rest: array<int>) => {
     let length = Array.length(rest)

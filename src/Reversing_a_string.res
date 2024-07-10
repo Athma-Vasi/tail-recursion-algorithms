@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let reverseString = (str: string): string => {
   let rec helper = (accumulator: string, tail: string): string => {
     let length = String.length(tail)

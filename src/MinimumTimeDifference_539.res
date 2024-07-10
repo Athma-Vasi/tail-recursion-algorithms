@@ -1,4 +1,6 @@
 // INCORRECT
+// T(n) = O(n)
+// S(n) = O(1)
 
 let minimumTimeDifference = (timePoints: array<string>): int => {
   let length = Array.length(timePoints)

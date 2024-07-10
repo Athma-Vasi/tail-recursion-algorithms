@@ -1,4 +1,6 @@
 // INCORRECT
+// T(n) = O(n)
+// S(n) = O(n)
 
 type nextDirection = Right | Down | Left | Up
 

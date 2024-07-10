@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let join = (strings: array<string>, ~spacer=" "): string => {
   let rec helper = (accumulator: string, rest: array<string>, index: int): string => {
     let length = Array.length(rest)

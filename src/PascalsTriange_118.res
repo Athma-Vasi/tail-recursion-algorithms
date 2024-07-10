@@ -1,3 +1,6 @@
+// T(n) = O(n^2)
+// S(n) = O(n)
+
 let pascalsTriangle = (numRows: int): array<array<int>> => {
   let rec accLoop = (accumulator: array<array<int>>, height: int) => {
     let prevRow = switch accumulator->Array.get(height - 1) {

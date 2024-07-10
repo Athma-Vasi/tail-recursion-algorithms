@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let palindrome = (str: string): bool => {
   let rec helper = (middle: string): bool => {
     let length = String.length(middle)

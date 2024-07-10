@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let sumRecursive = (numbers: array<int>): int => {
   let rec helper = (accumulator: int, numbers: array<int>): int => {
     let length = Array.length(numbers)

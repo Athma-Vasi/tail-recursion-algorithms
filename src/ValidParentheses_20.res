@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let validParentheses = (str: string): bool => {
   let pairTable = {
     ")": "(",

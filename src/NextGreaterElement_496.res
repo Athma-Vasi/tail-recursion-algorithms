@@ -1,4 +1,5 @@
-// O(n^2)
+// T(n) = O(n^2)
+// S(n) = O(n)
 
 let nextGreaterElement = (nums1: array<int>, nums2: array<int>): array<int> => {
   let nums1Length = Array.length(nums1)

@@ -1,23 +1,5 @@
-// let twoSum = (numbers: array<int>, target: int): array<int> => {
-//   let table = Map.make()
-
-//   let rec helper = (current: int): array<int> => {
-//     let num = switch numbers->Array.get(current) {
-//     | Some(n) => n
-//     | None => -1
-//     }
-
-//     switch table->Map.get(target - num) {
-//     | Some(index) => [index, current]
-//     | None => {
-//         table->Map.set(num, current)
-//         helper(current + 1)
-//       }
-//     }
-//   }
-
-//   helper(0)
-// }
+// T(n) = O(n)
+// S(n) = O(1)
 
 let twoSum = (numbers: array<int>, target: int): array<int> => {
   let clone = numbers->Array.map(v => v)

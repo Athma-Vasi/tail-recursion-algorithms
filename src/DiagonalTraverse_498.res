@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 type previousDirection =
   | @as("start") Start | @as("right") Right | @as("down") Down | @as("left") Left | @as("up") Up
 
