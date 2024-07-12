@@ -16,7 +16,7 @@ let twoSumII = (nums: array<int>, target: int) => {
     let sum = leftNum + rightNum
 
     switch sum === target || leftIndex === rightIndex {
-    | true => (leftIndex + 1, rightIndex + 1) //1-based indexing required by leetcode
+    | true => (leftIndex + 1, rightIndex + 1) // 1-based indexing required by leetcode
     | false =>
       switch sum > target {
       | true => loop(leftIndex, rightIndex - 1)
