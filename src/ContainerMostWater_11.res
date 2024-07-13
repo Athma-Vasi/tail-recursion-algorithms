@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let containerMostWater = (heights: array<int>) => {
   let rec loop = (maxArea: int, leftIndex: int, rightIndex: int) => {
     let leftHeight = switch heights->Array.get(leftIndex) {

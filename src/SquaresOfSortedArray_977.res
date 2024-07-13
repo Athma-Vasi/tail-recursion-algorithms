@@ -1,6 +1,6 @@
 // T(n) = O(n)
 // S(n) = O(1)
-// incorrect
+// incorrect - need to add last num to accumulator
 
 let squaresSortedArray = (nums: array<int>): array<int> => {
   let length = Array.length(nums)
