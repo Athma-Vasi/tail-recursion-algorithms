@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let removeDuplicates = (nums: array<int>) => {
   let length = Array.length(nums)
 
