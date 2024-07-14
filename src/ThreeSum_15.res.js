@@ -10,7 +10,7 @@ function threeSum(nums) {
   clone.sort(function (a, b) {
         return a - b | 0;
       });
-  var triplets = new Set();
+  var triplets = [];
   var _anchorIndex = 0;
   while(true) {
     var anchorIndex = _anchorIndex;
@@ -32,7 +32,7 @@ function threeSum(nums) {
           return ;
         }
         if (sum === 0) {
-          triplets.add([
+          triplets.push([
                 currentAnchor,
                 lowExplorer,
                 highExplorer
@@ -56,7 +56,7 @@ function threeSum(nums) {
       explorersLoop(anchorIndex + 1 | 0, length - 1 | 0);
     }
     if (anchorIndex === (length - 2 | 0)) {
-      return Array.from(triplets.values());
+      return triplets;
     }
     _anchorIndex = anchorIndex + 1 | 0;
     continue ;

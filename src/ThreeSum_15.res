@@ -3,7 +3,7 @@ let threeSum = (nums: array<int>) => {
   let clone = nums->Array.map(num => num)
   clone->Array.sort((a, b) => float(a - b))
 
-  let rec anchorLoop = (triplets: Set.t<(int, int, int)>, anchorIndex: int) => {
+  let rec anchorLoop = (triplets: array<array<Int32.t>>, anchorIndex: int) => {
     let prevAnchor = switch clone->Array.get(anchorIndex - 1) {
     | None => Int32.min_int
     | Some(num) => num
@@ -34,7 +34,7 @@ let threeSum = (nums: array<int>) => {
       | false =>
         switch sum === 0 {
         | true => {
-            triplets->Set.add((currentAnchor, lowExplorer, highExplorer))
+            triplets->Array.push([currentAnchor, lowExplorer, highExplorer])
             explorersLoop(lowIndex + 1, highIndex - 1)
           }
         | false =>
@@ -52,12 +52,12 @@ let threeSum = (nums: array<int>) => {
     }
 
     switch anchorIndex === length - 2 {
-    | true => triplets->Set.values->Core__Iterator.toArray
+    | true => triplets
     | false => anchorLoop(triplets, anchorIndex + 1)
     }
   }
 
-  anchorLoop(Set.make(), 0)
+  anchorLoop([], 0)
 }
 
 let n1 = [-1, 0, 1, 2, -1, -4]
