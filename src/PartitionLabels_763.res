@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let partitionLabels = (str: string): array<int> => {
   let length = String.length(str)
   let charIndexMap = String.split(str, "")->Array.reduceWithIndex(Map.make(), (
