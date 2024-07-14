@@ -1,5 +1,5 @@
 // T(n) = O(n^2)
-// S(n) = O(n)
+// S(n) = O(1)
 // incorrect - found closest diff to target, not the sum
 
 let threeSum16 = (nums: array<int>, target: int) => {

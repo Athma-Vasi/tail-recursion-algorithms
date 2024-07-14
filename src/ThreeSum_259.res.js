@@ -10,63 +10,54 @@ function threeSum259(nums, target) {
   clone.sort(function (a, b) {
         return a - b | 0;
       });
-  var _result = 0;
-  var _anchorIndex = 0;
-  while(true) {
-    var anchorIndex = _anchorIndex;
-    var result = _result;
-    var num = clone[anchorIndex];
-    var currentAnchor = num !== undefined ? num : Int32.min_int;
-    console.log("--anchorloop");
-    console.log("currentAnchor", currentAnchor);
-    console.log("anchorIndex", anchorIndex);
-    console.log("result", result);
-    var explorersLoop = (function(currentAnchor){
-    return function explorersLoop(_amountOfTriplets, _lowIndex, _highIndex) {
-      while(true) {
-        var highIndex = _highIndex;
-        var lowIndex = _lowIndex;
-        var amountOfTriplets = _amountOfTriplets;
-        var num = clone[lowIndex];
-        var lowExplorer = num !== undefined ? num : Int32.min_int;
-        var num$1 = clone[highIndex];
-        var highExplorer = num$1 !== undefined ? num$1 : Int32.min_int;
-        var sum = (currentAnchor + lowExplorer | 0) + highExplorer | 0;
-        console.log("--explorersLoop");
-        console.log("clone", clone);
-        console.log("currentAnchor", currentAnchor);
-        console.log("lowIndex", lowIndex);
-        console.log("lowExplorer", lowExplorer);
-        console.log("highIndex", highIndex);
-        console.log("highExplorer", highExplorer);
-        console.log("sum", sum);
-        if (lowIndex === highIndex || lowIndex === length || highIndex === 0 || lowIndex > highIndex) {
-          return amountOfTriplets;
-        }
-        if (sum < target) {
-          _lowIndex = lowIndex + 1 | 0;
-          _amountOfTriplets = amountOfTriplets + 1 | 0;
-          continue ;
-        }
-        if (sum > target) {
+  if (length < 3) {
+    return 0;
+  } else {
+    var _result = 0;
+    var _anchorIndex = 0;
+    while(true) {
+      var anchorIndex = _anchorIndex;
+      var result = _result;
+      var num = clone[anchorIndex];
+      var currentAnchor = num !== undefined ? num : Int32.min_int;
+      var explorersLoop = (function(currentAnchor){
+      return function explorersLoop(_amountOfTriplets, _lowIndex, _highIndex) {
+        while(true) {
+          var highIndex = _highIndex;
+          var lowIndex = _lowIndex;
+          var amountOfTriplets = _amountOfTriplets;
+          var num = clone[lowIndex];
+          var lowExplorer = num !== undefined ? num : Int32.min_int;
+          var num$1 = clone[highIndex];
+          var highExplorer = num$1 !== undefined ? num$1 : Int32.min_int;
+          var sum = (currentAnchor + lowExplorer | 0) + highExplorer | 0;
+          if (lowIndex === highIndex) {
+            return amountOfTriplets;
+          }
+          if (sum < target) {
+            _highIndex = highIndex - 1 | 0;
+            _amountOfTriplets = amountOfTriplets + 1 | 0;
+            continue ;
+          }
+          if (sum > target) {
+            _lowIndex = lowIndex + 1 | 0;
+            continue ;
+          }
           _highIndex = highIndex - 1 | 0;
+          _lowIndex = lowIndex + 1 | 0;
           continue ;
-        }
-        _highIndex = highIndex - 1 | 0;
-        _lowIndex = lowIndex + 1 | 0;
-        continue ;
-      };
-    }
-    }(currentAnchor));
-    var amountOfTriplets = explorersLoop(0, anchorIndex + 1 | 0, length - 1 | 0);
-    console.log("amountOfTriplets", amountOfTriplets);
-    if (anchorIndex === (length - 2 | 0)) {
-      return result;
-    }
-    _anchorIndex = anchorIndex + 1 | 0;
-    _result = amountOfTriplets;
-    continue ;
-  };
+        };
+      }
+      }(currentAnchor));
+      var amountOfTriplets = explorersLoop(result, anchorIndex + 1 | 0, length - 1 | 0);
+      if (anchorIndex === (length - 2 | 0)) {
+        return amountOfTriplets;
+      }
+      _anchorIndex = anchorIndex + 1 | 0;
+      _result = amountOfTriplets;
+      continue ;
+    };
+  }
 }
 
 var n1 = [
