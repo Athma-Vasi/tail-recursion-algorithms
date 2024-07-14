@@ -2,7 +2,7 @@
 
 import * as Int32 from "rescript/lib/es6/int32.js";
 
-function threeSum15(nums) {
+function threeSum16(nums, target) {
   var length = nums.length;
   var clone = nums.map(function (num) {
         return num;
@@ -10,74 +10,66 @@ function threeSum15(nums) {
   clone.sort(function (a, b) {
         return a - b | 0;
       });
-  var triplets = [];
+  var _closest = Int32.max_int;
   var _anchorIndex = 0;
   while(true) {
     var anchorIndex = _anchorIndex;
-    var num = clone[anchorIndex - 1 | 0];
-    var prevAnchor = num !== undefined ? num : Int32.min_int;
-    var num$1 = clone[anchorIndex];
-    var currentAnchor = num$1 !== undefined ? num$1 : Int32.min_int;
+    var closest = _closest;
+    var num = clone[anchorIndex];
+    var currentAnchor = num !== undefined ? num : Int32.min_int;
     var explorersLoop = (function(currentAnchor){
-    return function explorersLoop(_lowIndex, _highIndex) {
+    return function explorersLoop(_tempClosest, _lowIndex, _highIndex) {
       while(true) {
         var highIndex = _highIndex;
         var lowIndex = _lowIndex;
+        var tempClosest = _tempClosest;
         var num = clone[lowIndex];
         var lowExplorer = num !== undefined ? num : Int32.min_int;
         var num$1 = clone[highIndex];
         var highExplorer = num$1 !== undefined ? num$1 : Int32.min_int;
         var sum = (currentAnchor + lowExplorer | 0) + highExplorer | 0;
+        var newDelta = Math.abs(target - sum | 0) | 0;
+        var newClosest = Math.min(tempClosest, newDelta) | 0;
         if (lowIndex === highIndex || lowIndex === length || highIndex === 0 || lowIndex > highIndex) {
-          return ;
+          return tempClosest;
         }
-        if (sum === 0) {
-          triplets.push([
-                currentAnchor,
-                lowExplorer,
-                highExplorer
-              ]);
-          _highIndex = highIndex - 1 | 0;
-          _lowIndex = lowIndex + 1 | 0;
-          continue ;
+        if (newClosest === target) {
+          return newClosest;
         }
-        if (sum < 0) {
+        if (newClosest < tempClosest) {
           _lowIndex = lowIndex + 1 | 0;
+          _tempClosest = newClosest;
           continue ;
         }
         _highIndex = highIndex - 1 | 0;
+        _tempClosest = newClosest;
         continue ;
       };
     }
     }(currentAnchor));
-    if (prevAnchor === currentAnchor) {
-      
-    } else {
-      explorersLoop(anchorIndex + 1 | 0, length - 1 | 0);
-    }
-    if (anchorIndex === (length - 2 | 0)) {
-      return triplets;
+    var newClosest = explorersLoop(closest, anchorIndex + 1 | 0, length - 1 | 0);
+    if (newClosest === target) {
+      return newClosest;
     }
     _anchorIndex = anchorIndex + 1 | 0;
+    _closest = newClosest;
     continue ;
   };
 }
 
 var n1 = [
   -1,
-  0,
-  1,
   2,
-  -1,
+  1,
   -4
 ];
 
-var r1 = threeSum15(n1);
+var r1 = threeSum16(n1, 1);
 
-console.log("[-1,0,1,2,-1,-4]", r1);
+console.log("[-1,2,1,-4]", r1);
 
 export {
-  threeSum15 ,
+  threeSum16 ,
   n1 ,
   r1 ,
 }

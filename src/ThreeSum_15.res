@@ -1,4 +1,7 @@
-let threeSum = (nums: array<int>) => {
+// T(n) = O(n^2)
+// S(n) = O(n)
+
+let threeSum15 = (nums: array<int>) => {
   let length = Array.length(nums)
   let clone = nums->Array.map(num => num)
   clone->Array.sort((a, b) => float(a - b))
@@ -61,5 +64,5 @@ let threeSum = (nums: array<int>) => {
 }
 
 let n1 = [-1, 0, 1, 2, -1, -4]
-let r1 = threeSum(n1)
+let r1 = threeSum15(n1)
 Console.log2("[-1,0,1,2,-1,-4]", r1)
