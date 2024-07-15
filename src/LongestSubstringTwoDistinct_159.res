@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let longestSubstring159 = (str: string): int => {
   let length = String.length(str)
 
