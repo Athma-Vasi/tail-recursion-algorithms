@@ -1,7 +1,7 @@
 // T(n) = O(n)
 // S(n) = O(1)
 
-let maxConsecutiveOnesII = (binaryArray: array<int>) => {
+let maxConsecutiveOnes = (binaryArray: array<int>) => {
   let length = Array.length(binaryArray)
 
   let rec loop = (~maxLength: int, ~counter: int, ~index: int) => {
@@ -25,9 +25,9 @@ let maxConsecutiveOnesII = (binaryArray: array<int>) => {
 }
 
 let b1 = [1, 1, 0, 1, 1, 1]
-let r1 = maxConsecutiveOnesII(b1)
+let r1 = maxConsecutiveOnes(b1)
 Console.log2("[1,1,0,1,1,1]", r1)
 
 let b2 = [1, 0, 1, 1, 0]
-let r2 = maxConsecutiveOnesII(b2)
+let r2 = maxConsecutiveOnes(b2)
 Console.log2("[1,0,1,1,0]", r2)

@@ -2,7 +2,7 @@
 
 import * as Int32 from "rescript/lib/es6/int32.js";
 
-function maxConsecutiveOnesII(binaryArray) {
+function maxConsecutiveOnes(binaryArray) {
   var length = binaryArray.length;
   var _maxLength = Int32.min_int;
   var _counter = 0;
@@ -38,7 +38,7 @@ var b1 = [
   1
 ];
 
-var r1 = maxConsecutiveOnesII(b1);
+var r1 = maxConsecutiveOnes(b1);
 
 console.log("[1,1,0,1,1,1]", r1);
 
@@ -50,12 +50,12 @@ var b2 = [
   0
 ];
 
-var r2 = maxConsecutiveOnesII(b2);
+var r2 = maxConsecutiveOnes(b2);
 
 console.log("[1,0,1,1,0]", r2);
 
 export {
-  maxConsecutiveOnesII ,
+  maxConsecutiveOnes ,
   b1 ,
   r1 ,
   b2 ,
