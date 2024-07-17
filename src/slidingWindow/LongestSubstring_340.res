@@ -1,5 +1,5 @@
 // T(n) = O(n)
-// S(n) = O(n)
+// S(n) = O(1)
 
 let longestSubstring340 = (str: string, k: int): int => {
   let length = String.length(str)
