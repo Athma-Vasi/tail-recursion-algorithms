@@ -1,6 +1,5 @@
 // // T(n) = O(m * n) where m <= n
 // S(n) = O(m)
-// somehow correct
 
 let minWindowSubstring = (str: string, subString: string) => {
   let stringLength = String.length(str)
