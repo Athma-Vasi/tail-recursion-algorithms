@@ -1,4 +1,4 @@
-// // T(n) = O(m * n) where m <= n
+// T(n) = O(m * n) where m <= n
 // S(n) = O(m)
 // incorrect, only finds first valid anagram
 
