@@ -51,14 +51,11 @@ function slidingWindowMaximum(numbers, windowSize) {
     if (rightIndex === length) {
       return maximumArrays$1;
     }
-    var num$1 = numbers[leftIndex - 1 | 0];
-    var leftExcludedNum = num$1 !== undefined ? num$1 : Int32.min_int;
-    var num$2 = numbers[rightIndex];
-    var rightIncludedNum = num$2 !== undefined ? num$2 : Int32.min_int;
-    var leftUpdatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, leftExcludedNum);
-    var rightUpdatedMonoIncrStack = updateMonoIncrStack(leftUpdatedMonoIncrStack, rightIncludedNum);
-    var num$3 = rightUpdatedMonoIncrStack.at(-1);
-    var maximum$1 = num$3 !== undefined ? num$3 : Int32.min_int;
+    var num$1 = numbers[rightIndex];
+    var rightIncludedNum = num$1 !== undefined ? num$1 : Int32.min_int;
+    var rightUpdatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, rightIncludedNum);
+    var num$2 = rightUpdatedMonoIncrStack.at(-1);
+    var maximum$1 = num$2 !== undefined ? num$2 : Int32.min_int;
     _rightIndex = rightIndex + 1 | 0;
     _leftIndex = leftIndex + 1 | 0;
     _monoIncrStack = rightUpdatedMonoIncrStack;

@@ -1,5 +1,5 @@
 // T(n) = O(n)
-// S(n) = O(m + (n - m + 1)) where m <= n
+// S(n) = O(m + n)
 
 let slidingWindowMaximum = (numbers: array<int>, windowSize: int) => {
   let length = Array.length(numbers)
@@ -16,9 +16,9 @@ let slidingWindowMaximum = (numbers: array<int>, windowSize: int) => {
     | true => monoIncrStack
     | false =>
       switch Array.length(monoIncrStack) < 1 {
-      | true => monoIncrStack->Array.concat([numToPush]) // push
+      | true => monoIncrStack->Array.concat([numToPush])
       | false =>
-        updateMonoIncrStack(monoIncrStack->Array.slice(~start=0, ~end=stackLength - 1), numToPush) // pop
+        updateMonoIncrStack(monoIncrStack->Array.slice(~start=0, ~end=stackLength - 1), numToPush)
       }
     }
   }
@@ -47,21 +47,12 @@ let slidingWindowMaximum = (numbers: array<int>, windowSize: int) => {
     switch rightIndex === length {
     | true => maximumArrays
     | false => {
-        let leftExcludedNum = switch numbers->Array.get(leftIndex - 1) {
-        | None => Int32.min_int
-        | Some(num) => num
-        }
-
         let rightIncludedNum = switch numbers->Array.get(rightIndex) {
         | None => Int32.min_int
         | Some(num) => num
         }
 
-        let leftUpdatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, leftExcludedNum)
-        let rightUpdatedMonoIncrStack = updateMonoIncrStack(
-          leftUpdatedMonoIncrStack,
-          rightIncludedNum,
-        )
+        let rightUpdatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, rightIncludedNum)
 
         let maximum = switch rightUpdatedMonoIncrStack->Array.at(-1) {
         | None => Int32.min_int
