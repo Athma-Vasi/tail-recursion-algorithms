@@ -4,43 +4,43 @@
 let slidingWindowMaximum = (numbers: array<int>, windowSize: int) => {
   let length = Array.length(numbers)
 
-  let rec updateMonoIncrStack = (monoIncrStack: array<int>, numToPush: int): array<int> => {
-    let stackLength = Array.length(monoIncrStack)
+  let rec updateMonoDecrStack = (monoDecrStack: array<int>, numToPush: int): array<int> => {
+    let stackLength = Array.length(monoDecrStack)
 
-    let prevMaximum = switch monoIncrStack->Array.at(-1) {
+    let prevMaximum = switch monoDecrStack->Array.at(-1) {
     | None => Int32.min_int
     | Some(num) => num
     }
 
     switch prevMaximum > numToPush {
-    | true => monoIncrStack
+    | true => monoDecrStack
     | false =>
-      switch Array.length(monoIncrStack) < 1 {
-      | true => monoIncrStack->Array.concat([numToPush])
+      switch stackLength < 1 {
+      | true => monoDecrStack->Array.concat([numToPush])
       | false =>
-        updateMonoIncrStack(monoIncrStack->Array.slice(~start=0, ~end=stackLength - 1), numToPush)
+        updateMonoDecrStack(monoDecrStack->Array.slice(~start=0, ~end=stackLength - 1), numToPush)
       }
     }
   }
 
-  let rec expandWindow = (monoIncrStack: array<int>, index: int): array<int> => {
+  let rec expandWindow = (monoDecrStack: array<int>, index: int): array<int> => {
     switch index === windowSize {
-    | true => monoIncrStack
+    | true => monoDecrStack
     | false => {
         let currentNum = switch numbers->Array.get(index) {
         | None => Int32.min_int + 1
         | Some(num) => num
         }
 
-        let updatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, currentNum)
-        expandWindow(updatedMonoIncrStack, index + 1)
+        let updatedMonoDecrStack = updateMonoDecrStack(monoDecrStack, currentNum)
+        expandWindow(updatedMonoDecrStack, index + 1)
       }
     }
   }
 
   let rec loop = (
     ~maximumArrays: array<int>,
-    ~monoIncrStack: array<int>,
+    ~monoDecrStack: array<int>,
     ~leftIndex: int,
     ~rightIndex: int,
   ) => {
@@ -52,16 +52,16 @@ let slidingWindowMaximum = (numbers: array<int>, windowSize: int) => {
         | Some(num) => num
         }
 
-        let rightUpdatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, rightIncludedNum)
+        let rightUpdatedMonoDecrStack = updateMonoDecrStack(monoDecrStack, rightIncludedNum)
 
-        let maximum = switch rightUpdatedMonoIncrStack->Array.at(-1) {
+        let maximum = switch rightUpdatedMonoDecrStack->Array.at(-1) {
         | None => Int32.min_int
         | Some(num) => num
         }
 
         loop(
           ~maximumArrays=maximumArrays->Array.concat([maximum]),
-          ~monoIncrStack=rightUpdatedMonoIncrStack,
+          ~monoDecrStack=rightUpdatedMonoDecrStack,
           ~leftIndex=leftIndex + 1,
           ~rightIndex=rightIndex + 1,
         )
@@ -69,14 +69,14 @@ let slidingWindowMaximum = (numbers: array<int>, windowSize: int) => {
     }
   }
 
-  let updatedMonoIncrStack = expandWindow([], 0)
-  let maximum = switch updatedMonoIncrStack->Array.at(-1) {
+  let updatedMonoDecrStack = expandWindow([], 0)
+  let maximum = switch updatedMonoDecrStack->Array.at(-1) {
   | None => Int32.min_int
   | Some(num) => num
   }
   let maximumArrays = []->Array.concat([maximum])
 
-  loop(~maximumArrays, ~monoIncrStack=updatedMonoIncrStack, ~leftIndex=1, ~rightIndex=windowSize)
+  loop(~maximumArrays, ~monoDecrStack=updatedMonoDecrStack, ~leftIndex=1, ~rightIndex=windowSize)
 }
 
 Console.log(slidingWindowMaximum([1, 3, -1, -3, 5, 3, 6, 7], 3))
