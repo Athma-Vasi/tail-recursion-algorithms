@@ -6,18 +6,18 @@ let nextGreaterElementI = (nums1: array<int>, nums2: array<int>) => {
   let length2 = Array.length(nums2)
 
   let rec updateStackAndTable = (
-    monoDecrStack: array<int>,
+    monoIncrStack: array<int>,
     nextGreaterTable: Map.t<int, int>,
     nums2Index: int,
   ) => {
-    let stackLength = Array.length(monoDecrStack)
+    let stackLength = Array.length(monoIncrStack)
 
     let num2 = switch nums2->Array.get(nums2Index) {
     | None => Int32.min_int
     | Some(num2) => num2
     }
 
-    let prevMaximum = switch monoDecrStack->Array.at(-1) {
+    let prevMaximum = switch monoIncrStack->Array.at(-1) {
     | None => Int32.min_int
     | Some(num) => num
     }
@@ -33,10 +33,10 @@ let nextGreaterElementI = (nums1: array<int>, nums2: array<int>) => {
         // if stack is not empty, compare prevMaximum with num2
         switch prevMaximum > num2 {
         // if prevMaximum > num2, do nothing and continue
-        | true => updateStackAndTable(monoDecrStack, nextGreaterTable, nums2Index + 1)
+        | true => updateStackAndTable(monoIncrStack, nextGreaterTable, nums2Index + 1)
         // if prevMaximum < num2, pop the stack and update nextGreaterTable
         | false => {
-            let sliced = monoDecrStack->Array.slice(~start=0, ~end=stackLength - 1)
+            let sliced = monoIncrStack->Array.slice(~start=0, ~end=stackLength - 1)
             let updatedStack = sliced->Array.concat([num2])
             nextGreaterTable->Map.set(prevMaximum, num2) // ~= (num1Element, num2NextGreaterElement)
 

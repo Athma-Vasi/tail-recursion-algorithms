@@ -4,61 +4,61 @@ import * as Int32 from "rescript/lib/es6/int32.js";
 
 function slidingWindowMaximum(numbers, windowSize) {
   var length = numbers.length;
-  var updateMonoDecrStack = function (_monoDecrStack, numToPush) {
+  var updateMonoIncrStack = function (_monoIncrStack, numToPush) {
     while(true) {
-      var monoDecrStack = _monoDecrStack;
-      var stackLength = monoDecrStack.length;
-      var num = monoDecrStack.at(-1);
+      var monoIncrStack = _monoIncrStack;
+      var stackLength = monoIncrStack.length;
+      var num = monoIncrStack.at(-1);
       var prevMaximum = num !== undefined ? num : Int32.min_int;
       if (prevMaximum > numToPush) {
-        return monoDecrStack;
+        return monoIncrStack;
       }
       if (stackLength < 1) {
-        return monoDecrStack.concat([numToPush]);
+        return monoIncrStack.concat([numToPush]);
       }
-      _monoDecrStack = monoDecrStack.slice(0, stackLength - 1 | 0);
+      _monoIncrStack = monoIncrStack.slice(0, stackLength - 1 | 0);
       continue ;
     };
   };
-  var expandWindow = function (_monoDecrStack, _index) {
+  var expandWindow = function (_monoIncrStack, _index) {
     while(true) {
       var index = _index;
-      var monoDecrStack = _monoDecrStack;
+      var monoIncrStack = _monoIncrStack;
       if (index === windowSize) {
-        return monoDecrStack;
+        return monoIncrStack;
       }
       var num = numbers[index];
       var currentNum = num !== undefined ? num : Int32.min_int + 1 | 0;
-      var updatedMonoDecrStack = updateMonoDecrStack(monoDecrStack, currentNum);
+      var updatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, currentNum);
       _index = index + 1 | 0;
-      _monoDecrStack = updatedMonoDecrStack;
+      _monoIncrStack = updatedMonoIncrStack;
       continue ;
     };
   };
-  var updatedMonoDecrStack = expandWindow([], 0);
-  var num = updatedMonoDecrStack.at(-1);
+  var updatedMonoIncrStack = expandWindow([], 0);
+  var num = updatedMonoIncrStack.at(-1);
   var maximum = num !== undefined ? num : Int32.min_int;
   var maximumArrays = [].concat([maximum]);
   var _maximumArrays = maximumArrays;
-  var _monoDecrStack = updatedMonoDecrStack;
+  var _monoIncrStack = updatedMonoIncrStack;
   var _leftIndex = 1;
   var _rightIndex = windowSize;
   while(true) {
     var rightIndex = _rightIndex;
     var leftIndex = _leftIndex;
-    var monoDecrStack = _monoDecrStack;
+    var monoIncrStack = _monoIncrStack;
     var maximumArrays$1 = _maximumArrays;
     if (rightIndex === length) {
       return maximumArrays$1;
     }
     var num$1 = numbers[rightIndex];
     var rightIncludedNum = num$1 !== undefined ? num$1 : Int32.min_int;
-    var rightUpdatedMonoDecrStack = updateMonoDecrStack(monoDecrStack, rightIncludedNum);
-    var num$2 = rightUpdatedMonoDecrStack.at(-1);
+    var rightUpdatedMonoIncrStack = updateMonoIncrStack(monoIncrStack, rightIncludedNum);
+    var num$2 = rightUpdatedMonoIncrStack.at(-1);
     var maximum$1 = num$2 !== undefined ? num$2 : Int32.min_int;
     _rightIndex = rightIndex + 1 | 0;
     _leftIndex = leftIndex + 1 | 0;
-    _monoDecrStack = rightUpdatedMonoDecrStack;
+    _monoIncrStack = rightUpdatedMonoIncrStack;
     _maximumArrays = maximumArrays$1.concat([maximum$1]);
     continue ;
   };

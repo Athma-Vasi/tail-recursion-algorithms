@@ -5,32 +5,32 @@ import * as Int32 from "rescript/lib/es6/int32.js";
 function nextGreaterElementI(nums1, nums2) {
   var length1 = nums1.length;
   var length2 = nums2.length;
-  var updateStackAndTable = function (_monoDecrStack, nextGreaterTable, _nums2Index) {
+  var updateStackAndTable = function (_monoIncrStack, nextGreaterTable, _nums2Index) {
     while(true) {
       var nums2Index = _nums2Index;
-      var monoDecrStack = _monoDecrStack;
-      var stackLength = monoDecrStack.length;
+      var monoIncrStack = _monoIncrStack;
+      var stackLength = monoIncrStack.length;
       var num2 = nums2[nums2Index];
       var num2$1 = num2 !== undefined ? num2 : Int32.min_int;
-      var num = monoDecrStack.at(-1);
+      var num = monoIncrStack.at(-1);
       var prevMaximum = num !== undefined ? num : Int32.min_int;
       if (nums2Index === length2) {
         return nextGreaterTable;
       }
       if (stackLength < 1) {
         _nums2Index = nums2Index + 1 | 0;
-        _monoDecrStack = [num2$1];
+        _monoIncrStack = [num2$1];
         continue ;
       }
       if (prevMaximum > num2$1) {
         _nums2Index = nums2Index + 1 | 0;
         continue ;
       }
-      var sliced = monoDecrStack.slice(0, stackLength - 1 | 0);
+      var sliced = monoIncrStack.slice(0, stackLength - 1 | 0);
       var updatedStack = sliced.concat([num2$1]);
       nextGreaterTable.set(prevMaximum, num2$1);
       _nums2Index = nums2Index + 1 | 0;
-      _monoDecrStack = updatedStack;
+      _monoIncrStack = updatedStack;
       continue ;
     };
   };
