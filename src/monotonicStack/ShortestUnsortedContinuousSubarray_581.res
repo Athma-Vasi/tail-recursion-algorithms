@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let shortestUnsortedContinousSubarray = (nums: array<int>) => {
   let length = Array.length(nums)
 
