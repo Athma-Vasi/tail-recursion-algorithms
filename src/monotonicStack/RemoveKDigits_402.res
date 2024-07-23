@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let removeKDigits = (digits: string, k: int) => {
   let length = String.length(digits)
 
@@ -50,7 +53,7 @@ let removeKDigits = (digits: string, k: int) => {
 
   let str = loop([], 0, 0)->Array.map(num => Int.toString(num))->Array.join("")
 
-  let rec trimLeadingZero = (stop: bool, str: string) => {
+  let rec trimLeadingZeroes = (stop: bool, str: string) => {
     let strLength = String.length(str)
 
     switch stop {
@@ -62,14 +65,14 @@ let removeKDigits = (digits: string, k: int) => {
         }
 
         switch firstChar === "0" {
-        | true => trimLeadingZero(false, str->String.slice(~start=1, ~end=strLength))
-        | false => trimLeadingZero(true, str)
+        | true => trimLeadingZeroes(false, str->String.slice(~start=1, ~end=strLength))
+        | false => trimLeadingZeroes(true, str)
         }
       }
     }
   }
 
-  let trimmedStr = trimLeadingZero(false, str)
+  let trimmedStr = trimLeadingZeroes(false, str)
 
   switch String.length(trimmedStr) < 1 {
   | true => "0"

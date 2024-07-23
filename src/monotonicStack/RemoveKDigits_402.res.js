@@ -54,7 +54,7 @@ function removeKDigits(digits, k) {
   var str = loop([], 0, 0).map(function (num) {
           return num.toString();
         }).join("");
-  var trimLeadingZero = function (_stop, _str) {
+  var trimLeadingZeroes = function (_stop, _str) {
     while(true) {
       var str = _str;
       var stop = _stop;
@@ -73,7 +73,7 @@ function removeKDigits(digits, k) {
       continue ;
     };
   };
-  var trimmedStr = trimLeadingZero(false, str);
+  var trimmedStr = trimLeadingZeroes(false, str);
   if (trimmedStr.length < 1) {
     return "0";
   } else {
