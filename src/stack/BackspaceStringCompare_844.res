@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let backspaceStringCompare = (string1: string, string2: string) => {
   let rec loop = (charStack: string, str: string, index: int) => {
     let strLength = String.length(str)
