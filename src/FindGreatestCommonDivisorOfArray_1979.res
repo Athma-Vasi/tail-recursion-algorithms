@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let findGreatestCommonDivisorOfArray = (nums: array<int>) => {
   let rec findGCD = (n1: int, n2: int) =>
     n2 === 0 ? n1 : findGCD(n2, Float.mod(Int.toFloat(n1), Int.toFloat(n2))->Float.toInt)

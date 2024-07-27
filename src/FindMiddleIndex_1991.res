@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let findMiddleIndex = (nums: array<int>) => {
   let length = Array.length(nums)
   let total = nums->Array.reduce(0, (acc, num) => acc + num)
