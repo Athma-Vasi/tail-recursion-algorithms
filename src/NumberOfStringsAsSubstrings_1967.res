@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let numberOfStringsAsSubstrings = (patterns: array<string>, word: string) => {
   let length = Array.length(patterns)
 
