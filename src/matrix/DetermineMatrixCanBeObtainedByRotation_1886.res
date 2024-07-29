@@ -156,7 +156,7 @@ let determineMatrixCanBeObtainedByRotation = (
     }
   }
 
-  rotationLoop(Set.make(), 0, matrix, 4) // 90, 180, 270, 0
+  areMatrixesEqual(matrix, target) || rotationLoop(Set.make(), 0, matrix, 3) // 90, 180, 270
 }
 
 let m1 = [[0, 1], [1, 0]]

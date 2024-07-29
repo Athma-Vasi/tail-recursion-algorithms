@@ -131,23 +131,27 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
       continue ;
     };
   };
-  var isObtainedSet = new Set();
-  var _counter = 0;
-  var _rotated = matrix;
-  var rotations = 4;
-  while(true) {
-    var rotated = _rotated;
-    var counter = _counter;
-    if (counter === rotations) {
-      return isObtainedSet.has(true);
-    }
-    var transposedMatrix = transposeMatrix(rotated);
-    var rotatedMatrix = reverseRows(transposedMatrix);
-    isObtainedSet.add(areMatrixesEqual(rotatedMatrix, target));
-    _rotated = rotatedMatrix;
-    _counter = counter + 1 | 0;
-    continue ;
-  };
+  if (areMatrixesEqual(matrix, target)) {
+    return true;
+  } else {
+    var isObtainedSet = new Set();
+    var _counter = 0;
+    var _rotated = matrix;
+    var rotations = 3;
+    while(true) {
+      var rotated = _rotated;
+      var counter = _counter;
+      if (counter === rotations) {
+        return isObtainedSet.has(true);
+      }
+      var transposedMatrix = transposeMatrix(rotated);
+      var rotatedMatrix = reverseRows(transposedMatrix);
+      isObtainedSet.add(areMatrixesEqual(rotatedMatrix, target));
+      _rotated = rotatedMatrix;
+      _counter = counter + 1 | 0;
+      continue ;
+    };
+  }
 }
 
 var m1 = [
