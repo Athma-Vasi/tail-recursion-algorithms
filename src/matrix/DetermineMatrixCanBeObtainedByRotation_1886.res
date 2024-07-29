@@ -1,0 +1,173 @@
+// T(n) = O(m * n)
+// S(n) = O(m * n)
+// incorrect
+
+let determineMatrixCanBeObtainedByRotation = (
+  matrix: array<array<int>>,
+  target: array<array<int>>,
+) => {
+  // assume same dimensions for both
+  let numberOfRows = Array.length(matrix)
+  let row = switch matrix->Array.at(0) {
+  | None => []
+  | Some(arr) => arr
+  }
+  let numberOfColumns = Array.length(row)
+
+  let areMatrixesEqual = (matrix1: array<array<int>>, matrix2: array<array<int>>): bool => {
+    let rec rowLoop = (rowCoveredSet: Set.t<bool>, rowIndex: int) => {
+      switch rowIndex === numberOfRows {
+      | true => rowCoveredSet->Set.has(false)
+      | false => {
+          let row1 = switch matrix1->Array.at(rowIndex) {
+          | None => []
+          | Some(arr) => arr
+          }
+          let row2 = switch matrix2->Array.at(rowIndex) {
+          | None => []
+          | Some(arr) => arr
+          }
+
+          let rec columnLoop = (
+            colCoveredSet: Set.t<bool>,
+            columnIndex: int,
+            row1: array<int>,
+            row2: array<int>,
+          ) => {
+            switch columnIndex === numberOfColumns {
+            | true => colCoveredSet->Set.has(false)
+            | false => {
+                let num1 = switch row1->Array.at(columnIndex) {
+                | None => Int32.min_int
+                | Some(num) => num
+                }
+                let num2 = switch row2->Array.at(columnIndex) {
+                | None => Int32.min_int
+                | Some(num) => num
+                }
+
+                colCoveredSet->Set.add(num1 === num2)
+                columnLoop(colCoveredSet, columnIndex + 1, row1, row2)
+              }
+            }
+          }
+
+          let areColumnsEqual = columnLoop(Set.make(), 0, row1, row2)
+          rowCoveredSet->Set.add(areColumnsEqual)
+          rowLoop(rowCoveredSet, rowIndex + 1)
+        }
+      }
+    }
+
+    rowLoop(Set.make(), 0)
+  }
+
+  let transposeMatrix = (matrix: array<array<int>>): array<array<int>> => {
+    let rec rowLoop = (transposedMatrix: array<array<int>>, rowIndex: int) => {
+      switch rowIndex === numberOfRows {
+      | true => transposedMatrix
+      | false => {
+          let row = switch matrix->Array.at(rowIndex) {
+          | None => []
+          | Some(arr) => arr
+          }
+
+          let rec columnLoop = (transposedRow: array<int>, columnIndex: int) => {
+            switch columnIndex === numberOfColumns {
+            | true => transposedRow
+            | false => {
+                let matrixNum = switch row->Array.at(columnIndex) {
+                | None => Int32.min_int
+                | Some(num) => num
+                }
+
+                let transposedRow = switch transposedMatrix->Array.at(columnIndex) {
+                | None => []
+                | Some(num) => num
+                }
+
+                let updatedRow =
+                  transposedRow->Array.mapWithIndex((num, idx) =>
+                    idx === rowIndex ? matrixNum : num
+                  )
+
+                columnLoop(updatedRow, columnIndex + 1)
+              }
+            }
+          }
+
+          let transposedRow = columnLoop(Array.make(~length=numberOfColumns, Int32.min_int), 0)
+          let updatedTransposedMatrix =
+            transposedMatrix->Array.mapWithIndex((row, idx) =>
+              idx === rowIndex ? transposedRow : row
+            )
+
+          rowLoop(updatedTransposedMatrix, rowIndex + 1)
+        }
+      }
+    }
+
+    let makeMatrix = (numberOfRows: int, numberOfColumns: int): array<array<int>> => {
+      let rec loop = (matrix: array<array<int>>, rowCounter: int) => {
+        rowCounter === numberOfRows
+          ? matrix
+          : loop(
+              matrix->Array.concat([Array.make(~length=numberOfColumns, Int32.min_int)]),
+              rowCounter + 1,
+            )
+      }
+
+      loop([], 0)
+    }
+
+    rowLoop(makeMatrix(numberOfRows, numberOfColumns), 0)
+  }
+
+  let reverseRows = (matrix: array<array<int>>) => {
+    let rec loop = (reversed: array<array<int>>, index: int) => {
+      switch index === Array.length(matrix) {
+      | true => reversed
+      | false => {
+          let row = switch matrix->Array.at(index) {
+          | None => []
+          | Some(arr) => arr
+          }
+
+          loop(reversed->Array.concat([Array.toReversed(row)]), index + 1)
+        }
+      }
+    }
+
+    loop([], 0)
+  }
+
+  let rec rotationLoop = (isObtainedSet: Set.t<bool>, counter: int, rotations: int) => {
+    switch counter === rotations {
+    | true => isObtainedSet->Set.has(true)
+    | false => {
+        let transposedMatrix = transposeMatrix(matrix)
+        let rotatedMatrix = reverseRows(transposedMatrix)
+
+        isObtainedSet->Set.add(areMatrixesEqual(rotatedMatrix, target))
+        rotationLoop(isObtainedSet, counter + 1, rotations)
+      }
+    }
+  }
+
+  rotationLoop(Set.make(), 0, 4) // 0, 90, 180, 270
+}
+
+let m1 = [[0, 1], [1, 0]]
+let t1 = [[1, 0], [0, 1]]
+let r1 = determineMatrixCanBeObtainedByRotation(m1, t1)
+Console.log2("r1: ", r1)
+
+let m2 = [[0, 1], [1, 1]]
+let t2 = [[1, 0], [0, 1]]
+let r2 = determineMatrixCanBeObtainedByRotation(m2, t2)
+Console.log2("r2: ", r2)
+
+let m3 = [[0, 0, 0], [0, 1, 0], [1, 1, 1]]
+let t3 = [[1, 1, 1], [0, 1, 0], [0, 0, 0]]
+let r3 = determineMatrixCanBeObtainedByRotation(m3, t3)
+Console.log2("r3: ", r3)
