@@ -9,37 +9,46 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
   var row = arr !== undefined ? arr : [];
   var numberOfColumns = row.length;
   var areMatrixesEqual = function (matrix1, matrix2) {
-    var rowsEqualSet = new Set();
-    var _rowIndex = 0;
-    while(true) {
-      var rowIndex = _rowIndex;
-      if (rowIndex === numberOfRows) {
-        return rowsEqualSet.has(false);
-      }
-      var arr = matrix1.at(rowIndex);
-      var row1 = arr !== undefined ? arr : [];
-      var arr$1 = matrix2.at(rowIndex);
-      var row2 = arr$1 !== undefined ? arr$1 : [];
-      var columnLoop = function (columnsEqualSet, _columnIndex, row1, row2) {
-        while(true) {
-          var columnIndex = _columnIndex;
-          if (columnIndex === numberOfColumns) {
-            return columnsEqualSet.has(false);
-          }
-          var num = row1.at(columnIndex);
-          var num1 = num !== undefined ? num : Int32.min_int;
-          var num$1 = row2.at(columnIndex);
-          var num2 = num$1 !== undefined ? num$1 : Int32.min_int;
-          columnsEqualSet.add(num1 === num2);
-          _columnIndex = columnIndex + 1 | 0;
-          continue ;
+    var rowLoop = function (rowsEqualSet, _rowIndex) {
+      while(true) {
+        var rowIndex = _rowIndex;
+        if (rowIndex === numberOfRows) {
+          return rowsEqualSet;
+        }
+        var arr = matrix1.at(rowIndex);
+        var row1 = arr !== undefined ? arr : [];
+        var arr$1 = matrix2.at(rowIndex);
+        var row2 = arr$1 !== undefined ? arr$1 : [];
+        var columnLoop = function (columnsEqualSet, _columnIndex, row1, row2) {
+          while(true) {
+            var columnIndex = _columnIndex;
+            if (columnIndex === numberOfColumns) {
+              if (columnsEqualSet.has(false)) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+            var num = row1.at(columnIndex);
+            var num1 = num !== undefined ? num : Int32.min_int;
+            var num$1 = row2.at(columnIndex);
+            var num2 = num$1 !== undefined ? num$1 : Int32.min_int;
+            columnsEqualSet.add(num1 === num2);
+            _columnIndex = columnIndex + 1 | 0;
+            continue ;
+          };
         };
+        var areColumnsEqual = columnLoop(new Set(), 0, row1, row2);
+        rowsEqualSet.add(areColumnsEqual);
+        _rowIndex = rowIndex + 1 | 0;
+        continue ;
       };
-      var areColumnsEqual = columnLoop(new Set(), 0, row1, row2);
-      rowsEqualSet.add(areColumnsEqual);
-      _rowIndex = rowIndex + 1 | 0;
-      continue ;
     };
+    if (rowLoop(new Set(), 0).has(false)) {
+      return false;
+    } else {
+      return true;
+    }
   };
   var transposeMatrix = function (matrix) {
     var makeMatrix = function (numberOfRows, numberOfColumns) {
@@ -66,19 +75,18 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
       }
       var arr = matrix.at(rowIndex);
       var row = arr !== undefined ? arr : [];
-      var columnLoop = (function(transposedMatrix,rowIndex,row){
-      return function columnLoop(_transposedRow, _columnIndex) {
+      var columnLoop = (function(rowIndex,row){
+      return function columnLoop(colUpdatedMatrix, _columnIndex) {
         while(true) {
           var columnIndex = _columnIndex;
-          var transposedRow = _transposedRow;
           if (columnIndex === numberOfColumns) {
-            return transposedRow;
+            return colUpdatedMatrix;
           }
           var num = row.at(columnIndex);
           var matrixNum = num !== undefined ? num : Int32.min_int;
-          var num$1 = transposedMatrix.at(columnIndex);
-          var transposedRow$1 = num$1 !== undefined ? num$1 : [];
-          var updatedRow = transposedRow$1.map((function(matrixNum){
+          var arr = colUpdatedMatrix.at(columnIndex);
+          var rowToUpdate = arr !== undefined ? arr : [];
+          var updatedRow = rowToUpdate.map((function(matrixNum){
               return function (num, idx) {
                 if (idx === rowIndex) {
                   return matrixNum;
@@ -87,24 +95,14 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
                 }
               }
               }(matrixNum)));
+          colUpdatedMatrix[columnIndex] = updatedRow;
           _columnIndex = columnIndex + 1 | 0;
-          _transposedRow = updatedRow;
           continue ;
         };
       }
-      }(transposedMatrix,rowIndex,row));
-      var transposedRow = columnLoop(Core__Array.make(numberOfColumns, Int32.min_int), 0);
-      var updatedTransposedMatrix = transposedMatrix.map((function(rowIndex,transposedRow){
-          return function (row, idx) {
-            if (idx === rowIndex) {
-              return transposedRow;
-            } else {
-              return row;
-            }
-          }
-          }(rowIndex,transposedRow)));
+      }(rowIndex,row));
       _rowIndex = rowIndex + 1 | 0;
-      _transposedMatrix = updatedTransposedMatrix;
+      _transposedMatrix = columnLoop(transposedMatrix, 0);
       continue ;
     };
   };

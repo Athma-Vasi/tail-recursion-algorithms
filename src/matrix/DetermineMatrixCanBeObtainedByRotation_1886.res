@@ -1,6 +1,5 @@
 // T(n) = O(m * n)
 // S(n) = O(m * n)
-// incorrect
 
 let determineMatrixCanBeObtainedByRotation = (
   matrix: array<array<int>>,
@@ -17,7 +16,7 @@ let determineMatrixCanBeObtainedByRotation = (
   let areMatrixesEqual = (matrix1: array<array<int>>, matrix2: array<array<int>>): bool => {
     let rec rowLoop = (rowsEqualSet: Set.t<bool>, rowIndex: int) => {
       switch rowIndex === numberOfRows {
-      | true => rowsEqualSet->Set.has(false)
+      | true => rowsEqualSet
       | false => {
           let row1 = switch matrix1->Array.at(rowIndex) {
           | None => []
@@ -35,7 +34,7 @@ let determineMatrixCanBeObtainedByRotation = (
             row2: array<int>,
           ) => {
             switch columnIndex === numberOfColumns {
-            | true => columnsEqualSet->Set.has(false)
+            | true => columnsEqualSet->Set.has(false) ? false : true
             | false => {
                 let num1 = switch row1->Array.at(columnIndex) {
                 | None => Int32.min_int
@@ -45,8 +44,8 @@ let determineMatrixCanBeObtainedByRotation = (
                 | None => Int32.min_int
                 | Some(num) => num
                 }
-
                 columnsEqualSet->Set.add(num1 === num2)
+
                 columnLoop(columnsEqualSet, columnIndex + 1, row1, row2)
               }
             }
@@ -54,12 +53,13 @@ let determineMatrixCanBeObtainedByRotation = (
 
           let areColumnsEqual = columnLoop(Set.make(), 0, row1, row2)
           rowsEqualSet->Set.add(areColumnsEqual)
+
           rowLoop(rowsEqualSet, rowIndex + 1)
         }
       }
     }
 
-    rowLoop(Set.make(), 0)
+    rowLoop(Set.make(), 0)->Set.has(false) ? false : true
   }
 
   let transposeMatrix = (matrix: array<array<int>>): array<array<int>> => {
@@ -72,37 +72,30 @@ let determineMatrixCanBeObtainedByRotation = (
           | Some(arr) => arr
           }
 
-          let rec columnLoop = (transposedRow: array<int>, columnIndex: int) => {
+          let rec columnLoop = (colUpdatedMatrix: array<array<int>>, columnIndex: int) => {
             switch columnIndex === numberOfColumns {
-            | true => transposedRow
+            | true => colUpdatedMatrix
             | false => {
                 let matrixNum = switch row->Array.at(columnIndex) {
                 | None => Int32.min_int
                 | Some(num) => num
                 }
 
-                let transposedRow = switch transposedMatrix->Array.at(columnIndex) {
+                let rowToUpdate = switch colUpdatedMatrix->Array.at(columnIndex) {
                 | None => []
-                | Some(num) => num
+                | Some(arr) => arr
                 }
 
                 let updatedRow =
-                  transposedRow->Array.mapWithIndex((num, idx) =>
-                    idx === rowIndex ? matrixNum : num
-                  )
+                  rowToUpdate->Array.mapWithIndex((num, idx) => idx === rowIndex ? matrixNum : num)
+                colUpdatedMatrix->Array.set(columnIndex, updatedRow)
 
-                columnLoop(updatedRow, columnIndex + 1)
+                columnLoop(colUpdatedMatrix, columnIndex + 1)
               }
             }
           }
 
-          let transposedRow = columnLoop(Array.make(~length=numberOfColumns, Int32.min_int), 0)
-          let updatedTransposedMatrix =
-            transposedMatrix->Array.mapWithIndex((row, idx) =>
-              idx === rowIndex ? transposedRow : row
-            )
-
-          rowLoop(updatedTransposedMatrix, rowIndex + 1)
+          rowLoop(columnLoop(transposedMatrix, 0), rowIndex + 1)
         }
       }
     }
