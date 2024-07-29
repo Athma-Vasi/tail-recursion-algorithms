@@ -9,46 +9,45 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
   var row = arr !== undefined ? arr : [];
   var numberOfColumns = row.length;
   var areMatrixesEqual = function (matrix1, matrix2) {
-    var rowLoop = function (rowsEqualSet, _rowIndex) {
-      while(true) {
-        var rowIndex = _rowIndex;
-        if (rowIndex === numberOfRows) {
-          return rowsEqualSet;
+    var rowsEqualSet = new Set();
+    var _rowIndex = 0;
+    while(true) {
+      var rowIndex = _rowIndex;
+      if (rowIndex === numberOfRows) {
+        if (rowsEqualSet.has(false)) {
+          return false;
+        } else {
+          return true;
         }
-        var arr = matrix1.at(rowIndex);
-        var row1 = arr !== undefined ? arr : [];
-        var arr$1 = matrix2.at(rowIndex);
-        var row2 = arr$1 !== undefined ? arr$1 : [];
-        var columnLoop = function (columnsEqualSet, _columnIndex, row1, row2) {
-          while(true) {
-            var columnIndex = _columnIndex;
-            if (columnIndex === numberOfColumns) {
-              if (columnsEqualSet.has(false)) {
-                return false;
-              } else {
-                return true;
-              }
+      }
+      var arr = matrix1.at(rowIndex);
+      var row1 = arr !== undefined ? arr : [];
+      var arr$1 = matrix2.at(rowIndex);
+      var row2 = arr$1 !== undefined ? arr$1 : [];
+      var columnLoop = function (columnsEqualSet, _columnIndex, row1, row2) {
+        while(true) {
+          var columnIndex = _columnIndex;
+          if (columnIndex === numberOfColumns) {
+            if (columnsEqualSet.has(false)) {
+              return false;
+            } else {
+              return true;
             }
-            var num = row1.at(columnIndex);
-            var num1 = num !== undefined ? num : Int32.min_int;
-            var num$1 = row2.at(columnIndex);
-            var num2 = num$1 !== undefined ? num$1 : Int32.min_int;
-            columnsEqualSet.add(num1 === num2);
-            _columnIndex = columnIndex + 1 | 0;
-            continue ;
-          };
+          }
+          var num = row1.at(columnIndex);
+          var num1 = num !== undefined ? num : Int32.min_int;
+          var num$1 = row2.at(columnIndex);
+          var num2 = num$1 !== undefined ? num$1 : Int32.min_int;
+          columnsEqualSet.add(num1 === num2);
+          _columnIndex = columnIndex + 1 | 0;
+          continue ;
         };
-        var areColumnsEqual = columnLoop(new Set(), 0, row1, row2);
-        rowsEqualSet.add(areColumnsEqual);
-        _rowIndex = rowIndex + 1 | 0;
-        continue ;
       };
+      var areColumnsEqual = columnLoop(new Set(), 0, row1, row2);
+      rowsEqualSet.add(areColumnsEqual);
+      _rowIndex = rowIndex + 1 | 0;
+      continue ;
     };
-    if (rowLoop(new Set(), 0).has(false)) {
-      return false;
-    } else {
-      return true;
-    }
   };
   var transposeMatrix = function (matrix) {
     var makeMatrix = function (numberOfRows, numberOfColumns) {
@@ -76,9 +75,10 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
       var arr = matrix.at(rowIndex);
       var row = arr !== undefined ? arr : [];
       var columnLoop = (function(rowIndex,row){
-      return function columnLoop(colUpdatedMatrix, _columnIndex) {
+      return function columnLoop(_colUpdatedMatrix, _columnIndex) {
         while(true) {
           var columnIndex = _columnIndex;
+          var colUpdatedMatrix = _colUpdatedMatrix;
           if (columnIndex === numberOfColumns) {
             return colUpdatedMatrix;
           }
@@ -95,8 +95,17 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
                 }
               }
               }(matrixNum)));
-          colUpdatedMatrix[columnIndex] = updatedRow;
+          var updatedMatrix = colUpdatedMatrix.map((function(columnIndex,updatedRow){
+              return function (row, idx) {
+                if (idx === columnIndex) {
+                  return updatedRow;
+                } else {
+                  return row;
+                }
+              }
+              }(columnIndex,updatedRow)));
           _columnIndex = columnIndex + 1 | 0;
+          _colUpdatedMatrix = updatedMatrix;
           continue ;
         };
       }

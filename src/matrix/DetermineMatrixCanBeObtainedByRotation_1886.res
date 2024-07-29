@@ -16,7 +16,7 @@ let determineMatrixCanBeObtainedByRotation = (
   let areMatrixesEqual = (matrix1: array<array<int>>, matrix2: array<array<int>>): bool => {
     let rec rowLoop = (rowsEqualSet: Set.t<bool>, rowIndex: int) => {
       switch rowIndex === numberOfRows {
-      | true => rowsEqualSet
+      | true => rowsEqualSet->Set.has(false) ? false : true
       | false => {
           let row1 = switch matrix1->Array.at(rowIndex) {
           | None => []
@@ -59,7 +59,7 @@ let determineMatrixCanBeObtainedByRotation = (
       }
     }
 
-    rowLoop(Set.make(), 0)->Set.has(false) ? false : true
+    rowLoop(Set.make(), 0)
   }
 
   let transposeMatrix = (matrix: array<array<int>>): array<array<int>> => {
@@ -88,9 +88,13 @@ let determineMatrixCanBeObtainedByRotation = (
 
                 let updatedRow =
                   rowToUpdate->Array.mapWithIndex((num, idx) => idx === rowIndex ? matrixNum : num)
-                colUpdatedMatrix->Array.set(columnIndex, updatedRow)
 
-                columnLoop(colUpdatedMatrix, columnIndex + 1)
+                let updatedMatrix =
+                  colUpdatedMatrix->Array.mapWithIndex((row, idx) =>
+                    idx === columnIndex ? updatedRow : row
+                  )
+
+                columnLoop(updatedMatrix, columnIndex + 1)
               }
             }
           }
@@ -152,7 +156,7 @@ let determineMatrixCanBeObtainedByRotation = (
     }
   }
 
-  rotationLoop(Set.make(), 0, matrix, 4) // 0, 90, 180, 270
+  rotationLoop(Set.make(), 0, matrix, 4) // 90, 180, 270, 0
 }
 
 let m1 = [[0, 1], [1, 0]]
