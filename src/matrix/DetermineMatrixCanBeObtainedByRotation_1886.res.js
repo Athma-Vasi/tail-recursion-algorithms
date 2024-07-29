@@ -9,34 +9,34 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
   var row = arr !== undefined ? arr : [];
   var numberOfColumns = row.length;
   var areMatrixesEqual = function (matrix1, matrix2) {
-    var rowCoveredSet = new Set();
+    var rowsEqualSet = new Set();
     var _rowIndex = 0;
     while(true) {
       var rowIndex = _rowIndex;
       if (rowIndex === numberOfRows) {
-        return rowCoveredSet.has(false);
+        return rowsEqualSet.has(false);
       }
       var arr = matrix1.at(rowIndex);
       var row1 = arr !== undefined ? arr : [];
       var arr$1 = matrix2.at(rowIndex);
       var row2 = arr$1 !== undefined ? arr$1 : [];
-      var columnLoop = function (colCoveredSet, _columnIndex, row1, row2) {
+      var columnLoop = function (columnsEqualSet, _columnIndex, row1, row2) {
         while(true) {
           var columnIndex = _columnIndex;
           if (columnIndex === numberOfColumns) {
-            return colCoveredSet.has(false);
+            return columnsEqualSet.has(false);
           }
           var num = row1.at(columnIndex);
           var num1 = num !== undefined ? num : Int32.min_int;
           var num$1 = row2.at(columnIndex);
           var num2 = num$1 !== undefined ? num$1 : Int32.min_int;
-          colCoveredSet.add(num1 === num2);
+          columnsEqualSet.add(num1 === num2);
           _columnIndex = columnIndex + 1 | 0;
           continue ;
         };
       };
       var areColumnsEqual = columnLoop(new Set(), 0, row1, row2);
-      rowCoveredSet.add(areColumnsEqual);
+      rowsEqualSet.add(areColumnsEqual);
       _rowIndex = rowIndex + 1 | 0;
       continue ;
     };
@@ -126,15 +126,18 @@ function determineMatrixCanBeObtainedByRotation(matrix, target) {
   };
   var isObtainedSet = new Set();
   var _counter = 0;
+  var _rotated = matrix;
   var rotations = 4;
   while(true) {
+    var rotated = _rotated;
     var counter = _counter;
     if (counter === rotations) {
       return isObtainedSet.has(true);
     }
-    var transposedMatrix = transposeMatrix(matrix);
+    var transposedMatrix = transposeMatrix(rotated);
     var rotatedMatrix = reverseRows(transposedMatrix);
     isObtainedSet.add(areMatrixesEqual(rotatedMatrix, target));
+    _rotated = rotatedMatrix;
     _counter = counter + 1 | 0;
     continue ;
   };

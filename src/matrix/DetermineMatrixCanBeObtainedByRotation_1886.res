@@ -15,9 +15,9 @@ let determineMatrixCanBeObtainedByRotation = (
   let numberOfColumns = Array.length(row)
 
   let areMatrixesEqual = (matrix1: array<array<int>>, matrix2: array<array<int>>): bool => {
-    let rec rowLoop = (rowCoveredSet: Set.t<bool>, rowIndex: int) => {
+    let rec rowLoop = (rowsEqualSet: Set.t<bool>, rowIndex: int) => {
       switch rowIndex === numberOfRows {
-      | true => rowCoveredSet->Set.has(false)
+      | true => rowsEqualSet->Set.has(false)
       | false => {
           let row1 = switch matrix1->Array.at(rowIndex) {
           | None => []
@@ -29,13 +29,13 @@ let determineMatrixCanBeObtainedByRotation = (
           }
 
           let rec columnLoop = (
-            colCoveredSet: Set.t<bool>,
+            columnsEqualSet: Set.t<bool>,
             columnIndex: int,
             row1: array<int>,
             row2: array<int>,
           ) => {
             switch columnIndex === numberOfColumns {
-            | true => colCoveredSet->Set.has(false)
+            | true => columnsEqualSet->Set.has(false)
             | false => {
                 let num1 = switch row1->Array.at(columnIndex) {
                 | None => Int32.min_int
@@ -46,15 +46,15 @@ let determineMatrixCanBeObtainedByRotation = (
                 | Some(num) => num
                 }
 
-                colCoveredSet->Set.add(num1 === num2)
-                columnLoop(colCoveredSet, columnIndex + 1, row1, row2)
+                columnsEqualSet->Set.add(num1 === num2)
+                columnLoop(columnsEqualSet, columnIndex + 1, row1, row2)
               }
             }
           }
 
           let areColumnsEqual = columnLoop(Set.make(), 0, row1, row2)
-          rowCoveredSet->Set.add(areColumnsEqual)
-          rowLoop(rowCoveredSet, rowIndex + 1)
+          rowsEqualSet->Set.add(areColumnsEqual)
+          rowLoop(rowsEqualSet, rowIndex + 1)
         }
       }
     }
@@ -141,20 +141,25 @@ let determineMatrixCanBeObtainedByRotation = (
     loop([], 0)
   }
 
-  let rec rotationLoop = (isObtainedSet: Set.t<bool>, counter: int, rotations: int) => {
+  let rec rotationLoop = (
+    isObtainedSet: Set.t<bool>,
+    counter: int,
+    rotated: array<array<int>>,
+    rotations: int,
+  ) => {
     switch counter === rotations {
     | true => isObtainedSet->Set.has(true)
     | false => {
-        let transposedMatrix = transposeMatrix(matrix)
+        let transposedMatrix = transposeMatrix(rotated)
         let rotatedMatrix = reverseRows(transposedMatrix)
 
         isObtainedSet->Set.add(areMatrixesEqual(rotatedMatrix, target))
-        rotationLoop(isObtainedSet, counter + 1, rotations)
+        rotationLoop(isObtainedSet, counter + 1, rotatedMatrix, rotations)
       }
     }
   }
 
-  rotationLoop(Set.make(), 0, 4) // 0, 90, 180, 270
+  rotationLoop(Set.make(), 0, matrix, 4) // 0, 90, 180, 270
 }
 
 let m1 = [[0, 1], [1, 0]]
