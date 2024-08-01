@@ -246,6 +246,86 @@ var r3 = determineMatrixCanBeObtainedByRotation(m3, t3);
 
 console.log("r3: ", r3);
 
+var m4 = [
+  [
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    1
+  ],
+  [
+    0,
+    0,
+    1
+  ]
+];
+
+var t4 = [
+  [
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    1
+  ],
+  [
+    0,
+    0,
+    1
+  ]
+];
+
+var r4 = determineMatrixCanBeObtainedByRotation(m4, t4);
+
+console.log("r4: ", r4);
+
+var m5 = [
+  [
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    0
+  ]
+];
+
+var t5 = [
+  [
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    0
+  ]
+];
+
+var r5 = determineMatrixCanBeObtainedByRotation(m5, t5);
+
+console.log("r5: ", r5);
+
 export {
   determineMatrixCanBeObtainedByRotation ,
   m1 ,
@@ -257,5 +337,11 @@ export {
   m3 ,
   t3 ,
   r3 ,
+  m4 ,
+  t4 ,
+  r4 ,
+  m5 ,
+  t5 ,
+  r5 ,
 }
 /* r1 Not a pure module */

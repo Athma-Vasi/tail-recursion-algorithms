@@ -173,3 +173,13 @@ let m3 = [[0, 0, 0], [0, 1, 0], [1, 1, 1]]
 let t3 = [[1, 1, 1], [0, 1, 0], [0, 0, 0]]
 let r3 = determineMatrixCanBeObtainedByRotation(m3, t3)
 Console.log2("r3: ", r3)
+
+let m4 = [[0, 0, 0], [0, 0, 1], [0, 0, 1]]
+let t4 = [[0, 0, 0], [0, 0, 1], [0, 0, 1]]
+let r4 = determineMatrixCanBeObtainedByRotation(m4, t4)
+Console.log2("r4: ", r4)
+
+let m5 = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+let t5 = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+let r5 = determineMatrixCanBeObtainedByRotation(m5, t5)
+Console.log2("r5: ", r5)
