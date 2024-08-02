@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let numberOfDiffIntsInString = (word: string) => {
   let rec loop = (intSet: Set.t<int>, stack: string, index: int) => {
     switch index === String.length(word) {

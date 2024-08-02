@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let maxAscendingSubArraySum = (nums: array<int>) => {
   let rec loop = (maxSum: int, monoIncrStack: array<int>, index: int) => {
     switch index === Array.length(nums) {
