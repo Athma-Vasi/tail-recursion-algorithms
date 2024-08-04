@@ -1,3 +1,6 @@
+// T(n) = O(log n)
+// S(n) = O(1)
+
 let validPerfectSquare = (num: int) => {
   let rec binarySearch = (left: int, right: int) => {
     let middle = left + (right - left) / 2

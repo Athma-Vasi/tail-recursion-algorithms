@@ -1,3 +1,6 @@
+// T(n) = O(log n)
+// S(n) = O(1)
+
 let binarySearch = (nums: array<int>, target: int) => {
   let rec search = (leftIndex: int, rightIndex: int) => {
     switch leftIndex > rightIndex {
