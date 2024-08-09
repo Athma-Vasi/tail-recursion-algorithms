@@ -1,3 +1,6 @@
+// T(n) = O(4^n)
+// S(n) = O(4^n)
+
 let letterCombinationsOfPhoneNumber = (digits: string) => {
   let t9Table = {
     "0": "0",
