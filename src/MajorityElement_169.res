@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let majorityElement = (nums: array<int>) => {
   // @see https://www.geeksforgeeks.org/boyer-moore-majority-voting-algorithm/
 
