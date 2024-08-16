@@ -44,7 +44,7 @@ let maximumDistanceInArrays = (nums: array<array<int>>) => {
                       }
 
                       switch topTempNum > num {
-                      // if top element in tempstack is greater than current number, push it in tempstack
+                      // if top element in tempstack is greater than current number, push it in monostack
                       | true => innerLoop(monoStack->Array.concat([num]), tStack, innerIdx + 1)
                       // else push top element in tempstack to monostack and push current number to tempstack
                       | false =>
