@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let findStudentWhoReplacesChalk = (chalksRequired: array<int>, totalChalk: int) => {
   let sum = chalksRequired->Array.reduce(0, (total, chalkRequired) => total + chalkRequired)
 
