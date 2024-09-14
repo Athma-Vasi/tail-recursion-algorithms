@@ -1,9 +1,8 @@
 // T(n) = O(n)
 // S(n) = O(n)
-// incorrect - infinite loop
 
 let relativeRanks = (scores: array<int>) => {
-  let rec updateMonoDecrStack = (
+  let updateMonoDecrStack = (
     monoDecrStack: array<(int, int)>,
     tupleToPush: (int, int),
     tempStack: array<(int, int)>,
@@ -11,20 +10,20 @@ let relativeRanks = (scores: array<int>) => {
     let stackLength = Array.length(monoDecrStack)
     let (numToPush, idxOfNum) = tupleToPush
 
-    let (prevMaximum, idxOfPrevMax) = switch monoDecrStack->Array.at(-1) {
-    | None => (-1, -1)
+    let (prevMaximum, _idxOfPrevMax) = switch monoDecrStack->Array.at(-1) {
+    | None => (Int32.max_int, -1)
     | Some(t) => t
     }
 
-    switch numToPush < prevMaximum {
+    switch numToPush < prevMaximum || Array.length(monoDecrStack) === 0 {
     | true => (monoDecrStack->Array.concat([(numToPush, idxOfNum)]), tempStack)
-    | false =>
-      updateMonoDecrStack(
+    | false => (
         monoDecrStack
         ->Array.slice(~start=0, ~end=stackLength - 1)
         ->Array.concat([(numToPush, idxOfNum)]),
-        tupleToPush,
-        tempStack->Array.concat(monoDecrStack->Array.slice(~start=0, ~end=stackLength - 1)),
+        monoDecrStack
+        ->Array.slice(~start=stackLength - 1, ~end=stackLength)
+        ->Array.concat(tempStack),
       )
     }
   }
@@ -45,31 +44,31 @@ let relativeRanks = (scores: array<int>) => {
       tempStack,
     )
 
-    switch scoreIndex === Array.length(scores) {
-    | true => (monoDecrStack, tempStack)
+    switch scoreIndex === Array.length(scores) - 1 {
+    | true => (updatedMonoDecrStack, updatedTempStack)
     | false => scoresLoop(updatedMonoDecrStack, scoreIndex + 1, updatedTempStack)
     }
   }
 
-  let (monoDecrStack, tempStack) = scoresLoop([], 0, [])
+  let (updatedMonoDecrStack, updatedTempStack) = scoresLoop([], 0, [])
 
   let rec flushTempLoop = (
     monoDecrStack: array<(int, int)>,
     index: int,
     tempStack: array<(int, int)>,
   ) => {
-    let remainingTuple = switch tempStack->Array.at(index) {
-    | None => (-1, -1)
-    | Some(t) => t
-    }
-
     switch Array.length(tempStack) === 0 {
     | true => monoDecrStack
     | false => {
+        let remainingTuple = switch Array.shift(tempStack) {
+        | None => (-1, -1)
+        | Some(t) => t
+        }
+
         let (updatedMonoDecrStack, updatedTempStack) = updateMonoDecrStack(
           monoDecrStack,
           remainingTuple,
-          [],
+          tempStack,
         )
 
         flushTempLoop(
@@ -81,30 +80,30 @@ let relativeRanks = (scores: array<int>) => {
     }
   }
 
-  let sortedDescStack = flushTempLoop(monoDecrStack, 0, tempStack)
+  let sortedDescStack = flushTempLoop(updatedMonoDecrStack, 0, updatedTempStack)
 
   let rec calculateRanks = (
     ranks: array<string>,
     sortedDescStack: array<(int, int)>,
     stackIndex: int,
   ) => {
-    let (score, scoreIndex) = switch sortedDescStack->Array.at(stackIndex) {
+    let (_score, scoreIndex) = switch sortedDescStack->Array.at(stackIndex) {
     | None => (-1, -1)
     | Some(t) => t
     }
 
     ranks->Array.set(
       scoreIndex,
-      scoreIndex === 0
+      stackIndex === 0
         ? "Gold Medal"
-        : scoreIndex === 1
+        : stackIndex === 1
         ? "Silver Medal"
-        : scoreIndex === 2
+        : stackIndex === 2
         ? "Bronze Medal"
-        : Int.toString(scoreIndex),
+        : Int.toString(stackIndex + 1),
     )
 
-    switch stackIndex === Array.length(sortedDescStack) {
+    switch stackIndex === Array.length(sortedDescStack) - 1 {
     | true => ranks
     | false => calculateRanks(ranks, sortedDescStack, stackIndex + 1)
     }
