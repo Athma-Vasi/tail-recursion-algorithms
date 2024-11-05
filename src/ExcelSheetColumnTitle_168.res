@@ -14,7 +14,7 @@ let excelSheetColumnTitle = (columnNumber: int) => {
     }
   }
 
-  loop("", Int.toFloat(columnNumber))
+  loop(String.make(), Int.toFloat(columnNumber))
 }
 
 let s1 = 1

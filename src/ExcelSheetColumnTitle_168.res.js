@@ -2,7 +2,7 @@
 
 
 function excelSheetColumnTitle(columnNumber) {
-  var _columnTitle = "";
+  var _columnTitle = String();
   var _remainder = columnNumber;
   while(true) {
     var remainder = _remainder;
