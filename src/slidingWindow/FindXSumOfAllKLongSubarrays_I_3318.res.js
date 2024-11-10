@@ -54,7 +54,7 @@ function findXSumOfAllKLongSubarrays(nums, k, x) {
     var n = nums.at(left);
     var leftNum = n !== undefined ? n : -1;
     var f = freqTable.get(leftNum);
-    var leftNumFreq = f !== undefined ? f : -1;
+    var leftNumFreq = f !== undefined ? f : 0;
     if (leftNumFreq === 1) {
       freqTable.delete(leftNum);
     } else {

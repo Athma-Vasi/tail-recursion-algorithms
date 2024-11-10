@@ -1,4 +1,4 @@
-// T(n) = O(n)
+// T(n) = O(n^2)
 // S(n) = O(n)
 
 let findXSumOfAllKLongSubarrays = (nums: array<int>, k: int, x: int) => {
@@ -49,7 +49,7 @@ let findXSumOfAllKLongSubarrays = (nums: array<int>, k: int, x: int) => {
         | Some(n) => n
         }
         let leftNumFreq = switch freqTable->Map.get(leftNum) {
-        | None => -1
+        | None => 0
         | Some(f) => f
         }
         leftNumFreq === 1
