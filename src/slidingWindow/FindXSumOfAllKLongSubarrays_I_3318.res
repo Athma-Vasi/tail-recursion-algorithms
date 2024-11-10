@@ -1,4 +1,4 @@
-// T(n) = O(n^2)
+// T(n) = O(n + log(n) * (n - k))
 // S(n) = O(n)
 
 let findXSumOfAllKLongSubarrays = (nums: array<int>, k: int, x: int) => {
