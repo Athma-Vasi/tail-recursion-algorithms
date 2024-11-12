@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 type commands = UP | RIGHT | DOWN | LEFT
 
 let snakeInMatrix = (n: int, commandsArr: array<commands>) => {
@@ -26,9 +29,9 @@ let snakeInMatrix = (n: int, commandsArr: array<commands>) => {
 let n1 = 2
 let c1 = [RIGHT, DOWN]
 let r1 = snakeInMatrix(n1, c1)
-Console.log2("r1: ", r1)
+Console.log2("r1: ", r1) // 3
 
 let n2 = 3
 let c2 = [DOWN, RIGHT, UP]
 let r2 = snakeInMatrix(n2, c2)
-Console.log2("r2: ", r2)
+Console.log2("r2: ", r2) // 1
