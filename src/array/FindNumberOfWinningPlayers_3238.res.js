@@ -3,7 +3,7 @@
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as Core__Array from "@rescript/core/src/Core__Array.res.js";
 
-function findNumberOfWinningPlayers(n, picks) {
+function findNumberOfWinningPlayers(_n, picks) {
   var table = new Map();
   var _index = 0;
   while(true) {

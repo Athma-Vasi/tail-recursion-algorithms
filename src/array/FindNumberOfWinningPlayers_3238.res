@@ -1,7 +1,7 @@
 // T(n) = O(n)
 // S(n) = O(n)
 
-let findNumberOfWinningPlayers = (n: int, picks: array<(int, int)>) => {
+let findNumberOfWinningPlayers = (_n: int, picks: array<(int, int)>) => {
   let rec loop = (winners: int, table: Map.t<int, Map.t<int, int>>, index: int) => {
     switch index === Array.length(picks) {
     | true =>
@@ -9,14 +9,12 @@ let findNumberOfWinningPlayers = (n: int, picks: array<(int, int)>) => {
       ->Map.entries
       ->Core__Iterator.toArray
       ->Array.reduce(0, (acc, (player, colorCounts)) => {
-        let winners__ =
-          colorCounts
-          ->Map.entries
-          ->Core__Iterator.toArray
-          ->Array.reduce(acc, (acc_, (_color, colorCount)) => {
-            colorCount === player + 1 ? acc_ + 1 : acc_
-          })
-        winners__
+        colorCounts
+        ->Map.entries
+        ->Core__Iterator.toArray
+        ->Array.reduce(acc, (acc_, (_color, colorCount)) => {
+          colorCount === player + 1 ? acc_ + 1 : acc_
+        })
       })
     | false => {
         let (player, ballColor) = switch picks->Array.at(index) {
