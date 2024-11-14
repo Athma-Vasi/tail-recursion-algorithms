@@ -28,7 +28,7 @@ let minAvgOfSmallestAndLargestElements = (nums: array<int>) => {
     }
   }
 
-  loop([], nums, 0)
+  loop([], Array.copy(nums), 0)
 }
 
 let n1 = [7, 8, 3, 4, 15, 13, 4, 1]

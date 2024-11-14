@@ -4,7 +4,7 @@ import * as Core__Array from "@rescript/core/src/Core__Array.res.js";
 
 function minAvgOfSmallestAndLargestElements(nums) {
   var _averages = [];
-  var _shrunkNums = nums;
+  var _shrunkNums = nums.slice();
   var _count = 0;
   while(true) {
     var count = _count;
