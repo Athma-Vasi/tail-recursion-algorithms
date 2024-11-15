@@ -34,17 +34,22 @@ function minAvgOfSmallestAndLargestElements(nums) {
           }));
     var maxElement = match[1];
     var minElement = match[0];
+    var match$1 = Core__Array.reduceWithIndex(shrunkNums, [
+          51,
+          0
+        ], (function(minElement,maxElement){
+        return function (tuple, num, index) {
+          var newMinIndex = num === minElement ? index : tuple[0];
+          var newMaxIndex = num === maxElement ? index : tuple[1];
+          return [
+                  newMinIndex,
+                  newMaxIndex
+                ];
+        }
+        }(minElement,maxElement)));
+    var maxIndex = match$1[1];
+    var minIndex = match$1[0];
     var average = (minElement + maxElement) / 2.0;
-    var minIndex = shrunkNums.findIndex((function(minElement){
-        return function (num) {
-          return num === minElement;
-        }
-        }(minElement)));
-    var maxIndex = shrunkNums.findIndex((function(maxElement){
-        return function (num) {
-          return num === maxElement;
-        }
-        }(maxElement)));
     _count = count + 1 | 0;
     _shrunkNums = shrunkNums.filter((function(minIndex,maxIndex){
         return function (_num, index) {

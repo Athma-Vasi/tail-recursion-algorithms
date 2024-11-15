@@ -13,9 +13,18 @@ let minAvgOfSmallestAndLargestElements = (nums: array<int>) => {
 
           (newMin, newMax)
         })
+        let (minIndex, maxIndex) = shrunkNums->Array.reduceWithIndex((51, 0), (
+          tuple,
+          num,
+          index,
+        ) => {
+          let (minIndex, maxIndex) = tuple
+          let newMinIndex = num === minElement ? index : minIndex
+          let newMaxIndex = num === maxElement ? index : maxIndex
+
+          (newMinIndex, newMaxIndex)
+        })
         let average = (Int.toFloat(minElement) +. Int.toFloat(maxElement)) /. 2.0
-        let minIndex = shrunkNums->Array.findIndex(num => num === minElement)
-        let maxIndex = shrunkNums->Array.findIndex(num => num === maxElement)
 
         loop(
           averages->Array.concat([average]),
