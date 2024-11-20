@@ -1,3 +1,6 @@
+// T(n) = O(n^2)
+// S(n) = O(n)
+
 let countPrefixAndSuffixPairs_I = (words: array<string>) => {
   let length = Array.length(words)
 
