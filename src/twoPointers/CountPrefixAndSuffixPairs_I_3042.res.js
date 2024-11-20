@@ -31,11 +31,7 @@ function countPrefixAndSuffixPairs_I(words) {
           }
           var leftChar = leftWord.charAt(left);
           var rightChar = rightWord.charAt(left);
-          if (leftChar === rightChar) {
-            arePrefixesEqual.add(true);
-          } else {
-            arePrefixesEqual.add(false);
-          }
+          arePrefixesEqual.add(leftChar === rightChar);
           _left = left + 1 | 0;
           continue ;
         };
@@ -48,11 +44,7 @@ function countPrefixAndSuffixPairs_I(words) {
           }
           var leftChar = leftWord.charAt(right);
           var rightChar = rightWord.charAt(right);
-          if (leftChar === rightChar) {
-            areSuffixesEqual.add(true);
-          } else {
-            areSuffixesEqual.add(false);
-          }
+          areSuffixesEqual.add(leftChar === rightChar);
           _right = right - 1 | 0;
           continue ;
         };

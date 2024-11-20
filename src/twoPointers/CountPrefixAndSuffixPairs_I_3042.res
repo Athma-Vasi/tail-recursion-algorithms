@@ -29,9 +29,7 @@ let countPrefixAndSuffixPairs_I = (words: array<string>) => {
               | false => {
                   let leftChar = leftWord->String.charAt(left)
                   let rightChar = rightWord->String.charAt(left)
-                  leftChar === rightChar
-                    ? arePrefixesEqual->Set.add(true)
-                    : arePrefixesEqual->Set.add(false)
+                  arePrefixesEqual->Set.add(leftChar === rightChar)
 
                   checkPrefixes(arePrefixesEqual, leftWord, rightWord, left + 1)
                 }
@@ -49,9 +47,7 @@ let countPrefixAndSuffixPairs_I = (words: array<string>) => {
               | false => {
                   let leftChar = leftWord->String.charAt(right)
                   let rightChar = rightWord->String.charAt(right)
-                  leftChar === rightChar
-                    ? areSuffixesEqual->Set.add(true)
-                    : areSuffixesEqual->Set.add(false)
+                  areSuffixesEqual->Set.add(leftChar === rightChar)
 
                   checkSuffixes(areSuffixesEqual, leftWord, rightWord, right - 1)
                 }
