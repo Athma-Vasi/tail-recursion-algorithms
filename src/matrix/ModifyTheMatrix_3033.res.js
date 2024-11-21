@@ -34,8 +34,6 @@ function modifyTheMatrix(matrix) {
     }
     }(xIndex));
     var max = findMaxInColumn(Int32.min_int, 0);
-    console.log("\n");
-    console.log("max: ", max);
     var replaceMaxInColumn = (function(xIndex,max){
     return function replaceMaxInColumn(replaced, _yIndex) {
       while(true) {

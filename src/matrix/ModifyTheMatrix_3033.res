@@ -1,3 +1,6 @@
+// T(n) = O(m * n)
+// S(n) = O(m * n)
+
 let modifyTheMatrix = matrix => {
   let row = switch matrix->Array.at(0) {
   | None => []
@@ -29,9 +32,6 @@ let modifyTheMatrix = matrix => {
         }
 
         let max = findMaxInColumn(Int32.min_int, 0)
-
-        Console.log("\n")
-        Console.log2("max: ", max)
 
         let rec replaceMaxInColumn = (replaced: array<array<int>>, yIndex: int) => {
           switch yIndex === yLength {
