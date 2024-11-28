@@ -7,7 +7,7 @@ function findIndicesWithIndexAndValueDifference_I(nums, indexDifference, valueDi
     while(true) {
       var outerIndex = _outerIndex;
       var answer = _answer;
-      if (outerIndex === length) {
+      if (outerIndex === length || answer.length !== 0) {
         return answer;
       }
       var n = nums.at(outerIndex);

@@ -9,7 +9,7 @@ function findIndicesWithIndexAndValueDifference_II(nums, indexDifference, valueD
       var maxIdx = _maxIdx;
       var minIdx = _minIdx;
       var answer = _answer;
-      if (rightIdx === nums.length) {
+      if (rightIdx === nums.length || answer.length !== 0) {
         return answer;
       }
       var n = nums.at(leftIdx);

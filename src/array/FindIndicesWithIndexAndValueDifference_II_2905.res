@@ -13,7 +13,7 @@ let findIndicesWithIndexAndValueDifference_II = (
     ~leftIdx: int,
     ~rightIdx: int,
   ) => {
-    switch rightIdx === Array.length(nums) {
+    switch rightIdx === Array.length(nums) || Array.length(answer) !== 0 {
     | true => answer
     | false => {
         let leftNum = switch nums->Array.at(leftIdx) {

@@ -9,7 +9,7 @@ let findIndicesWithIndexAndValueDifference_I = (
   let length = Array.length(nums)
 
   let rec outerLoop = (answer: array<int>, outerIndex: int) => {
-    switch outerIndex === length {
+    switch outerIndex === length || Array.length(answer) !== 0 {
     | true => answer
     | false => {
         let outerNum = switch nums->Array.at(outerIndex) {
