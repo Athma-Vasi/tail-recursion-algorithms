@@ -1,64 +1,84 @@
-// INCOMPLETE
+// T(n) = O(n)
+// S(n) = O(n)
 
 let longestUnequalAdjacentGroupsSubsequence_I = (words: array<string>, groups: array<int>) => {
   let rec findAlternatingSubsequences = (
     indicesAnswer: array<array<int>>,
-    temp: array<int>,
-    index: int,
-    indicesStack: array<int>,
+    indicesSet: Set.t<int>,
+    stack: array<int>,
+    currIndex: int,
   ) => {
-    switch index === Array.length(groups) {
-    | true => indicesAnswer
-    | false => {
-        let curr = switch groups->Array.at(index) {
-        | None => 2 // groups is a binary array
-        | Some(n) => n
-        }
-        let prevIdx = switch indicesStack->Array.at(-1) {
-        | None => -1
-        | Some(n) => n
-        }
-
-        switch prevIdx < 0 {
-        | true =>
-          findAlternatingSubsequences(
-            indicesAnswer,
-            temp,
-            index + 1,
-            indicesStack->Array.concat([index]),
-          )
-        | false => {
-            let prev = switch groups->Array.at(prevIdx) {
-            | None => 2
+    switch currIndex >= Array.length(groups) {
+    | true =>
+      Set.size(indicesSet) > 0
+        ? indicesAnswer->Array.concat([indicesSet->Set.values->Core__Iterator.toArray])
+        : indicesAnswer
+    | false =>
+      switch currIndex === 0 {
+      | true =>
+        findAlternatingSubsequences(
+          indicesAnswer,
+          indicesSet,
+          stack->Array.concat([
+            switch groups->Array.at(currIndex) {
+            | None => 2 // groups is a binary array
             | Some(n) => n
-            }
+            },
+          ]),
+          currIndex + 1,
+        )
+      | false => {
+          let curr = switch groups->Array.at(currIndex) {
+          | None => 2 // groups is a binary array
+          | Some(n) => n
+          }
 
-            // r1:  [
-            //   [ 1 ]
-            // ]
-            // r2:  [
-            //   [ 0, 1, 1, 2, 3 ]
-            // ]
+          let prev = switch stack->Array.at(-1) {
+          | None => -1
+          | Some(n) => n
+          }
 
+          switch prev < 0 {
+          | true =>
+            findAlternatingSubsequences(
+              indicesAnswer,
+              indicesSet,
+              stack->Array.concat([curr]),
+              currIndex + 1,
+            )
+          | false =>
             switch curr === prev {
-            | true => {
-                let newAnswer = indicesAnswer->Array.concat([temp->Array.concat([index])])
+            | true =>
+              switch Set.size(indicesSet) > 0 {
+              | true => {
+                  let flushed = indicesSet->Set.values->Core__Iterator.toArray
+
+                  findAlternatingSubsequences(
+                    indicesAnswer->Array.concat([flushed]),
+                    Set.make(),
+                    stack->Array.concat([curr]),
+                    currIndex + 1,
+                  )
+                }
+              | false =>
                 findAlternatingSubsequences(
-                  newAnswer,
-                  [],
-                  index + 1,
-                  indicesStack->Array.concat([index]),
+                  indicesAnswer,
+                  indicesSet,
+                  stack->Array.concat([curr]),
+                  currIndex + 1,
                 )
               }
-            | false =>
-              findAlternatingSubsequences(
-                indicesAnswer,
-                temp->Array.concat([prevIdx, index]),
-                index + 1,
-                indicesStack
-                ->Array.slice(~start=0, ~end=Array.length(indicesStack) - 1)
-                ->Array.concat([index]),
-              )
+            | false => {
+                indicesSet->Set.add(currIndex - 1)
+                indicesSet->Set.add(currIndex)
+
+                findAlternatingSubsequences(
+                  indicesAnswer,
+                  indicesSet,
+                  stack->Array.concat([curr]),
+                  currIndex + 1,
+                )
+              }
             }
           }
         }
@@ -66,7 +86,18 @@ let longestUnequalAdjacentGroupsSubsequence_I = (words: array<string>, groups: a
     }
   }
 
-  findAlternatingSubsequences([], [], 0, [])
+  let subsequenceIndicesArray = findAlternatingSubsequences([], Set.make(), [], 0)
+  let subsequenceIndices = switch subsequenceIndicesArray->Array.at(0) {
+  | None => []
+  | Some(arr) => arr
+  }
+  subsequenceIndices->Array.reduce([], (result, subIdx) => {
+    let word = switch words->Array.at(subIdx) {
+    | None => String.make()
+    | Some(w) => w
+    }
+    result->Array.concat([word])
+  })
 }
 
 let w1 = ["e", "a", "b"]
