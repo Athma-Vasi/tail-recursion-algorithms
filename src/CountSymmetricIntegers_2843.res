@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(1)
+
 let countSymmetricIntegers = (low: int, high: int) => {
   let splitInteger = (num: int) => {
     let numStr = Int.toString(num)
