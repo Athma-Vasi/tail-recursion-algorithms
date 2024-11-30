@@ -3,16 +3,21 @@
 
 let minimumOperationsToCollectElements = (nums: array<int>, k: int) => {
   let rec findMinOps = (ops: int, tracker: int, sliced: array<int>) => {
-    switch tracker === 0 || Array.length(sliced) === 0 {
+    let length = Array.length(sliced)
+
+    switch tracker === 0 || length === 0 {
     | true => ops
     | false => {
         let num = switch sliced->Array.at(-1) {
         | None => 0
         | Some(n) => n
         }
-        let sliced_ = sliced->Array.slice(~start=0, ~end=Array.length(sliced) - 1)
 
-        num <= k ? findMinOps(ops + 1, tracker - 1, sliced_) : findMinOps(ops + 1, tracker, sliced_)
+        findMinOps(
+          ops + 1,
+          num <= k ? tracker - 1 : tracker,
+          sliced->Array.slice(~start=0, ~end=length - 1),
+        )
       }
     }
   }

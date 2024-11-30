@@ -11,19 +11,14 @@ function minimumOperationsToCollectElements(nums, k) {
     var sliced = _sliced;
     var tracker = _tracker;
     var ops = _ops;
-    if (tracker === 0 || sliced.length === 0) {
+    var length = sliced.length;
+    if (tracker === 0 || length === 0) {
       return ops;
     }
     var n = sliced.at(-1);
     var num = n !== undefined ? n : 0;
-    var sliced_ = sliced.slice(0, sliced.length - 1 | 0);
-    if (num <= k) {
-      _sliced = sliced_;
-      _tracker = tracker - 1 | 0;
-      _ops = ops + 1 | 0;
-      continue ;
-    }
-    _sliced = sliced_;
+    _sliced = sliced.slice(0, length - 1 | 0);
+    _tracker = num <= k ? tracker - 1 | 0 : tracker;
     _ops = ops + 1 | 0;
     continue ;
   };
