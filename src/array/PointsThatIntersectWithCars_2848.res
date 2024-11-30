@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let pointsThatIntersectWithCars = (nums: array<(int, int)>) => {
   let rec collectRange = (intersections: Set.t<int>, start: int, end: int) => {
     switch start === end + 1 {
