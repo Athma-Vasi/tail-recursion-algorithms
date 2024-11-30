@@ -40,7 +40,7 @@ let countSymmetricIntegers = (low: int, high: int) => {
     | true => amount
     | false => {
         let isNumDigitsAmountEven =
-          Float.mod(Int.toFloat(String.length(Int.toString(num))), 2.0) === 0.0
+          Float.mod(Int.toString(num)->String.length->Int.toFloat, 2.0) === 0.0
 
         switch isNumDigitsAmountEven {
         | true => {
