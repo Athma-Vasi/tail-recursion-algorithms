@@ -1,3 +1,6 @@
+// T(n) = O(n^2)
+// S(n) = O(n)
+
 let minimumRightShiftsToSortArray = (nums: array<int>) => {
   let length = Array.length(nums)
 
@@ -10,34 +13,38 @@ let minimumRightShiftsToSortArray = (nums: array<int>) => {
     [last]->Array.concat(nums->Array.slice(~start=0, ~end=length - 1))
   }
 
-  let rec checkIsSorted = (isSorted: bool, prev: int, nums: array<int>, index: int) => {
-    switch index === Array.length(nums) || !isSorted {
-    | true => isSorted
-    | false => {
-        let curr = switch nums->Array.at(index) {
-        | None => 0
-        | Some(n) => n
-        }
+  let checkIsSorted = (nums: array<int>) => {
+    let rec check = (isSorted: bool, prev: int, nums: array<int>, index: int) => {
+      switch index === Array.length(nums) || !isSorted {
+      | true => isSorted
+      | false => {
+          let curr = switch nums->Array.at(index) {
+          | None => 0
+          | Some(n) => n
+          }
 
-        checkIsSorted(curr > prev ? isSorted : false, curr, nums, index + 1)
+          check(curr > prev ? isSorted : false, curr, nums, index + 1)
+        }
       }
     }
+
+    check(true, Int32.min_int, nums, 0)
   }
 
-  let rec findMinRightShifts = (count: int, isSorted: bool, shifted: array<int>, limit: int) => {
+  let rec findMinRightShifts = (limit: int, isSorted: bool, shifted: array<int>) => {
     switch limit === length || isSorted {
-    | true => count === length ? -1 : count
+    | true => limit === length ? -1 : limit
     | false => {
         let rightShifted = rightShiftElements(shifted)
-        let isSorted_ = checkIsSorted(true, Int32.min_int, rightShifted, 0)
+        let isSorted_ = checkIsSorted(rightShifted)
 
-        findMinRightShifts(count + 1, isSorted_ ? isSorted_ : isSorted, rightShifted, limit + 1)
+        findMinRightShifts(limit + 1, isSorted_ ? isSorted_ : isSorted, rightShifted)
       }
     }
   }
 
-  let isSorted = checkIsSorted(true, Int32.min_int, nums, 0)
-  isSorted ? 0 : findMinRightShifts(0, isSorted, nums, 0)
+  let isSorted = checkIsSorted(nums)
+  isSorted ? 0 : findMinRightShifts(0, isSorted, nums)
 }
 
 let n1 = [3, 4, 5, 1, 2]

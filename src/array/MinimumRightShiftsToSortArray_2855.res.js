@@ -9,7 +9,10 @@ function minimumRightShiftsToSortArray(nums) {
     var last = n !== undefined ? n : 0;
     return [last].concat(nums.slice(0, length - 1 | 0));
   };
-  var checkIsSorted = function (_isSorted, _prev, nums, _index) {
+  var checkIsSorted = function (nums) {
+    var _isSorted = true;
+    var _prev = Int32.min_int;
+    var _index = 0;
     while(true) {
       var index = _index;
       var prev = _prev;
@@ -25,32 +28,29 @@ function minimumRightShiftsToSortArray(nums) {
       continue ;
     };
   };
-  var isSorted = checkIsSorted(true, Int32.min_int, nums, 0);
+  var isSorted = checkIsSorted(nums);
   if (isSorted) {
     return 0;
   } else {
-    var _count = 0;
+    var _limit = 0;
     var _isSorted = isSorted;
     var _shifted = nums;
-    var _limit = 0;
     while(true) {
-      var limit = _limit;
       var shifted = _shifted;
       var isSorted$1 = _isSorted;
-      var count = _count;
+      var limit = _limit;
       if (limit === length || isSorted$1) {
-        if (count === length) {
+        if (limit === length) {
           return -1;
         } else {
-          return count;
+          return limit;
         }
       }
       var rightShifted = rightShiftElements(shifted);
-      var isSorted_ = checkIsSorted(true, Int32.min_int, rightShifted, 0);
-      _limit = limit + 1 | 0;
+      var isSorted_ = checkIsSorted(rightShifted);
       _shifted = rightShifted;
       _isSorted = isSorted_ ? isSorted_ : isSorted$1;
-      _count = count + 1 | 0;
+      _limit = limit + 1 | 0;
       continue ;
     };
   }
