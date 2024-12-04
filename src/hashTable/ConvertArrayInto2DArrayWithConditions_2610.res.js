@@ -14,9 +14,9 @@ function convertArrayInto2DArrayWithConditions(nums) {
       }
       var n = nums.at(index);
       var num = n !== undefined ? n : 0;
-      var c = freqTable.get(num);
-      var existingCount = c !== undefined ? c : 0;
-      freqTable.set(num, existingCount + 1 | 0);
+      var f = freqTable.get(num);
+      var freq = f !== undefined ? f + 1 | 0 : 1;
+      freqTable.set(num, freq);
       _index = index + 1 | 0;
       continue ;
     };
@@ -28,10 +28,11 @@ function convertArrayInto2DArrayWithConditions(nums) {
         }).at(0);
   var rowsRequired = r !== undefined ? r : 0;
   console.log("rowsRequired: ", rowsRequired);
-  var addNumToResultSet = function (resultSet, num, _index) {
+  var addNumToResultSet = function (resultSet, _isReturn, num, _index) {
     while(true) {
       var index = _index;
-      if (index === resultSet.length) {
+      var isReturn = _isReturn;
+      if (index === resultSet.length || isReturn) {
         return resultSet;
       }
       var s = resultSet.at(index);
@@ -40,8 +41,18 @@ function convertArrayInto2DArrayWithConditions(nums) {
         _index = index + 1 | 0;
         continue ;
       }
+      console.log("\n");
+      console.log("--addNumToResultSet--");
       set.add(num);
+      console.log("resultSet before: ", resultSet);
+      resultSet[index] = set;
+      console.log("index: ", index);
+      console.log("num: ", num);
+      console.log("set: ", set);
+      console.log("resultSet after: ", resultSet);
+      console.log("isReturn: ", isReturn);
       _index = index + 1 | 0;
+      _isReturn = true;
       continue ;
     };
   };
@@ -59,7 +70,7 @@ function convertArrayInto2DArrayWithConditions(nums) {
     }
     var n = nums.at(index);
     var num = n !== undefined ? n : 0;
-    var newResultSet = addNumToResultSet(resultSet$1, num, 0);
+    var newResultSet = addNumToResultSet(resultSet$1, false, num, 0);
     console.log("\n");
     console.log("index: ", index);
     console.log("num: ", num);

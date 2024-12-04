@@ -11,11 +11,11 @@ let convertArrayInto2DArrayWithConditions = (nums: array<int>) => {
         | None => 0
         | Some(n) => n
         }
-        let existingCount = switch freqTable->Map.get(num) {
-        | None => 0
-        | Some(c) => c
+        let freq = switch freqTable->Map.get(num) {
+        | None => 1
+        | Some(f) => f + 1
         }
-        freqTable->Map.set(num, existingCount + 1)
+        freqTable->Map.set(num, freq)
 
         makeFreqTable(freqTable, index + 1)
       }
@@ -37,8 +37,13 @@ let convertArrayInto2DArrayWithConditions = (nums: array<int>) => {
 
   Console.log2("rowsRequired: ", rowsRequired)
 
-  let rec addNumToResultSet = (resultSet: array<Set.t<int>>, num: int, index: int) => {
-    switch index === Array.length(resultSet) {
+  let rec addNumToResultSet = (
+    resultSet: array<Set.t<int>>,
+    isReturn: bool,
+    num: int,
+    index: int,
+  ) => {
+    switch index === Array.length(resultSet) || isReturn {
     | true => resultSet
     | false => {
         let set = switch resultSet->Array.at(index) {
@@ -47,10 +52,22 @@ let convertArrayInto2DArrayWithConditions = (nums: array<int>) => {
         }
 
         switch set->Set.has(num) {
-        | true => addNumToResultSet(resultSet, num, index + 1)
+        | true => addNumToResultSet(resultSet, isReturn, num, index + 1)
         | false => {
+            Console.log("\n")
+            Console.log("--addNumToResultSet--")
+
             set->Set.add(num)
-            addNumToResultSet(resultSet, num, index + 1)
+            Console.log2("resultSet before: ", resultSet)
+            resultSet->Array.set(index, set)
+
+            Console.log2("index: ", index)
+            Console.log2("num: ", num)
+            Console.log2("set: ", set)
+            Console.log2("resultSet after: ", resultSet)
+            Console.log2("isReturn: ", isReturn)
+
+            addNumToResultSet(resultSet, true, num, index + 1)
           }
         }
       }
@@ -66,7 +83,7 @@ let convertArrayInto2DArrayWithConditions = (nums: array<int>) => {
         | Some(n) => n
         }
 
-        let newResultSet = addNumToResultSet(resultSet, num, 0)
+        let newResultSet = addNumToResultSet(resultSet, false, num, 0)
 
         Console.log("\n")
         Console.log2("index: ", index)
