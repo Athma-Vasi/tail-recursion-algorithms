@@ -4,12 +4,7 @@
 type move = R | D | L | U
 
 let runAllSuffixInstructionsStayingInAGrid = (n: int, startPos: (int, int), moves: array<move>) => {
-  let rec runInstructions = (
-    result: array<int>,
-    slicedMoves: array<move>,
-    startRowIndex: int,
-    startColIndex: int,
-  ) => {
+  let rec runInstructions = (result: array<int>, slicedMoves: array<move>) => {
     let length = Array.length(slicedMoves)
 
     switch length === 0 {
@@ -23,7 +18,7 @@ let runAllSuffixInstructionsStayingInAGrid = (n: int, startPos: (int, int), move
           colIndex: int,
         ) => {
           switch movesIndex === length || isOutOfBounds {
-          | true => (instructions, startRowIndex, startColIndex)
+          | true => instructions
           | false => {
               let move = switch slicedMoves->Array.at(movesIndex) {
               | None => R
@@ -56,19 +51,17 @@ let runAllSuffixInstructionsStayingInAGrid = (n: int, startPos: (int, int), move
           }
         }
 
-        let (instructions, rowIndex, colIndex) = traverse(0, false, 0, startRowIndex, startColIndex)
+        let (startRowIndex, startColIndex) = startPos
+        let instructions = traverse(0, false, 0, startRowIndex, startColIndex)
         runInstructions(
           result->Array.concat([instructions]),
           slicedMoves->Array.sliceToEnd(~start=1),
-          rowIndex,
-          colIndex,
         )
       }
     }
   }
 
-  let (rowStart, colStart) = startPos
-  runInstructions([], moves, rowStart, colStart)
+  runInstructions([], moves)
 }
 
 let n1 = 3

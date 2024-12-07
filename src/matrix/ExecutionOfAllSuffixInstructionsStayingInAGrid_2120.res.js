@@ -4,18 +4,14 @@
 function runAllSuffixInstructionsStayingInAGrid(n, startPos, moves) {
   var _result = [];
   var _slicedMoves = moves;
-  var _startRowIndex = startPos[0];
-  var _startColIndex = startPos[1];
   while(true) {
-    var startColIndex = _startColIndex;
-    var startRowIndex = _startRowIndex;
     var slicedMoves = _slicedMoves;
     var result = _result;
     var length = slicedMoves.length;
     if (length === 0) {
       return result;
     }
-    var traverse = (function(slicedMoves,startRowIndex,startColIndex,length){
+    var traverse = (function(slicedMoves,length){
     return function traverse(_instructions, _isOutOfBounds, _movesIndex, _rowIndex, _colIndex) {
       while(true) {
         var colIndex = _colIndex;
@@ -24,11 +20,7 @@ function runAllSuffixInstructionsStayingInAGrid(n, startPos, moves) {
         var isOutOfBounds = _isOutOfBounds;
         var instructions = _instructions;
         if (movesIndex === length || isOutOfBounds) {
-          return [
-                  instructions,
-                  startRowIndex,
-                  startColIndex
-                ];
+          return instructions;
         }
         var m = slicedMoves.at(movesIndex);
         var move = m !== undefined ? m : "R";
@@ -81,12 +73,10 @@ function runAllSuffixInstructionsStayingInAGrid(n, startPos, moves) {
         }
       };
     }
-    }(slicedMoves,startRowIndex,startColIndex,length));
-    var match = traverse(0, false, 0, startRowIndex, startColIndex);
-    _startColIndex = match[2];
-    _startRowIndex = match[1];
+    }(slicedMoves,length));
+    var instructions = traverse(0, false, 0, startPos[0], startPos[1]);
     _slicedMoves = slicedMoves.slice(1);
-    _result = result.concat([match[0]]);
+    _result = result.concat([instructions]);
     continue ;
   };
 }
