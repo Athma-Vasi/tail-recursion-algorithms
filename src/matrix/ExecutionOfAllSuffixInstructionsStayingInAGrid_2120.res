@@ -1,4 +1,5 @@
-// INCOMPLETE
+// T(n) = O(n)
+// S(n) = O(n)
 
 type move = R | D | L | U
 
@@ -22,88 +23,40 @@ let runAllSuffixInstructionsStayingInAGrid = (n: int, startPos: (int, int), move
           colIndex: int,
         ) => {
           switch movesIndex === length || isOutOfBounds {
-          | true => (instructions, isOutOfBounds, rowIndex, colIndex)
+          | true => (instructions, startRowIndex, startColIndex)
           | false => {
               let move = switch slicedMoves->Array.at(movesIndex) {
               | None => R
               | Some(m) => m
               }
 
-              Console.log("\n")
-              Console.log("--traverse--")
-              Console.log2("instructions: ", instructions)
-              Console.log2("isOutOfBounds: ", isOutOfBounds)
-              Console.log2("movesIndex: ", movesIndex)
-              Console.log2("rowIndex: ", rowIndex)
-              Console.log2("colIndex: ", colIndex)
-              Console.log2("move: ", move)
-
               switch move {
-              | R => {
-                  let newColIndex = colIndex + 1
-
-                  Console.log("--R--")
-                  Console.log2("newColIndex: ", newColIndex)
-
-                  switch newColIndex > n - 1 {
-                  | true => traverse(instructions, true, movesIndex, rowIndex, newColIndex)
-                  | false =>
-                    traverse(instructions + 1, false, movesIndex + 1, rowIndex, newColIndex)
-                  }
+              | R =>
+                switch colIndex + 1 > n - 1 {
+                | true => traverse(instructions, true, movesIndex, rowIndex, colIndex + 1)
+                | false => traverse(instructions + 1, false, movesIndex + 1, rowIndex, colIndex + 1)
                 }
-              | D => {
-                  let newRowIndex = rowIndex + 1
-
-                  Console.log("--D--")
-                  Console.log2("newRowIndex: ", newRowIndex)
-
-                  switch newRowIndex > n - 1 {
-                  | true => traverse(instructions, true, movesIndex, newRowIndex, colIndex)
-                  | false =>
-                    traverse(instructions + 1, false, movesIndex + 1, newRowIndex, colIndex)
-                  }
+              | D =>
+                switch rowIndex + 1 > n - 1 {
+                | true => traverse(instructions, true, movesIndex, rowIndex + 1, colIndex)
+                | false => traverse(instructions + 1, false, movesIndex + 1, rowIndex + 1, colIndex)
                 }
-              | L => {
-                  let newColIndex = colIndex - 1
-
-                  Console.log("--L--")
-                  Console.log2("newColIndex: ", newColIndex)
-
-                  switch newColIndex < 0 {
-                  | true => traverse(instructions, true, movesIndex, rowIndex, newColIndex)
-                  | false =>
-                    traverse(instructions + 1, false, movesIndex + 1, rowIndex, newColIndex)
-                  }
+              | L =>
+                switch colIndex - 1 < 0 {
+                | true => traverse(instructions, true, movesIndex, rowIndex, colIndex - 1)
+                | false => traverse(instructions + 1, false, movesIndex + 1, rowIndex, colIndex - 1)
                 }
-              | U => {
-                  let newRowIndex = rowIndex - 1
-
-                  Console.log("--U--")
-                  Console.log2("newRowIndex: ", newRowIndex)
-
-                  switch newRowIndex < 0 {
-                  | true => traverse(instructions, true, movesIndex, newRowIndex, colIndex)
-                  | false =>
-                    traverse(instructions + 1, false, movesIndex + 1, newRowIndex, colIndex)
-                  }
+              | U =>
+                switch rowIndex - 1 < 0 {
+                | true => traverse(instructions, true, movesIndex, rowIndex - 1, colIndex)
+                | false => traverse(instructions + 1, false, movesIndex + 1, rowIndex - 1, colIndex)
                 }
               }
             }
           }
         }
 
-        let (instructions, isOutOfBounds, rowIndex, colIndex) = traverse(
-          0,
-          false,
-          0,
-          startRowIndex,
-          startColIndex,
-        )
-        Console.log("\n")
-        Console.log("--outside traverse--")
-        Console.log2("instructions: ", instructions)
-        Console.log2("rowIndex: ", rowIndex)
-        Console.log2("colIndex: ", colIndex)
+        let (instructions, rowIndex, colIndex) = traverse(0, false, 0, startRowIndex, startColIndex)
         runInstructions(
           result->Array.concat([instructions]),
           slicedMoves->Array.sliceToEnd(~start=1),
@@ -122,4 +75,10 @@ let n1 = 3
 let sp1 = (0, 1)
 let m1 = [R, R, D, D, L, U]
 let r1 = runAllSuffixInstructionsStayingInAGrid(n1, sp1, m1)
-Console.log2("r1: ", r1)
+Console.log2("r1: ", r1) // [1, 5, 4, 3, 1, 0]
+
+let n2 = 2
+let sp2 = (1, 1)
+let m2 = [L, U, R, D]
+let r2 = runAllSuffixInstructionsStayingInAGrid(n2, sp2, m2)
+Console.log2("r2: ", r2) // [4, 1, 0, 0]

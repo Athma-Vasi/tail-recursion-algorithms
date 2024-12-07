@@ -15,7 +15,7 @@ function runAllSuffixInstructionsStayingInAGrid(n, startPos, moves) {
     if (length === 0) {
       return result;
     }
-    var traverse = (function(slicedMoves,length){
+    var traverse = (function(slicedMoves,startRowIndex,startColIndex,length){
     return function traverse(_instructions, _isOutOfBounds, _movesIndex, _rowIndex, _colIndex) {
       while(true) {
         var colIndex = _colIndex;
@@ -26,74 +26,53 @@ function runAllSuffixInstructionsStayingInAGrid(n, startPos, moves) {
         if (movesIndex === length || isOutOfBounds) {
           return [
                   instructions,
-                  isOutOfBounds,
-                  rowIndex,
-                  colIndex
+                  startRowIndex,
+                  startColIndex
                 ];
         }
         var m = slicedMoves.at(movesIndex);
         var move = m !== undefined ? m : "R";
-        console.log("\n");
-        console.log("--traverse--");
-        console.log("instructions: ", instructions);
-        console.log("isOutOfBounds: ", isOutOfBounds);
-        console.log("movesIndex: ", movesIndex);
-        console.log("rowIndex: ", rowIndex);
-        console.log("colIndex: ", colIndex);
-        console.log("move: ", move);
         switch (move) {
           case "R" :
-              var newColIndex = colIndex + 1 | 0;
-              console.log("--R--");
-              console.log("newColIndex: ", newColIndex);
-              if (newColIndex > (n - 1 | 0)) {
-                _colIndex = newColIndex;
+              if ((colIndex + 1 | 0) > (n - 1 | 0)) {
+                _colIndex = colIndex + 1 | 0;
                 _isOutOfBounds = true;
                 continue ;
               }
-              _colIndex = newColIndex;
+              _colIndex = colIndex + 1 | 0;
               _movesIndex = movesIndex + 1 | 0;
               _isOutOfBounds = false;
               _instructions = instructions + 1 | 0;
               continue ;
           case "D" :
-              var newRowIndex = rowIndex + 1 | 0;
-              console.log("--D--");
-              console.log("newRowIndex: ", newRowIndex);
-              if (newRowIndex > (n - 1 | 0)) {
-                _rowIndex = newRowIndex;
+              if ((rowIndex + 1 | 0) > (n - 1 | 0)) {
+                _rowIndex = rowIndex + 1 | 0;
                 _isOutOfBounds = true;
                 continue ;
               }
-              _rowIndex = newRowIndex;
+              _rowIndex = rowIndex + 1 | 0;
               _movesIndex = movesIndex + 1 | 0;
               _isOutOfBounds = false;
               _instructions = instructions + 1 | 0;
               continue ;
           case "L" :
-              var newColIndex$1 = colIndex - 1 | 0;
-              console.log("--L--");
-              console.log("newColIndex: ", newColIndex$1);
-              if (newColIndex$1 < 0) {
-                _colIndex = newColIndex$1;
+              if ((colIndex - 1 | 0) < 0) {
+                _colIndex = colIndex - 1 | 0;
                 _isOutOfBounds = true;
                 continue ;
               }
-              _colIndex = newColIndex$1;
+              _colIndex = colIndex - 1 | 0;
               _movesIndex = movesIndex + 1 | 0;
               _isOutOfBounds = false;
               _instructions = instructions + 1 | 0;
               continue ;
           case "U" :
-              var newRowIndex$1 = rowIndex - 1 | 0;
-              console.log("--U--");
-              console.log("newRowIndex: ", newRowIndex$1);
-              if (newRowIndex$1 < 0) {
-                _rowIndex = newRowIndex$1;
+              if ((rowIndex - 1 | 0) < 0) {
+                _rowIndex = rowIndex - 1 | 0;
                 _isOutOfBounds = true;
                 continue ;
               }
-              _rowIndex = newRowIndex$1;
+              _rowIndex = rowIndex - 1 | 0;
               _movesIndex = movesIndex + 1 | 0;
               _isOutOfBounds = false;
               _instructions = instructions + 1 | 0;
@@ -102,20 +81,12 @@ function runAllSuffixInstructionsStayingInAGrid(n, startPos, moves) {
         }
       };
     }
-    }(slicedMoves,length));
+    }(slicedMoves,startRowIndex,startColIndex,length));
     var match = traverse(0, false, 0, startRowIndex, startColIndex);
-    var colIndex = match[3];
-    var rowIndex = match[2];
-    var instructions = match[0];
-    console.log("\n");
-    console.log("--outside traverse--");
-    console.log("instructions: ", instructions);
-    console.log("rowIndex: ", rowIndex);
-    console.log("colIndex: ", colIndex);
-    _startColIndex = colIndex;
-    _startRowIndex = rowIndex;
+    _startColIndex = match[2];
+    _startRowIndex = match[1];
     _slicedMoves = slicedMoves.slice(1);
-    _result = result.concat([instructions]);
+    _result = result.concat([match[0]]);
     continue ;
   };
 }
@@ -138,7 +109,25 @@ var r1 = runAllSuffixInstructionsStayingInAGrid(3, sp1, m1);
 
 console.log("r1: ", r1);
 
+var sp2 = [
+  1,
+  1
+];
+
+var m2 = [
+  "L",
+  "U",
+  "R",
+  "D"
+];
+
+var r2 = runAllSuffixInstructionsStayingInAGrid(2, sp2, m2);
+
+console.log("r2: ", r2);
+
 var n1 = 3;
+
+var n2 = 2;
 
 export {
   runAllSuffixInstructionsStayingInAGrid ,
@@ -146,5 +135,9 @@ export {
   sp1 ,
   m1 ,
   r1 ,
+  n2 ,
+  sp2 ,
+  m2 ,
+  r2 ,
 }
 /* r1 Not a pure module */
