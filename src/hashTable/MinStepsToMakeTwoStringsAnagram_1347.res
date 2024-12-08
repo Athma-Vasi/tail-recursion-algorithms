@@ -1,60 +1,48 @@
-// INCOMPLETE
+// T(n) = O(n)
+// S(n) = O(n)
 
 let minStepsToMakeTwoStringsAnagram = (s: string, t: string) => {
-  let rec makeFreqTable = (
-    freqTable: Map.t<string, int>,
-    str1: string,
-    str2: string,
-    index: int,
-  ) => {
-    switch index === String.length(str1) {
+  let rec makeFreqTable = (freqTable: Map.t<string, int>, str: string, index: int) => {
+    switch index === String.length(str) {
     | true => freqTable
     | false => {
-        let char1 = str1->String.charAt(index)
-        let char2 = str2->String.charAt(index)
-        let freq1 = switch freqTable->Map.get(char1) {
+        let char = str->String.charAt(index)
+        let freq = switch freqTable->Map.get(char) {
         | None => 1
         | Some(f) => f + 1
         }
-        let freq2 = switch freqTable->Map.get(char2) {
-        | None => 0
-        | Some(f) => f
-        }
-        freqTable->Map.set(char1, freq1 - freq2)
+        freqTable->Map.set(char, freq)
 
-        makeFreqTable(freqTable, str1, str2, index + 1)
+        makeFreqTable(freqTable, str, index + 1)
       }
     }
   }
 
-  let freqTable = makeFreqTable(Map.make(), s, t, 0)
+  let freqTable = makeFreqTable(Map.make(), s, 0)
 
-  Console.log("\n")
-  Console.log2("freqTable: ", freqTable)
-
-  let rec findMinSteps = (minSteps: int, tuples: array<(string, int)>, index: int) => {
-    switch index === Array.length(tuples) {
+  let rec findMinSteps = (minSteps: int, str: string, index: int) => {
+    switch index === String.length(str) {
     | true => minSteps
     | false => {
-        let (char, freq) = switch tuples->Array.at(index) {
-        | None => (String.make(), 0)
-        | Some(t) => t
+        let char = str->String.charAt(index)
+
+        switch freqTable->Map.has(char) {
+        | true => {
+            let freq = switch freqTable->Map.get(char) {
+            | None => 0
+            | Some(f) => f - 1
+            }
+            freqTable->Map.set(char, freq)
+
+            findMinSteps(freq < 0 ? minSteps + 1 : minSteps, str, index + 1)
+          }
+        | false => findMinSteps(minSteps + 1, str, index + 1)
         }
-
-        Console.log("\n")
-        Console.log("--findMinSteps--")
-        Console.log2("minSteps: ", minSteps)
-        Console.log2("tuples: ", tuples)
-        Console.log2("index: ", index)
-        Console.log2("char: ", char)
-        Console.log2("freq: ", freq)
-
-        findMinSteps(minSteps + freq, tuples, index + 1)
       }
     }
   }
 
-  findMinSteps(0, freqTable->Map.entries->Array.fromIterator, 0)
+  findMinSteps(0, t, 0)
 }
 
 let s1 = "bab"
@@ -62,12 +50,12 @@ let t1 = "aba"
 let r1 = minStepsToMakeTwoStringsAnagram(s1, t1)
 Console.log2("r1: ", r1) // 1
 
-// let s2 = "leetcode"
-// let t2 = "practice"
-// let r2 = minStepsToMakeTwoStringsAnagram(s2, t2)
-// Console.log2("r2: ", r2) // 5
+let s2 = "leetcode"
+let t2 = "practice"
+let r2 = minStepsToMakeTwoStringsAnagram(s2, t2)
+Console.log2("r2: ", r2) // 5
 
-// let s3 = "anagram"
-// let t3 = "mangaar"
-// let r3 = minStepsToMakeTwoStringsAnagram(s3, t3)
-// Console.log2("r3: ", r3) // 0
+let s3 = "anagram"
+let t3 = "mangaar"
+let r3 = minStepsToMakeTwoStringsAnagram(s3, t3)
+Console.log2("r3: ", r3) // 0

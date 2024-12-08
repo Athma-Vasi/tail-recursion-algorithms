@@ -2,50 +2,40 @@
 
 
 function minStepsToMakeTwoStringsAnagram(s, t) {
-  var makeFreqTable = function (freqTable, str1, str2, _index) {
+  var makeFreqTable = function (freqTable, str, _index) {
     while(true) {
       var index = _index;
-      if (index === str1.length) {
+      if (index === str.length) {
         return freqTable;
       }
-      var char1 = str1.charAt(index);
-      var char2 = str2.charAt(index);
-      var f = freqTable.get(char1);
-      var freq1 = f !== undefined ? f + 1 | 0 : 1;
-      var f$1 = freqTable.get(char2);
-      var freq2 = f$1 !== undefined ? f$1 : 0;
-      freqTable.set(char1, freq1 - freq2 | 0);
+      var $$char = str.charAt(index);
+      var f = freqTable.get($$char);
+      var freq = f !== undefined ? f + 1 | 0 : 1;
+      freqTable.set($$char, freq);
       _index = index + 1 | 0;
       continue ;
     };
   };
-  var freqTable = makeFreqTable(new Map(), s, t, 0);
-  console.log("\n");
-  console.log("freqTable: ", freqTable);
+  var freqTable = makeFreqTable(new Map(), s, 0);
   var _minSteps = 0;
-  var tuples = Array.from(freqTable.entries());
   var _index = 0;
   while(true) {
     var index = _index;
     var minSteps = _minSteps;
-    if (index === tuples.length) {
+    if (index === t.length) {
       return minSteps;
     }
-    var t$1 = tuples.at(index);
-    var match = t$1 !== undefined ? t$1 : [
-        String(),
-        0
-      ];
-    var freq = match[1];
-    console.log("\n");
-    console.log("--findMinSteps--");
-    console.log("minSteps: ", minSteps);
-    console.log("tuples: ", tuples);
-    console.log("index: ", index);
-    console.log("char: ", match[0]);
-    console.log("freq: ", freq);
+    var $$char = t.charAt(index);
+    if (freqTable.has($$char)) {
+      var f = freqTable.get($$char);
+      var freq = f !== undefined ? f - 1 | 0 : 0;
+      freqTable.set($$char, freq);
+      _index = index + 1 | 0;
+      _minSteps = freq < 0 ? minSteps + 1 | 0 : minSteps;
+      continue ;
+    }
     _index = index + 1 | 0;
-    _minSteps = minSteps + freq | 0;
+    _minSteps = minSteps + 1 | 0;
     continue ;
   };
 }
@@ -58,10 +48,32 @@ var r1 = minStepsToMakeTwoStringsAnagram(s1, t1);
 
 console.log("r1: ", r1);
 
+var s2 = "leetcode";
+
+var t2 = "practice";
+
+var r2 = minStepsToMakeTwoStringsAnagram(s2, t2);
+
+console.log("r2: ", r2);
+
+var s3 = "anagram";
+
+var t3 = "mangaar";
+
+var r3 = minStepsToMakeTwoStringsAnagram(s3, t3);
+
+console.log("r3: ", r3);
+
 export {
   minStepsToMakeTwoStringsAnagram ,
   s1 ,
   t1 ,
   r1 ,
+  s2 ,
+  t2 ,
+  r2 ,
+  s3 ,
+  t3 ,
+  r3 ,
 }
 /* r1 Not a pure module */
