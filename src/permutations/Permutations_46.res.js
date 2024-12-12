@@ -11,13 +11,21 @@ function permutations(nums) {
     var setIndex = _setIndex;
     var set = _set;
     var current = _current;
-    if (set.size === 0) {
+    if (set.size === 0 || setIndex >= set.size) {
       return result.concat([current]);
     }
     var v = Array.from(set.values()).at(setIndex);
     var val = v !== undefined ? v : Int32.min_int;
     var setCopy = new Set(set.values());
     setCopy.delete(val);
+    console.log("\n");
+    console.log("--loop--");
+    console.log("result: ", result);
+    console.log("current: ", current);
+    console.log("set: ", set);
+    console.log("setIndex: ", setIndex);
+    console.log("val: ", val);
+    console.log("setCopy: ", setCopy);
     _setIndex = setIndex + 1 | 0;
     _set = setCopy;
     _current = current.concat([val]);

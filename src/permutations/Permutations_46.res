@@ -7,7 +7,7 @@ let permutations = (nums: array<int>) => {
     set: Set.t<int>,
     setIndex: int,
   ) => {
-    switch Set.size(set) === 0 {
+    switch Set.size(set) === 0 || setIndex >= Set.size(set) {
     | true => result->Array.concat([current])
     | false => {
         let val = switch set->Set.values->Array.fromIterator->Array.at(setIndex) {
@@ -16,6 +16,15 @@ let permutations = (nums: array<int>) => {
         }
         let setCopy = Set.fromIterator(set->Set.values)
         setCopy->Set.delete(val)->ignore
+
+        Console.log("\n")
+        Console.log("--loop--")
+        Console.log2("result: ", result)
+        Console.log2("current: ", current)
+        Console.log2("set: ", set)
+        Console.log2("setIndex: ", setIndex)
+        Console.log2("val: ", val)
+        Console.log2("setCopy: ", setCopy)
 
         loop(result, current->Array.concat([val]), setCopy, setIndex + 1)
       }
