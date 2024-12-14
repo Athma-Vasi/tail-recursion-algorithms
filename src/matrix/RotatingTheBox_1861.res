@@ -177,7 +177,10 @@ let rotatingTheBox = (boxGrid: array<array<boxItem>>) => {
     columnLoop(boxGrid, 0)
   }
 
-  rotateBox(boxGrid)->applyGravitationalForce
+  let rotated = rotateBox(boxGrid)
+  Console.log("\n")
+  Console.log2("rotated: ", rotated)
+  applyGravitationalForce(rotated)
 }
 
 let b1 = [[Stone, Empty, Stone]]

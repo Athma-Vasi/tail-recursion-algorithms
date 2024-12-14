@@ -91,8 +91,10 @@ function rotatingTheBox(boxGrid) {
       continue ;
     };
   };
-  var boxGrid$1 = rotateBox(boxGrid);
-  var _applied = boxGrid$1;
+  var rotated = rotateBox(boxGrid);
+  console.log("\n");
+  console.log("rotated: ", rotated);
+  var _applied = rotated;
   var _columnIndex = 0;
   while(true) {
     var columnIndex = _columnIndex;
@@ -109,12 +111,12 @@ function rotatingTheBox(boxGrid) {
         if (explorerIndex < 0) {
           return applied_;
         }
-        var anchor = Core__Option.getOr(Core__Option.flatMap(boxGrid$1.at(anchorIndex), (function(anchorIndex){
+        var anchor = Core__Option.getOr(Core__Option.flatMap(rotated.at(anchorIndex), (function(anchorIndex){
                 return function (arr) {
                   return arr.at(anchorIndex);
                 }
                 }(anchorIndex))), ".");
-        var explorer = Core__Option.getOr(Core__Option.flatMap(boxGrid$1.at(explorerIndex), (function(explorerIndex){
+        var explorer = Core__Option.getOr(Core__Option.flatMap(rotated.at(explorerIndex), (function(explorerIndex){
                 return function (arr) {
                   return arr.at(explorerIndex);
                 }
