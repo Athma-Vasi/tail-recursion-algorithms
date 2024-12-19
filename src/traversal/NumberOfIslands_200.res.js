@@ -8,87 +8,73 @@ function numberOfIslandsDFS(grid) {
               return r;
             })), []);
   var maxColumns = row.length;
-  var depthFirstSearch = function (matrix, _direction, start, _current, _stop) {
+  var depthFirstSearch = function (visited, _direction, start, _current) {
     while(true) {
-      var stop = _stop;
       var current = _current;
       var direction = _direction;
-      if (stop) {
-        return matrix;
+      var startColumnIndex = start[1];
+      var startCell = Core__Option.getOr(Core__Option.flatMap(grid.at(start[0]), (function(startColumnIndex){
+              return function (row) {
+                return row.at(startColumnIndex);
+              }
+              }(startColumnIndex))), 0);
+      if (startCell === 0) {
+        return visited;
       }
       var currColumnIndex = current[1];
       var currRowIndex = current[0];
-      var startColumnIndex = start[1];
-      Core__Option.getOr(Core__Option.flatMap(matrix.at(currRowIndex), (function(currColumnIndex){
+      var currCell = Core__Option.getOr(Core__Option.flatMap(grid.at(currRowIndex), (function(currColumnIndex){
               return function (row) {
                 return row.at(currColumnIndex);
               }
               }(currColumnIndex))), 0);
+      visited.add(currRowIndex.toString() + "," + currColumnIndex.toString());
       console.log("\n");
       console.log("--depthFirstSearch--");
-      console.log("matrix: ", matrix);
       console.log("direction: ", direction);
       console.log("start: ", start);
       console.log("current: ", current);
-      console.log("stop: ", stop);
+      console.log("visited: ", visited);
       switch (direction) {
         case "Up" :
-            if (currRowIndex < 0) {
+            if (currRowIndex < 0 || currCell === 0) {
               _current = start;
               _direction = "Right";
               continue ;
             }
-            console.log("\n");
-            console.log("--Up--");
-            console.log("matrix: ", matrix);
             _current = [
               currRowIndex - 1 | 0,
               currColumnIndex
             ];
             continue ;
         case "Right" :
-            if (currColumnIndex > maxColumns) {
+            if (currColumnIndex > maxColumns || currCell === 0) {
               _current = start;
               _direction = "Down";
               continue ;
             }
-            console.log("\n");
-            console.log("--Right--");
-            console.log("matrix: ", matrix);
             _current = [
               currRowIndex,
               currColumnIndex + 1 | 0
             ];
             continue ;
         case "Down" :
-            if (currRowIndex > maxRows) {
+            if (currRowIndex > maxRows || currCell === 0) {
               _current = start;
               _direction = "Left";
               continue ;
             }
-            console.log("\n");
-            console.log("--Down--");
-            console.log("matrix: ", matrix);
             _current = [
               currRowIndex + 1 | 0,
               currColumnIndex
             ];
             continue ;
         case "Left" :
-            if (currColumnIndex < 0) {
-              Core__Option.forEach(matrix.at(start[0]), (function(startColumnIndex){
-                  return function (row) {
-                    row[startColumnIndex] = 0;
-                  }
-                  }(startColumnIndex)));
-              _stop = true;
+            if (currColumnIndex < 0 || currCell === 0) {
               _current = start;
               _direction = "Right";
               continue ;
             }
-            console.log("\n");
-            console.log("--Left--");
-            console.log("matrix: ", matrix);
             _current = [
               currRowIndex,
               currColumnIndex - 1 | 0
@@ -99,9 +85,11 @@ function numberOfIslandsDFS(grid) {
     };
   };
   var _count = 0;
+  var _rowVisited = new Set();
   var _rowIndex = 0;
   while(true) {
     var rowIndex = _rowIndex;
+    var rowVisited = _rowVisited;
     var count = _count;
     if (rowIndex === maxRows) {
       return count;
@@ -114,14 +102,18 @@ function numberOfIslandsDFS(grid) {
     console.log("row: ", row$1);
     console.log("rowIndex: ", rowIndex);
     console.log("count: ", count);
+    console.log("rowVisited: ", rowVisited);
     var columnLoop = (function(rowIndex,row$1){
-    return function columnLoop(_columnCount, _modifiedGrid, _columnIndex) {
+    return function columnLoop(_columnCount, _columnVisited, _columnIndex) {
       while(true) {
         var columnIndex = _columnIndex;
-        var modifiedGrid = _modifiedGrid;
+        var columnVisited = _columnVisited;
         var columnCount = _columnCount;
         if (columnIndex === maxColumns) {
-          return columnCount;
+          return [
+                  columnCount,
+                  columnVisited
+                ];
         }
         var cell = Core__Option.getOr(Core__Option.map(row$1.at(columnIndex), (function (c) {
                     return c;
@@ -130,28 +122,30 @@ function numberOfIslandsDFS(grid) {
           rowIndex,
           columnIndex
         ];
+        var isCellVisited = columnVisited.has(rowIndex.toString() + "," + columnIndex.toString());
         console.log("\n");
         console.log("--columnLoop--");
         console.log("columnCount: ", columnCount);
         console.log("cell: ", cell);
         console.log("columnIndex: ", columnIndex);
-        if (cell !== 1) {
+        console.log("columnVisited: ", columnVisited);
+        console.log("isCellVisited: ", isCellVisited);
+        if (cell === 0 || isCellVisited) {
           _columnIndex = columnIndex + 1 | 0;
-          _modifiedGrid = grid;
           continue ;
         }
-        var modifiedGrid_ = depthFirstSearch(modifiedGrid, "Up", start, start, false);
-        console.log("modifiedGrid_: ", modifiedGrid_);
+        var columnVisited_ = depthFirstSearch(columnVisited, "Up", start, start);
         _columnIndex = columnIndex + 1 | 0;
-        _modifiedGrid = modifiedGrid_;
+        _columnVisited = columnVisited_;
         _columnCount = columnCount + 1 | 0;
         continue ;
       };
     }
     }(rowIndex,row$1));
-    var columnCount = columnLoop(count, grid, 0);
+    var match = columnLoop(count, rowVisited, 0);
     _rowIndex = rowIndex + 1 | 0;
-    _count = columnCount;
+    _rowVisited = match[1];
+    _count = match[0];
     continue ;
   };
 }
