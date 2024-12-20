@@ -8,19 +8,28 @@ function numberOfIslandsDFS(grid) {
               return r;
             })), []);
   var maxColumns = row.length;
-  var depthFirstSearch = function (visited, _direction, start, _current) {
+  var depthFirstSearch = function (visited, _direction, _start, _current) {
     while(true) {
       var current = _current;
+      var start = _start;
       var direction = _direction;
       var startColumnIndex = start[1];
-      var startCell = Core__Option.getOr(Core__Option.flatMap(grid.at(start[0]), (function(startColumnIndex){
-              return function (row) {
-                return row.at(startColumnIndex);
+      var startRowIndex = start[0];
+      var startCell = Core__Option.getOr(Core__Option.flatMap(grid.at(startRowIndex), (function(startColumnIndex){
+              return function (r) {
+                return r.at(startColumnIndex);
               }
               }(startColumnIndex))), 0);
-      if (startCell === 0) {
-        return visited;
-      }
+      var nextRowIndex = (startRowIndex + 1 | 0) > maxRows ? -1 : startRowIndex + 1 | 0;
+      var nextColumnIndex = (startColumnIndex + 1 | 0) > maxColumns ? -1 : startColumnIndex + 1 | 0;
+      var nextRowCell = Core__Option.getOr(Core__Option.flatMap(grid.at(nextRowIndex), (function (r) {
+                  return r.at(0);
+                })), 1);
+      var nextColumnCell = Core__Option.getOr(Core__Option.flatMap(grid.at(startRowIndex), (function(nextColumnIndex){
+              return function (r) {
+                return r.at(nextColumnIndex);
+              }
+              }(nextColumnIndex))), 1);
       var currColumnIndex = current[1];
       var currRowIndex = current[0];
       var currCell = Core__Option.getOr(Core__Option.flatMap(grid.at(currRowIndex), (function(currColumnIndex){
@@ -29,12 +38,9 @@ function numberOfIslandsDFS(grid) {
               }
               }(currColumnIndex))), 0);
       visited.add(currRowIndex.toString() + "," + currColumnIndex.toString());
-      console.log("\n");
-      console.log("--depthFirstSearch--");
-      console.log("direction: ", direction);
-      console.log("start: ", start);
-      console.log("current: ", current);
-      console.log("visited: ", visited);
+      if (startCell === 0 || nextRowCell === 0 && nextColumnCell === 0) {
+        return visited;
+      }
       switch (direction) {
         case "Up" :
             if (currRowIndex < 0 || currCell === 0) {
@@ -71,7 +77,14 @@ function numberOfIslandsDFS(grid) {
             continue ;
         case "Left" :
             if (currColumnIndex < 0 || currCell === 0) {
-              _current = start;
+              var newStart_0 = (startColumnIndex + 1 | 0) > maxColumns ? startRowIndex + 1 | 0 : startRowIndex;
+              var newStart_1 = startColumnIndex + 1 | 0;
+              var newStart = [
+                newStart_0,
+                newStart_1
+              ];
+              _current = newStart;
+              _start = newStart;
               _direction = "Right";
               continue ;
             }
@@ -97,12 +110,6 @@ function numberOfIslandsDFS(grid) {
     var row$1 = Core__Option.getOr(Core__Option.map(grid.at(rowIndex), (function (r) {
                 return r;
               })), []);
-    console.log("\n");
-    console.log("--rowLoop--");
-    console.log("row: ", row$1);
-    console.log("rowIndex: ", rowIndex);
-    console.log("count: ", count);
-    console.log("rowVisited: ", rowVisited);
     var columnLoop = (function(rowIndex,row$1){
     return function columnLoop(_columnCount, _columnVisited, _columnIndex) {
       while(true) {
@@ -123,13 +130,6 @@ function numberOfIslandsDFS(grid) {
           columnIndex
         ];
         var isCellVisited = columnVisited.has(rowIndex.toString() + "," + columnIndex.toString());
-        console.log("\n");
-        console.log("--columnLoop--");
-        console.log("columnCount: ", columnCount);
-        console.log("cell: ", cell);
-        console.log("columnIndex: ", columnIndex);
-        console.log("columnVisited: ", columnVisited);
-        console.log("isCellVisited: ", isCellVisited);
         if (cell === 0 || isCellVisited) {
           _columnIndex = columnIndex + 1 | 0;
           continue ;
@@ -185,9 +185,46 @@ var r1 = numberOfIslandsDFS(g1);
 
 console.log("r1: ", r1);
 
+var g2 = [
+  [
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  [
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    1,
+    0,
+    0
+  ],
+  [
+    0,
+    0,
+    0,
+    1,
+    1
+  ]
+];
+
+var r2 = numberOfIslandsDFS(g2);
+
+console.log("r2: ", r2);
+
 export {
   numberOfIslandsDFS ,
   g1 ,
   r1 ,
+  g2 ,
+  r2 ,
 }
 /* r1 Not a pure module */
