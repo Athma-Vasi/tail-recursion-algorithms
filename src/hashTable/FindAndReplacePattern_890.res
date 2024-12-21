@@ -7,41 +7,28 @@ let findAndReplacePattern = (words: array<string>, pattern: string) => {
     | false => {
         let word = words->Array.at(wordsIndex)->Option.map(w => w)->Option.getOr(String.make())
 
-        let rec wordLoop = (
-          isPattern: bool,
-          wordToPatternMap: Map.t<string, string>,
-          patternToWordMap: Map.t<string, string>,
-          charIndex: int,
-        ) => {
+        let rec wordLoop = (wordToPatternMap: Map.t<string, string>, charIndex: int) => {
           switch charIndex === String.length(word) {
-          | true => isPattern
+          | true =>
+            Map.size(wordToPatternMap) === Map.values(wordToPatternMap)->Set.fromIterator->Set.size
           | false => {
               let wordChar = word->String.charAt(charIndex)
               let patternChar = pattern->String.charAt(charIndex)
-
-              let wordToPatternChar =
+              let mappedChar =
                 wordToPatternMap->Map.get(wordChar)->Option.map(c => c)->Option.getOr(String.make())
-              let patternToWordChar =
-                patternToWordMap
-                ->Map.get(patternChar)
-                ->Option.map(c => c)
-                ->Option.getOr(String.make())
 
-              switch String.length(wordToPatternChar) === 0 ||
-                String.length(patternToWordChar) === 0 {
-              | true => wordLoop(isPattern, wordToPatternMap, patternToWordMap, charIndex + 1)
-              | false => {
+              switch mappedChar === patternChar {
+              | true => {
                   wordToPatternMap->Map.set(wordChar, patternChar)
-                  patternToWordMap->Map.set(patternChar, wordChar)
-
-                  wordLoop(true, wordToPatternMap, patternToWordMap, charIndex + 1)
+                  wordLoop(wordToPatternMap, charIndex + 1)
                 }
+              | false => wordLoop(wordToPatternMap, charIndex + 1)
               }
             }
           }
         }
 
-        let isPattern = wordLoop(false, Map.make(), Map.make(), 0)
+        let isPattern = wordLoop(Map.make(), 0)
         wordsLoop(isPattern ? result->Array.concat([word]) : result, wordsIndex + 1)
       }
     }

@@ -15,34 +15,28 @@ function findAndReplacePattern(words, pattern) {
                 return w;
               })), String());
     var wordLoop = (function(word){
-    return function wordLoop(_isPattern, wordToPatternMap, patternToWordMap, _charIndex) {
+    return function wordLoop(wordToPatternMap, _charIndex) {
       while(true) {
         var charIndex = _charIndex;
-        var isPattern = _isPattern;
         if (charIndex === word.length) {
-          return isPattern;
+          return wordToPatternMap.size === new Set(wordToPatternMap.values()).size;
         }
         var wordChar = word.charAt(charIndex);
         var patternChar = pattern.charAt(charIndex);
-        var wordToPatternChar = Core__Option.getOr(Core__Option.map(wordToPatternMap.get(wordChar), (function (c) {
+        var mappedChar = Core__Option.getOr(Core__Option.map(wordToPatternMap.get(wordChar), (function (c) {
                     return c;
                   })), String());
-        var patternToWordChar = Core__Option.getOr(Core__Option.map(patternToWordMap.get(patternChar), (function (c) {
-                    return c;
-                  })), String());
-        if (wordToPatternChar.length === 0 || patternToWordChar.length === 0) {
+        if (mappedChar === patternChar) {
+          wordToPatternMap.set(wordChar, patternChar);
           _charIndex = charIndex + 1 | 0;
           continue ;
         }
-        wordToPatternMap.set(wordChar, patternChar);
-        patternToWordMap.set(patternChar, wordChar);
         _charIndex = charIndex + 1 | 0;
-        _isPattern = true;
         continue ;
       };
     }
     }(word));
-    var isPattern = wordLoop(false, new Map(), new Map(), 0);
+    var isPattern = wordLoop(new Map(), 0);
     _wordsIndex = wordsIndex + 1 | 0;
     _result = isPattern ? result.concat([word]) : result;
     continue ;
