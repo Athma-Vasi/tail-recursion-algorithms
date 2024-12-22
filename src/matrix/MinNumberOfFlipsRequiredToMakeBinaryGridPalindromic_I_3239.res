@@ -1,3 +1,6 @@
+// T(n) = O(m * n)
+// S(n) = O(m + n)
+
 let minNumberOfFlipsRequiredToMakeBinaryGridPalindromic_I = (grid: array<array<int>>) => {
   let countPalindromicFlips = (nums: array<int>) => {
     let rec count = (amount: int, sliced: array<int>) => {
