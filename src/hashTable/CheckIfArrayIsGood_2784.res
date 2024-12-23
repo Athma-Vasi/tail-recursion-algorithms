@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let checkIfArrayIsGood = (nums: array<int>) => {
   let rec makeFreqTable = (freqTable: Map.t<int, int>, index: int) => {
     switch index === Array.length(nums) {
