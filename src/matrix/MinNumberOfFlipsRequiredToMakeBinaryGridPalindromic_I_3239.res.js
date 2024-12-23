@@ -20,7 +20,7 @@ function minNumberOfFlipsRequiredToMakeBinaryGridPalindromic_I(grid) {
               return b;
             }));
       _sliced = sliced.slice(1, length - 1 | 0);
-      _amount = head === tail || head < 0 || tail < 0 ? amount : amount + 1 | 0;
+      _amount = head === tail ? amount : amount + 1 | 0;
       continue ;
     };
   };
@@ -54,12 +54,9 @@ function minNumberOfFlipsRequiredToMakeBinaryGridPalindromic_I(grid) {
       if (rowIndex === maxRows) {
         return columnValues;
       }
-      var row = Core__Option.mapOr(grid.at(rowIndex), [], (function (r) {
-              return r;
-            }));
-      var value = Core__Option.mapOr(row.at(columnIndex), -1, (function (b) {
-              return b;
-            }));
+      var value = Core__Option.getOr(Core__Option.flatMap(grid.at(rowIndex), (function (row) {
+                  return row.at(columnIndex);
+                })), -1);
       _rowIndex = rowIndex + 1 | 0;
       _columnValues = columnValues.concat([value]);
       continue ;

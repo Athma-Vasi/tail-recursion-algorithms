@@ -12,10 +12,7 @@ let minNumberOfFlipsRequiredToMakeBinaryGridPalindromic_I = (grid: array<array<i
           let head = nums->Array.at(0)->Option.mapOr(-1, b => b)
           let tail = nums->Array.at(-1)->Option.mapOr(-1, b => b)
 
-          count(
-            head === tail || head < 0 || tail < 0 ? amount : amount + 1,
-            sliced->Array.slice(~start=1, ~end=length - 1),
-          )
+          count(head === tail ? amount : amount + 1, sliced->Array.slice(~start=1, ~end=length - 1))
         }
       }
     }
@@ -44,8 +41,11 @@ let minNumberOfFlipsRequiredToMakeBinaryGridPalindromic_I = (grid: array<array<i
       switch rowIndex === maxRows {
       | true => columnValues
       | false => {
-          let row = grid->Array.at(rowIndex)->Option.mapOr([], r => r)
-          let value = row->Array.at(columnIndex)->Option.mapOr(-1, b => b)
+          let value =
+            grid
+            ->Array.at(rowIndex)
+            ->Option.flatMap(row => row->Array.at(columnIndex))
+            ->Option.getOr(-1)
 
           collect(columnValues->Array.concat([value]), rowIndex + 1)
         }
