@@ -4,25 +4,25 @@
 let transposeMatrix = (matrix: array<array<int>>, maxRows: int, maxColumns: int): array<
   array<int>,
 > => {
-  let rec rowLoop = (transposedMatrix: array<array<int>>, rowIndex: int) => {
+  let rec transpose = (transposed: array<array<int>>, rowIndex: int) => {
     switch rowIndex === maxRows {
-    | true => transposedMatrix
+    | true => transposed
     | false => {
         let row = switch matrix->Array.at(rowIndex) {
         | None => []
         | Some(arr) => arr
         }
 
-        let rec columnLoop = (colUpdatedMatrix: array<array<int>>, columnIndex: int) => {
+        let rec columnLoop = (columnUpdated: array<array<int>>, columnIndex: int) => {
           switch columnIndex === maxColumns {
-          | true => colUpdatedMatrix
+          | true => columnUpdated
           | false => {
               let matrixItem = switch row->Array.at(columnIndex) {
               | None => 0
               | Some(item) => item
               }
 
-              let rowToUpdate = switch colUpdatedMatrix->Array.at(columnIndex) {
+              let rowToUpdate = switch columnUpdated->Array.at(columnIndex) {
               | None => []
               | Some(arr) => arr
               }
@@ -31,7 +31,7 @@ let transposeMatrix = (matrix: array<array<int>>, maxRows: int, maxColumns: int)
                 rowToUpdate->Array.mapWithIndex((item, idx) => idx === rowIndex ? matrixItem : item)
 
               let updatedMatrix =
-                colUpdatedMatrix->Array.mapWithIndex((row, idx) =>
+                columnUpdated->Array.mapWithIndex((row, idx) =>
                   idx === columnIndex ? updatedRow : row
                 )
 
@@ -40,7 +40,7 @@ let transposeMatrix = (matrix: array<array<int>>, maxRows: int, maxColumns: int)
           }
         }
 
-        rowLoop(columnLoop(transposedMatrix, 0), rowIndex + 1)
+        transpose(columnLoop(transposed, 0), rowIndex + 1)
       }
     }
   }
@@ -55,7 +55,7 @@ let transposeMatrix = (matrix: array<array<int>>, maxRows: int, maxColumns: int)
     loop([], 0)
   }
 
-  rowLoop(makeMatrix(maxRows, maxColumns), 0)
+  transpose(makeMatrix(maxRows, maxColumns), 0)
 }
 
 let reverseRows = (matrix: array<array<int>>) => {

@@ -17,27 +17,27 @@ function transposeMatrix(matrix, maxRows, maxColumns) {
       continue ;
     };
   };
-  var _transposedMatrix = makeMatrix(maxRows, maxColumns);
+  var _transposed = makeMatrix(maxRows, maxColumns);
   var _rowIndex = 0;
   while(true) {
     var rowIndex = _rowIndex;
-    var transposedMatrix = _transposedMatrix;
+    var transposed = _transposed;
     if (rowIndex === maxRows) {
-      return transposedMatrix;
+      return transposed;
     }
     var arr = matrix.at(rowIndex);
     var row = arr !== undefined ? arr : [];
     var columnLoop = (function(rowIndex,row){
-    return function columnLoop(_colUpdatedMatrix, _columnIndex) {
+    return function columnLoop(_columnUpdated, _columnIndex) {
       while(true) {
         var columnIndex = _columnIndex;
-        var colUpdatedMatrix = _colUpdatedMatrix;
+        var columnUpdated = _columnUpdated;
         if (columnIndex === maxColumns) {
-          return colUpdatedMatrix;
+          return columnUpdated;
         }
         var item = row.at(columnIndex);
         var matrixItem = item !== undefined ? item : 0;
-        var arr = colUpdatedMatrix.at(columnIndex);
+        var arr = columnUpdated.at(columnIndex);
         var rowToUpdate = arr !== undefined ? arr : [];
         var updatedRow = rowToUpdate.map((function(matrixItem){
             return function (item, idx) {
@@ -48,7 +48,7 @@ function transposeMatrix(matrix, maxRows, maxColumns) {
               }
             }
             }(matrixItem)));
-        var updatedMatrix = colUpdatedMatrix.map((function(columnIndex,updatedRow){
+        var updatedMatrix = columnUpdated.map((function(columnIndex,updatedRow){
             return function (row, idx) {
               if (idx === columnIndex) {
                 return updatedRow;
@@ -58,13 +58,13 @@ function transposeMatrix(matrix, maxRows, maxColumns) {
             }
             }(columnIndex,updatedRow)));
         _columnIndex = columnIndex + 1 | 0;
-        _colUpdatedMatrix = updatedMatrix;
+        _columnUpdated = updatedMatrix;
         continue ;
       };
     }
     }(rowIndex,row));
     _rowIndex = rowIndex + 1 | 0;
-    _transposedMatrix = columnLoop(transposedMatrix, 0);
+    _transposed = columnLoop(transposed, 0);
     continue ;
   };
 }
