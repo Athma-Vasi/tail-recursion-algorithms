@@ -6,14 +6,14 @@ type position = First | Last
 let returnDigit = (num: int, position: position) => {
   let numStr = Int.toString(num)
   let length = String.length(numStr)
-  switch (position, length > 2) {
+  switch (position, length > 1) {
   | (First, true) => numStr->String.slice(~start=0, ~end=2)->Int.fromString
   | (Last, true) => numStr->String.slice(~start=length - 2, ~end=length)->Int.fromString
   | _ => Some(num)
   }->Option.mapOr(0, n => n)
 }
 
-let greatestCommonDivisor = (a: int, b: int) => {
+let findGCD = (a: int, b: int) => {
   let rec gcd = (answer: int, remainder: int) => {
     switch remainder === 0 {
     | true => answer
@@ -40,7 +40,7 @@ let numberOfBeautifulPairs = (nums: array<int>) => {
           | false => {
               let innerNum = nums->Array.at(innerIndex)->Option.mapOr(0, n => n)
               let last = returnDigit(innerNum, Last)
-              let gcd = greatestCommonDivisor(first, last)
+              let gcd = findGCD(first, last)
 
               innerLoop(gcd === 1 ? innerCount + 1 : innerCount, innerIndex + 1)
             }

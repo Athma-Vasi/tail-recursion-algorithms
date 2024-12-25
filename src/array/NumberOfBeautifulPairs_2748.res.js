@@ -6,7 +6,7 @@ import * as Core__Option from "@rescript/core/src/Core__Option.res.js";
 function returnDigit(num, position) {
   var numStr = num.toString();
   var length = numStr.length;
-  var match = length > 2;
+  var match = length > 1;
   var tmp;
   tmp = position === "First" ? (
       match ? Core__Int.fromString(numStr.slice(0, 2), undefined) : num
@@ -18,7 +18,7 @@ function returnDigit(num, position) {
               }));
 }
 
-function greatestCommonDivisor(a, b) {
+function findGCD(a, b) {
   var _answer = a;
   var _remainder = b;
   while(true) {
@@ -59,7 +59,7 @@ function numberOfBeautifulPairs(nums) {
                 return n;
               }));
         var last = returnDigit(innerNum, "Last");
-        var gcd = greatestCommonDivisor(first, last);
+        var gcd = findGCD(first, last);
         _innerIndex = innerIndex + 1 | 0;
         _innerCount = gcd === 1 ? innerCount + 1 | 0 : innerCount;
         continue ;
@@ -96,7 +96,7 @@ console.log("r2: ", r2);
 
 export {
   returnDigit ,
-  greatestCommonDivisor ,
+  findGCD ,
   numberOfBeautifulPairs ,
   n1 ,
   r1 ,
