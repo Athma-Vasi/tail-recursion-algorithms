@@ -13,14 +13,14 @@ function minNumberOfFlipsRequiredToMakeBinaryGridPalindromic_I(grid) {
       if (length < 2) {
         return amount;
       }
-      var head = Core__Option.mapOr(nums.at(0), -1, (function (b) {
+      var first = Core__Option.mapOr(nums.at(0), -1, (function (b) {
               return b;
             }));
-      var tail = Core__Option.mapOr(nums.at(-1), -1, (function (b) {
+      var last = Core__Option.mapOr(nums.at(-1), -1, (function (b) {
               return b;
             }));
       _sliced = sliced.slice(1, length - 1 | 0);
-      _amount = head === tail ? amount : amount + 1 | 0;
+      _amount = first === last ? amount : amount + 1 | 0;
       continue ;
     };
   };
