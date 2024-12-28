@@ -12,24 +12,24 @@ function lexicographicallySmallestPalindrome(str) {
     if ((lastIndex - firstIndex | 0) < 2) {
       return palindrome;
     }
-    var first = palindrome.charAt(firstIndex);
-    var last = palindrome.charAt(lastIndex);
-    if (first === last) {
+    var firstChar = palindrome.charAt(firstIndex);
+    var lastChar = palindrome.charAt(lastIndex);
+    if (firstChar === lastChar) {
       _lastIndex = lastIndex - 1 | 0;
       _firstIndex = firstIndex + 1 | 0;
       continue ;
     }
-    var firstCharCode = first.charCodeAt(0);
-    var lastCharCode = last.charCodeAt(0);
+    var firstCharCode = firstChar.charCodeAt(0);
+    var lastCharCode = lastChar.charCodeAt(0);
     if (firstCharCode < lastCharCode) {
       _lastIndex = lastIndex - 1 | 0;
       _firstIndex = firstIndex + 1 | 0;
-      _palindrome = palindrome.slice(0, lastIndex).concat(first).concat(palindrome.slice(lastIndex + 1 | 0));
+      _palindrome = palindrome.slice(0, lastIndex).concat(firstChar).concat(palindrome.slice(lastIndex + 1 | 0));
       continue ;
     }
     _lastIndex = lastIndex - 1 | 0;
     _firstIndex = firstIndex + 1 | 0;
-    _palindrome = palindrome.slice(0, firstIndex).concat(last).concat(palindrome.slice(firstIndex + 1 | 0));
+    _palindrome = palindrome.slice(0, firstIndex).concat(lastChar).concat(palindrome.slice(firstIndex + 1 | 0));
     continue ;
   };
 }

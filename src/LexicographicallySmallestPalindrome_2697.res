@@ -1,23 +1,26 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let lexicographicallySmallestPalindrome = (str: string) => {
   let rec operate = (palindrome: string, firstIndex: int, lastIndex: int) => {
     switch lastIndex - firstIndex < 2 {
     | true => palindrome
     | false => {
-        let first = palindrome->String.charAt(firstIndex)
-        let last = palindrome->String.charAt(lastIndex)
+        let firstChar = palindrome->String.charAt(firstIndex)
+        let lastChar = palindrome->String.charAt(lastIndex)
 
-        switch first === last {
+        switch firstChar === lastChar {
         | true => operate(palindrome, firstIndex + 1, lastIndex - 1)
         | false => {
-            let firstCharCode = first->String.charCodeAt(0)
-            let lastCharCode = last->String.charCodeAt(0)
+            let firstCharCode = firstChar->String.charCodeAt(0)
+            let lastCharCode = lastChar->String.charCodeAt(0)
 
             switch firstCharCode < lastCharCode {
             | true =>
               operate(
                 palindrome
                 ->String.slice(~start=0, ~end=lastIndex)
-                ->String.concat(first)
+                ->String.concat(firstChar)
                 ->String.concat(palindrome->String.sliceToEnd(~start=lastIndex + 1)),
                 firstIndex + 1,
                 lastIndex - 1,
@@ -26,7 +29,7 @@ let lexicographicallySmallestPalindrome = (str: string) => {
               operate(
                 palindrome
                 ->String.slice(~start=0, ~end=firstIndex)
-                ->String.concat(last)
+                ->String.concat(lastChar)
                 ->String.concat(palindrome->String.sliceToEnd(~start=firstIndex + 1)),
                 firstIndex + 1,
                 lastIndex - 1,
