@@ -2,21 +2,57 @@
 
 
 function letterTilePossibilities(tiles) {
-  var subsets = new Set();
-  var _remainingTiles = tiles;
-  var _currentCombination = String();
-  var _charIndex = 0;
+  var length = tiles.length;
+  var possibilities = new Set();
+  var _outerIndex = 0;
   while(true) {
-    var charIndex = _charIndex;
-    var currentCombination = _currentCombination;
-    var remainingTiles = _remainingTiles;
-    subsets.add(currentCombination);
-    if (charIndex === remainingTiles.length) {
-      return ;
+    var outerIndex = _outerIndex;
+    if (outerIndex === length) {
+      return possibilities.size;
     }
-    _charIndex = charIndex + 1 | 0;
-    _currentCombination = currentCombination + remainingTiles.charAt(charIndex);
-    _remainingTiles = remainingTiles.substring(0, charIndex) + remainingTiles.substring(charIndex + 1 | 0);
+    var outerChar = tiles.charAt(outerIndex);
+    possibilities.add(outerChar);
+    var cyclicRightLoop = (function(outerIndex){
+    return function cyclicRightLoop(_stack, _cyclicIndex) {
+      while(true) {
+        var cyclicIndex = _cyclicIndex;
+        var stack = _stack;
+        if (cyclicIndex === outerIndex) {
+          return stack;
+        }
+        var cyclicChar = tiles.charAt(cyclicIndex);
+        var newStack = stack.concat(cyclicChar);
+        possibilities.add(newStack);
+        var newIndex = (cyclicIndex + 1 | 0) % length | 0;
+        _cyclicIndex = newIndex;
+        _stack = newStack;
+        continue ;
+      };
+    }
+    }(outerIndex));
+    var cyclicLeftLoop = (function(outerIndex){
+    return function cyclicLeftLoop(_stack, _cyclicIndex) {
+      while(true) {
+        var cyclicIndex = _cyclicIndex;
+        var stack = _stack;
+        if (cyclicIndex === outerIndex) {
+          return stack;
+        }
+        var cyclicChar = tiles.charAt(cyclicIndex);
+        var newStack = stack.concat(cyclicChar);
+        possibilities.add(newStack);
+        var newIndex = (cyclicIndex - 1 | 0) % length | 0;
+        _cyclicIndex = newIndex < 0 ? length - 1 | 0 : newIndex;
+        _stack = newStack;
+        continue ;
+      };
+    }
+    }(outerIndex));
+    var stack = cyclicRightLoop(outerChar, (outerIndex + 1 | 0) === length ? 0 : outerIndex + 1 | 0);
+    possibilities.add(stack);
+    var stack$1 = cyclicLeftLoop(outerChar, (outerIndex - 1 | 0) < 0 ? length - 1 | 0 : outerIndex - 1 | 0);
+    possibilities.add(stack$1);
+    _outerIndex = outerIndex + 1 | 0;
     continue ;
   };
 }
@@ -25,11 +61,51 @@ var t1 = "AAB";
 
 var r1 = letterTilePossibilities(t1);
 
-console.log("r1: ", r1);
+console.log("r1: AAB ", r1);
+
+var t2 = "AAABBC";
+
+var r2 = letterTilePossibilities(t2);
+
+console.log("r2: AAABBC", r2);
+
+var t3 = "V";
+
+var r3 = letterTilePossibilities(t3);
+
+console.log("r3: V", r3);
+
+var t4 = "ABC";
+
+var r4 = letterTilePossibilities(t4);
+
+console.log("r4: ABC", r4);
+
+var t5 = "ABB";
+
+var r5 = letterTilePossibilities(t5);
+
+console.log("r5: ABB", r5);
+
+var t6 = "AAA";
+
+var r6 = letterTilePossibilities(t6);
+
+console.log("r6: AAA", r6);
 
 export {
   letterTilePossibilities ,
   t1 ,
   r1 ,
+  t2 ,
+  r2 ,
+  t3 ,
+  r3 ,
+  t4 ,
+  r4 ,
+  t5 ,
+  r5 ,
+  t6 ,
+  r6 ,
 }
 /* r1 Not a pure module */
