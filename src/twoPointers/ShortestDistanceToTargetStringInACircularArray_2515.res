@@ -23,26 +23,28 @@ let shortestDistanceToTargetStringInACircularArray = (
         let newRightIndex = rightIndex + 1 === length ? 0 : rightIndex + 1
 
         switch (leftWord === target, rightWord === target) {
-        | (true, true) => {
-            let shortest =
-              absLeftDistance < shortestDistance
-                ? absLeftDistance
-                : absRightDistance < shortestDistance
-                ? absRightDistance
-                : shortestDistance
-
-            circularTraverse(shortest, newLeftIndex, newRightIndex)
-          }
-        | (false, true) => {
-            let shortest = absRightDistance < shortestDistance ? absRightDistance : shortestDistance
-
-            circularTraverse(shortest, newLeftIndex, newRightIndex)
-          }
-        | (true, false) => {
-            let shortest = absLeftDistance < shortestDistance ? absLeftDistance : shortestDistance
-
-            circularTraverse(shortest, newLeftIndex, newRightIndex)
-          }
+        | (true, true) =>
+          circularTraverse(
+            absLeftDistance < shortestDistance
+              ? absLeftDistance
+              : absRightDistance < shortestDistance
+              ? absRightDistance
+              : shortestDistance,
+            newLeftIndex,
+            newRightIndex,
+          )
+        | (false, true) =>
+          circularTraverse(
+            absRightDistance < shortestDistance ? absRightDistance : shortestDistance,
+            newLeftIndex,
+            newRightIndex,
+          )
+        | (true, false) =>
+          circularTraverse(
+            absLeftDistance < shortestDistance ? absLeftDistance : shortestDistance,
+            newLeftIndex,
+            newRightIndex,
+          )
         | (false, false) => circularTraverse(shortestDistance, newLeftIndex, newRightIndex)
         }
       }
@@ -52,7 +54,7 @@ let shortestDistanceToTargetStringInACircularArray = (
   let shortestDistance = circularTraverse(
     length + 1,
     startIndex - 1 < 0 ? length - 1 : startIndex - 1,
-    startIndex + 1 > length ? 0 : startIndex + 1,
+    startIndex + 1 === length ? 0 : startIndex + 1,
   )
   shortestDistance === length + 1 ? -1 : shortestDistance
 }

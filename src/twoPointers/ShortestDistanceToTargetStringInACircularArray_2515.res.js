@@ -28,25 +28,22 @@ function shortestDistanceToTargetStringInACircularArray(words, target, startInde
       var match$1 = rightWord === target;
       if (match) {
         if (match$1) {
-          var shortest = absLeftDistance < shortestDistance ? absLeftDistance : (
-              absRightDistance < shortestDistance ? absRightDistance : shortestDistance
-            );
           _rightIndex = newRightIndex;
           _leftIndex = newLeftIndex;
-          _shortestDistance = shortest;
+          _shortestDistance = absLeftDistance < shortestDistance ? absLeftDistance : (
+              absRightDistance < shortestDistance ? absRightDistance : shortestDistance
+            );
           continue ;
         }
-        var shortest$1 = absLeftDistance < shortestDistance ? absLeftDistance : shortestDistance;
         _rightIndex = newRightIndex;
         _leftIndex = newLeftIndex;
-        _shortestDistance = shortest$1;
+        _shortestDistance = absLeftDistance < shortestDistance ? absLeftDistance : shortestDistance;
         continue ;
       }
       if (match$1) {
-        var shortest$2 = absRightDistance < shortestDistance ? absRightDistance : shortestDistance;
         _rightIndex = newRightIndex;
         _leftIndex = newLeftIndex;
-        _shortestDistance = shortest$2;
+        _shortestDistance = absRightDistance < shortestDistance ? absRightDistance : shortestDistance;
         continue ;
       }
       _rightIndex = newRightIndex;
@@ -54,7 +51,7 @@ function shortestDistanceToTargetStringInACircularArray(words, target, startInde
       continue ;
     };
   };
-  var shortestDistance = circularTraverse(length + 1 | 0, (startIndex - 1 | 0) < 0 ? length - 1 | 0 : startIndex - 1 | 0, (startIndex + 1 | 0) > length ? 0 : startIndex + 1 | 0);
+  var shortestDistance = circularTraverse(length + 1 | 0, (startIndex - 1 | 0) < 0 ? length - 1 | 0 : startIndex - 1 | 0, (startIndex + 1 | 0) === length ? 0 : startIndex + 1 | 0);
   if (shortestDistance === (length + 1 | 0)) {
     return -1;
   } else {
