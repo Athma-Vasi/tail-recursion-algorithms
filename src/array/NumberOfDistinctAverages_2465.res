@@ -2,9 +2,9 @@
 // S(n) = O(n)
 
 let numberOfDistinctAverages = (nums: array<int>) => {
-  let rec operation = (distict: Set.t<float>, modified: array<int>) => {
+  let rec operation = (distinct: Set.t<float>, modified: array<int>) => {
     switch Array.length(modified) === 0 {
-    | true => Set.size(distict)
+    | true => Set.size(distinct)
     | false => {
         let (min, minIdx) = modified->Array.reduceWithIndex((101, -1), (acc, num, idx) => {
           let (min, minIdx) = acc
@@ -19,9 +19,9 @@ let numberOfDistinctAverages = (nums: array<int>) => {
           ->Array.mapWithIndex((num, idx) => idx !== minIdx && idx !== maxIdx ? num : -1)
           ->Array.filter(num => num > 0)
         let avg = (Float.fromInt(min) +. Float.fromInt(max)) /. 2.0
-        distict->Set.add(avg)
+        distinct->Set.add(avg)
 
-        operation(distict, filtered)
+        operation(distinct, filtered)
       }
     }
   }

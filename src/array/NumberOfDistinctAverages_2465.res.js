@@ -3,12 +3,12 @@
 import * as Core__Array from "@rescript/core/src/Core__Array.res.js";
 
 function numberOfDistinctAverages(nums) {
-  var distict = new Set();
+  var distinct = new Set();
   var _modified = nums;
   while(true) {
     var modified = _modified;
     if (modified.length === 0) {
-      return distict.size;
+      return distinct.size;
     }
     var match = Core__Array.reduceWithIndex(modified, [
           101,
@@ -58,7 +58,7 @@ function numberOfDistinctAverages(nums) {
           return num > 0;
         });
     var avg = (match[0] + match$1[0]) / 2.0;
-    distict.add(avg);
+    distinct.add(avg);
     _modified = filtered;
     continue ;
   };
