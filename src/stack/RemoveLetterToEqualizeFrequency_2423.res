@@ -2,7 +2,7 @@
 // S(n) = O(1)
 
 let removeLetterToEqualizeFrequency = (word: string) => {
-  let rec loop = (stack: string, removed: int, index: int) => {
+  let rec remove = (stack: string, removed: int, index: int) => {
     switch index === String.length(word) {
     | true => removed === 1
     | false => {
@@ -10,15 +10,15 @@ let removeLetterToEqualizeFrequency = (word: string) => {
         let prevChar = stack->String.charAt(String.length(stack) - 1)
 
         switch currChar === prevChar {
-        | true => loop(stack, removed + 1, index + 1)
-        | false => loop(stack->String.concat(currChar), removed, index + 1)
+        | true => remove(stack, removed + 1, index + 1)
+        | false => remove(stack->String.concat(currChar), removed, index + 1)
         }
       }
     }
   }
 
   let firstChar = word->String.charAt(0)
-  loop(firstChar, 0, 1)
+  remove(firstChar, 0, 1)
 }
 
 let w1 = "abcc"
