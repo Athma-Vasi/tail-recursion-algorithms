@@ -1,4 +1,4 @@
-// T(n) = O(n)
+// T(n) = O(n * log(n))
 // S(n) = O(1)
 
 let largestPositiveIntegerThatExistsWithItsNegative = (nums: array<int>) => {
