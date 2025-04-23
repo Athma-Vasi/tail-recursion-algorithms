@@ -1,10 +1,25 @@
 {
-  "editor.defaultFormatter": null,
+  "editor.defaultFormatter": "chenglou92.rescript-vscode",
   "editor.fontFamily": "Iosevka Light Extended, Menlo, Monaco, 'Courier New', monospace",
   "editor.fontSize": 17,
   "editor.guides.bracketPairs": "active",
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.fontLigatures": true,
   "editor.formatOnPaste": true,
-  "editor.formatOnType": true
+  "editor.formatOnType": true,
+  "editor.formatOnSave": true,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false,
+    "rescript": true,
+    "vue": false
+  },
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports.ts": "explicit",
+    "source.organizeImports": "explicit",
+    "source.removeUnusedImports": "explicit",
+    "source.sortImports": "explicit"
+  }
 }
