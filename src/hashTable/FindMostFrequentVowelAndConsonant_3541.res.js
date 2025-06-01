@@ -63,18 +63,17 @@ function findMostFrequentVowelAndConsonant(s) {
       continue ;
     };
   };
+  var findMaxFreq = function (freqTable) {
+    return Core__Option.mapOr(Array.from(freqTable.values()).toSorted(function (f1, f2) {
+                      return Caml.int_compare(f2, f1);
+                    }).at(0), 0, (function (f) {
+                  return f;
+                }));
+  };
   var vowelsFreqTable = makeFreqTable(match[0]);
   var consonantsFreqTable = makeFreqTable(match[1]);
-  var maxVowelsFreq = Core__Option.mapOr(Array.from(vowelsFreqTable.values()).toSorted(function (f1, f2) {
-              return Caml.int_compare(f2, f1);
-            }).at(0), 0, (function (f) {
-          return f;
-        }));
-  var maxConsonantsFreq = Core__Option.mapOr(Array.from(consonantsFreqTable.values()).toSorted(function (f1, f2) {
-              return Caml.int_compare(f2, f1);
-            }).at(0), 0, (function (f) {
-          return f;
-        }));
+  var maxVowelsFreq = findMaxFreq(vowelsFreqTable);
+  var maxConsonantsFreq = findMaxFreq(consonantsFreqTable);
   return maxVowelsFreq + maxConsonantsFreq | 0;
 }
 

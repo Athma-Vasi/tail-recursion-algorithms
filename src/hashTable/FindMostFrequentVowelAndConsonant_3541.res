@@ -54,22 +54,18 @@ let findMostFrequentVowelAndConsonant = (s: string) => {
     loop(Map.make(), 0)
   }
 
+  let findMaxFreq = (freqTable: Map.t<string, int>) =>
+    freqTable
+    ->Map.values
+    ->Core__Iterator.toArray
+    ->Array.toSorted((f1, f2) => Int.compare(f2, f1))
+    ->Array.at(0)
+    ->Option.mapOr(0, f => f)
+
   let vowelsFreqTable = makeFreqTable(vowels)
   let consonantsFreqTable = makeFreqTable(consonants)
-  let maxVowelsFreq =
-    vowelsFreqTable
-    ->Map.values
-    ->Core__Iterator.toArray
-    ->Array.toSorted((f1, f2) => Int.compare(f2, f1))
-    ->Array.at(0)
-    ->Option.mapOr(0, f => f)
-  let maxConsonantsFreq =
-    consonantsFreqTable
-    ->Map.values
-    ->Core__Iterator.toArray
-    ->Array.toSorted((f1, f2) => Int.compare(f2, f1))
-    ->Array.at(0)
-    ->Option.mapOr(0, f => f)
+  let maxVowelsFreq = findMaxFreq(vowelsFreqTable)
+  let maxConsonantsFreq = findMaxFreq(consonantsFreqTable)
 
   maxVowelsFreq + maxConsonantsFreq
 }
