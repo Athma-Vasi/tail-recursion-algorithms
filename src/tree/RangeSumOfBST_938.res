@@ -1,6 +1,8 @@
-// T(n) =
+// T(n) = O(n)
+// S(n) = O(n)
 
 let rangeSumOfBST = (root: TreeNode.t<int>, low: int, high: int) => {
+  // inorder
   let rec traverse = (result: int, curr: option<TreeNode.t<int>>, stack: list<TreeNode.t<int>>) => {
     switch curr {
     | None =>
