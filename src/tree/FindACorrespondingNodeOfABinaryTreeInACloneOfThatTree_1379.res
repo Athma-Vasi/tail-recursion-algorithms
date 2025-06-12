@@ -19,8 +19,10 @@ let findACorrespondingNodeOfABinaryTreeInACloneOfThatTree = (
       switch (originalsStack, clonedsStack) {
       // fully traversed the tree without finding target
       | (list{}, list{}) => None
-      | (list{}, list{_topCloned, ..._restCloneds}) => None // malformed state
-      | (list{_topOriginal, ..._restOriginals}, list{}) => None // malformed state
+      // malformed state
+      | (list{}, list{_topCloned, ..._restCloneds}) => None
+      // malformed state
+      | (list{_topOriginal, ..._restOriginals}, list{}) => None
       // pop the top node from each stack to continue right subtree traversal
       | (list{topOriginal, ...restOriginals}, list{topCloned, ...restCloneds}) =>
         switch target.val === topOriginal.val {
@@ -29,8 +31,10 @@ let findACorrespondingNodeOfABinaryTreeInACloneOfThatTree = (
         | false => traverse(topOriginal.right, topCloned.right, restOriginals, restCloneds)
         }
       }
-    | (None, Some(_clonedNode)) => None // tree structure mismatch
-    | (Some(_originalNode), None) => None // tree structure mismatch
+    // tree structure mismatch
+    | (None, Some(_clonedNode)) => None
+    // tree structure mismatch
+    | (Some(_originalNode), None) => None
     // move down the left subtree, pushing nodes onto stacks
     | (Some(originalNode), Some(clonedNode)) =>
       traverse(
