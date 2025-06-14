@@ -1,6 +1,5 @@
 // T(n) = O(n)
 // S(n) = O(n)
-// code by me, comments by llm
 
 let maximumDepthOfBinaryTree = (root: option<TreeNode.t<int>>) => {
   // Recursive function that performs a breadth-first traversal (BFS)
