@@ -85,9 +85,9 @@ function averageOfLevelsInBinaryTree(root) {
                                   return sumAcc + num | 0;
                                 }));
                           var size = Core__List.size(values);
-                          var avg = Caml_int32.div(sum, size);
+                          var average = Caml_int32.div(sum, size);
                           return {
-                                  hd: avg,
+                                  hd: average,
                                   tl: averages
                                 };
                         }))));

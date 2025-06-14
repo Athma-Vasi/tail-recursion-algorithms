@@ -25,19 +25,19 @@ function maximumDepthOfBinaryTree(root) {
       var right = poppedNode.right;
       var left = poppedNode.left;
       var rest = queue.tl;
-      var level = match[1];
-      var newMaxDepth = maxDepth > level ? maxDepth : level;
+      var depth = match[1];
+      var newMaxDepth = maxDepth > depth ? maxDepth : depth;
       if (left !== undefined) {
         if (right !== undefined) {
           _queue = Core__List.concat(rest, {
                 hd: [
                   left,
-                  level + 1 | 0
+                  depth + 1 | 0
                 ],
                 tl: {
                   hd: [
                     right,
-                    level + 1 | 0
+                    depth + 1 | 0
                   ],
                   tl: /* [] */0
                 }
@@ -48,7 +48,7 @@ function maximumDepthOfBinaryTree(root) {
         _queue = Core__List.concat(rest, {
               hd: [
                 left,
-                level + 1 | 0
+                depth + 1 | 0
               ],
               tl: /* [] */0
             });
@@ -59,7 +59,7 @@ function maximumDepthOfBinaryTree(root) {
         _queue = Core__List.concat(rest, {
               hd: [
                 right,
-                level + 1 | 0
+                depth + 1 | 0
               ],
               tl: /* [] */0
             });

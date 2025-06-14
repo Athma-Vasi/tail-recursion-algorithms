@@ -12,30 +12,30 @@ let maximumDepthOfBinaryTree = (root: option<TreeNode.t<int>>) => {
     | list{} => maxDepth
 
     // Otherwise, deconstruct the next node and its depth from the queue
-    | list{(poppedNode, level), ...rest} => {
+    | list{(poppedNode, depth), ...rest} => {
         let {left, right} = poppedNode
 
-        // Update maxDepth if the current level is deeper
-        let newMaxDepth = maxDepth > level ? maxDepth : level
+        // Update maxDepth if the current depth is deeper
+        let newMaxDepth = maxDepth > depth ? maxDepth : depth
 
-        // Depending on whether the node has children, add them to the queue with incremented level
+        // Depending on whether the node has children, add them to the queue with incremented depth
         switch (left, right) {
         // Leaf node — no children to enqueue
         | (None, None) => breadthFirstTraverse(newMaxDepth, rest)
 
         // Only right child exists — enqueue it
         | (None, Some(rightNode)) =>
-          breadthFirstTraverse(newMaxDepth, rest->List.concat(list{(rightNode, level + 1)}))
+          breadthFirstTraverse(newMaxDepth, rest->List.concat(list{(rightNode, depth + 1)}))
 
         // Only left child exists — enqueue it
         | (Some(leftNode), None) =>
-          breadthFirstTraverse(newMaxDepth, rest->List.concat(list{(leftNode, level + 1)}))
+          breadthFirstTraverse(newMaxDepth, rest->List.concat(list{(leftNode, depth + 1)}))
 
         // Both children exist — enqueue both
         | (Some(leftNode), Some(rightNode)) =>
           breadthFirstTraverse(
             newMaxDepth,
-            rest->List.concat(list{(leftNode, level + 1), (rightNode, level + 1)}),
+            rest->List.concat(list{(leftNode, depth + 1), (rightNode, depth + 1)}),
           )
         }
       }

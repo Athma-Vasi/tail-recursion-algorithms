@@ -52,8 +52,8 @@ let averageOfLevelsInBinaryTree = (root: option<TreeNode.t<int>>) => {
       // Sum all values at the level
       let sum = values->List.reduce(0, (sumAcc, num) => sumAcc + num)
       let size = values->List.size
-      let avg = sum / size
-      list{avg, ...averages} // Prepend to averages list in reverse order
+      let average = sum / size
+      list{average, ...averages} // Prepend to averages list in reverse order
     })
     ->List.reverse
     ->List.toArray
