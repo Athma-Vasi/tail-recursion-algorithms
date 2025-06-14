@@ -9,7 +9,7 @@ let sameTree = (root1: option<TreeNode.t<int>>, root2: option<TreeNode.t<int>>) 
     curr2: option<TreeNode.t<int>>,
     stack1: list<TreeNode.t<int>>,
     stack2: list<TreeNode.t<int>>,
-  ) => {
+  ): bool => {
     // Early exit if a mismatch has already occurred
     switch areSame {
     | false => false
@@ -23,7 +23,7 @@ let sameTree = (root1: option<TreeNode.t<int>>, root2: option<TreeNode.t<int>>) 
         // One stack is empty, the other isn't — tree structures differ
         | (list{}, list{_popped2, ..._rest2}) => false
         | (list{_popped1, ..._rest1}, list{}) => false
-        // Both stacks have nodes — compare popped node values, then traverse right subnode
+        // Both stacks have nodes
         | (list{popped1, ...rest1}, list{popped2, ...rest2}) =>
           // Move to right subtree of both nodes. Continue with remaining stack
           traverse(popped1.val === popped2.val, popped1.right, popped2.right, rest1, rest2)
@@ -31,7 +31,7 @@ let sameTree = (root1: option<TreeNode.t<int>>, root2: option<TreeNode.t<int>>) 
       // One tree has a node, the other does not — structure mismatch
       | (None, Some(_node2)) => false
       | (Some(_node1), None) => false
-      // Both current nodes exist — move down the left subtree, pushing current nodes onto the stack
+      // Both current nodes exist
       | (Some(node1), Some(node2)) =>
         // Traverse left subtrees, adding curr nodes to stacks
         traverse(areSame, node1.left, node2.left, list{node1, ...stack1}, list{node2, ...stack2})
