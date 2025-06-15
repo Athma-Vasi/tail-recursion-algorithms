@@ -10,16 +10,15 @@ let univaluedBinaryTree = (root: option<TreeNode.t<int>>) => {
       | list{} => isUnivalued
       | list{popped, ...rest} => {
           let {left, right, val} = popped
-          let isUnivalued_ = val === rootVal
 
           switch (left, right) {
-          | (None, None) => preorderTraverse(isUnivalued_, rootVal, rest)
+          | (None, None) => preorderTraverse(val === rootVal, rootVal, rest)
           | (None, Some(rightNode)) =>
-            preorderTraverse(isUnivalued_, rootVal, list{rightNode, ...rest})
+            preorderTraverse(val === rootVal, rootVal, list{rightNode, ...rest})
           | (Some(leftNode), None) =>
-            preorderTraverse(isUnivalued_, rootVal, list{leftNode, ...rest})
+            preorderTraverse(val === rootVal, rootVal, list{leftNode, ...rest})
           | (Some(leftNode), Some(rightNode)) =>
-            preorderTraverse(isUnivalued_, rootVal, list{leftNode, rightNode, ...rest})
+            preorderTraverse(val === rootVal, rootVal, list{leftNode, rightNode, ...rest})
           }
         }
       }

@@ -23,8 +23,8 @@ function univaluedBinaryTree(root) {
       var popped = stack.hd;
       var right = popped.right;
       var left = popped.left;
+      var val = popped.val;
       var rest = stack.tl;
-      var isUnivalued_ = popped.val === rootVal;
       if (left !== undefined) {
         if (right !== undefined) {
           _stack = {
@@ -34,14 +34,14 @@ function univaluedBinaryTree(root) {
               tl: rest
             }
           };
-          _isUnivalued = isUnivalued_;
+          _isUnivalued = val === rootVal;
           continue ;
         }
         _stack = {
           hd: left,
           tl: rest
         };
-        _isUnivalued = isUnivalued_;
+        _isUnivalued = val === rootVal;
         continue ;
       }
       if (right !== undefined) {
@@ -49,11 +49,11 @@ function univaluedBinaryTree(root) {
           hd: right,
           tl: rest
         };
-        _isUnivalued = isUnivalued_;
+        _isUnivalued = val === rootVal;
         continue ;
       }
       _stack = rest;
-      _isUnivalued = isUnivalued_;
+      _isUnivalued = val === rootVal;
       continue ;
     };
   } else {
