@@ -26,7 +26,7 @@ function naryTreePreorderTraversal(root) {
         tl: result
       };
       if (branches !== undefined) {
-        _stack = Core__List.reduce(branches, rest, (function (acc, branch) {
+        _stack = Core__List.reduce(Core__List.reverse(branches), rest, (function (acc, branch) {
                 return {
                         hd: branch,
                         tl: acc
@@ -70,13 +70,71 @@ var r1 = naryTreePreorderTraversal(root1);
 
 console.log("r1: ", r1);
 
+var n5$1 = NaryTreeNode.make(5, undefined);
+
+var n6 = NaryTreeNode.make(6, undefined);
+
+var n7 = NaryTreeNode.make(7, undefined);
+
+var n8 = NaryTreeNode.make(8, undefined);
+
+var n9 = NaryTreeNode.make(9, undefined);
+
+var n10 = NaryTreeNode.make(10, undefined);
+
+var n2$1 = NaryTreeNode.make(2, Caml_option.some({
+          hd: n5$1,
+          tl: {
+            hd: n6,
+            tl: {
+              hd: n7,
+              tl: /* [] */0
+            }
+          }
+        }));
+
+var n3$1 = NaryTreeNode.make(3, Caml_option.some({
+          hd: n8,
+          tl: /* [] */0
+        }));
+
+var n4$1 = NaryTreeNode.make(4, Caml_option.some({
+          hd: n9,
+          tl: {
+            hd: n10,
+            tl: /* [] */0
+          }
+        }));
+
+var root2 = NaryTreeNode.make(1, Caml_option.some({
+          hd: n2$1,
+          tl: {
+            hd: n3$1,
+            tl: {
+              hd: n4$1,
+              tl: /* [] */0
+            }
+          }
+        }));
+
+var r2 = naryTreePreorderTraversal(root2);
+
+console.log("r2: ", r2);
+
 export {
   naryTreePreorderTraversal ,
-  n2 ,
-  n3 ,
-  n5 ,
-  n4 ,
   root1 ,
   r1 ,
+  n5$1 as n5,
+  n6 ,
+  n7 ,
+  n8 ,
+  n9 ,
+  n10 ,
+  n2$1 as n2,
+  n3$1 as n3,
+  n4$1 as n4,
+  root2 ,
+  r2 ,
 }
 /* n2 Not a pure module */

@@ -22,9 +22,12 @@ let maximumDepthOfNaryTree = (root: option<NaryTreeNode.t<int>>) => {
         | Some(branches) => {
             // Accumulate new stack by prepending (child, depth + 1) for each child.
             // Children are added in reverse order for efficiency since List is singly-linked.
-            let newStack = branches->List.reduce(rest, (acc, branch) => {
-              list{(branch, depth + 1), ...acc}
-            })
+            let newStack =
+              branches
+              ->List.reverse
+              ->List.reduce(rest, (acc, branch) => {
+                list{(branch, depth + 1), ...acc}
+              })
 
             // Recurse with the updated stack and max depth.
             breadthFirstTraverse(newMaxDepth, newStack)

@@ -26,7 +26,7 @@ function maximumDepthOfNaryTree(root) {
       var depth = match[1];
       var newMaxDepth = maxDepth > depth ? maxDepth : depth;
       if (branches !== undefined) {
-        var newStack = Core__List.reduce(branches, rest, (function(depth){
+        var newStack = Core__List.reduce(Core__List.reverse(branches), rest, (function(depth){
             return function (acc, branch) {
               return {
                       hd: [
