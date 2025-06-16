@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 let symmetricTree = (root: option<TreeNode.t<int>>) => {
   let rec breadthFirstTraverse = (
     levelValuesTable: Map.t<int, list<int>>,
