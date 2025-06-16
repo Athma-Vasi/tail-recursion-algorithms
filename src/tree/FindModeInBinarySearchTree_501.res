@@ -44,7 +44,7 @@ let n5 = TreeNode.make(
 let n15 = TreeNode.make(~val=15, ~right=Some(TreeNode.make(~val=18)))
 let root1 = Some(TreeNode.make(~val=10, ~left=Some(n5), ~right=Some(n15)))
 let r1 = findModeInBinarySearchTree(root1)
-Console.log2("r1: ", r1)
+Console.log2("r1: ", r1) // []
 
 let symmetric = Some(
   TreeNode.make(
@@ -58,4 +58,4 @@ let symmetric = Some(
   ),
 )
 let r2 = findModeInBinarySearchTree(symmetric)
-Console.log2("r2: ", r2)
+Console.log2("r2: ", r2) // [3, 2, 4]
