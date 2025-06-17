@@ -45,14 +45,12 @@ let evaluateBooleanBinaryTree = (root: option<TreeNode.t<int>>) => {
             idx,
           ) => {
             let (leftBool, rightBool) = acc
-            idx === 0 ? (curr, rightBool) : (leftBool, curr)
+            idx === 1 ? (curr, rightBool) : (leftBool, curr)
           })
 
           // Apply operator: 2 = OR, anything else (assumed 3) = AND
           switch val {
-          // OR
           | 2 => processResults(list{leftBool || rightBool}, rest)
-          // AND
           | _ => processResults(list{leftBool && rightBool}, rest)
           }
         }

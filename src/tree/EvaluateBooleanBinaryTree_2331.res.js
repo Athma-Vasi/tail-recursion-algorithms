@@ -96,7 +96,7 @@ function evaluateBooleanBinaryTree(root) {
             false,
             false
           ], (function (acc, curr, idx) {
-              if (idx === 0) {
+              if (idx === 1) {
                 return [
                         curr,
                         acc[1]
