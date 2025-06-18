@@ -105,7 +105,8 @@ function minNumberOfOpsToSortBinaryTreeByLevel(root) {
               return p;
             }));
       valuesPositionsTable.set(originalValue, currPosition);
-      var updatedCloned = cloned.map((function(originalValue,currPosition){
+      _index = index + 1 | 0;
+      _cloned = cloned.map((function(originalValue,currPosition){
           return function (val, idx) {
             if (idx === currPosition) {
               return originalValue;
@@ -114,8 +115,6 @@ function minNumberOfOpsToSortBinaryTreeByLevel(root) {
             }
           }
           }(originalValue,currPosition)));
-      _index = index + 1 | 0;
-      _cloned = updatedCloned;
       _swaps = swaps + 1 | 0;
       continue ;
     };

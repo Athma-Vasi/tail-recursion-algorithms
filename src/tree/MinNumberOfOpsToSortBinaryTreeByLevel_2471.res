@@ -17,7 +17,7 @@ let minNumberOfOpsToSortBinaryTreeByLevel = (root: option<TreeNode.t<int>>) => {
         let values =
           levelValuesTable
           ->Map.get(level)
-          // Values currently in reverse-order
+          // Values currently in right-to-left order for efficiency
           ->Option.mapOr(list{val}, vals => list{val, ...vals})
         // Mutates map to update values for the current level
         levelValuesTable->Map.set(level, values)
@@ -66,11 +66,17 @@ let minNumberOfOpsToSortBinaryTreeByLevel = (root: option<TreeNode.t<int>>) => {
                 valuesPositionsTable->Map.get(sortedValue)->Option.mapOr(-1, p => p)
               // Update the position map for the swapped value
               valuesPositionsTable->Map.set(originalValue, currPosition)
-              // Swap in the cloned array
-              let updatedCloned =
-                cloned->Array.mapWithIndex((val, idx) => idx === currPosition ? originalValue : val)
 
-              minSwaps(swaps + 1, valuesPositionsTable, updatedCloned, sorted, index + 1)
+              minSwaps(
+                swaps + 1,
+                valuesPositionsTable,
+                // Swap in the cloned array
+                cloned->Array.mapWithIndex((val, idx) =>
+                  idx === currPosition ? originalValue : val
+                ),
+                sorted,
+                index + 1,
+              )
             }
           }
         }
@@ -100,7 +106,7 @@ let minNumberOfOpsToSortBinaryTreeByLevel = (root: option<TreeNode.t<int>>) => {
     ->Array.fromIterator
     // Calculate swaps for each level and sum
     ->Array.reduce(0, (acc, curr) => {
-      // Reverse values to original left-to-right
+      // Reverse values to left-to-right before calculating swaps
       acc + getMinimumSwaps(curr->List.reverse->List.toArray)
     })
   }
