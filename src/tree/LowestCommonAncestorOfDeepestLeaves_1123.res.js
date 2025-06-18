@@ -132,10 +132,10 @@ function lowestCommonAncestorOfDeepestLeaves(root) {
       }
       _rpnStack = rest;
       _evaluationStack = /* [] */0;
-      _ancestorsStack = depth === (maxDepth - 1 | 0) ? Core__List.reduce({
+      _ancestorsStack = depth === (maxDepth - 1 | 0) ? Core__List.reduce(evaluationStack, {
               hd: val,
-              tl: evaluationStack
-            }, ancestorsStack, (function (acc, curr) {
+              tl: ancestorsStack
+            }, (function (acc, curr) {
                 return {
                         hd: curr,
                         tl: acc

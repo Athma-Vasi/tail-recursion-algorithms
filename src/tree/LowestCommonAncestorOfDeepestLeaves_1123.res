@@ -56,10 +56,9 @@ let lowestCommonAncestorOfDeepestLeaves = (root: option<TreeNode.t<int>>) => {
     ancestorsStack: list<int>, // Final result list of LCA candidates
     evaluationStack: list<int>, // Temporarily holds deepest leaf values
     maxDepth: int, // Max depth found in traversal
+    // The stack to evaluate
     rpnStack: list<(int, int, nodeKind)>,
   ) => {
-    // The stack to evaluate
-
     switch rpnStack {
     // Done processing — return all accumulated LCA candidates
     | list{} => ancestorsStack
@@ -69,17 +68,17 @@ let lowestCommonAncestorOfDeepestLeaves = (root: option<TreeNode.t<int>>) => {
       // Deepest leaf node: push onto evaluation stack
       | (true, Leaf) =>
         processRPNStack(ancestorsStack, list{val, ...evaluationStack}, maxDepth, rest)
-      // Deepest internal node: ignore, just continue
+      // Not possible path: skip
       | (true, Branch) => processRPNStack(ancestorsStack, evaluationStack, maxDepth, rest)
       // Non-deepest leaf: skip
       | (false, Leaf) => processRPNStack(ancestorsStack, evaluationStack, maxDepth, rest)
-      // Non-deepest internal node
+      // Possible ancestor of deepest leaves
       | (false, Branch) =>
         processRPNStack(
           // If it's one level above max depth, reduce the evaluation stack
           // and treat current node as an ancestor candidate
           depth === maxDepth - 1
-            ? list{val, ...evaluationStack}->List.reduce(ancestorsStack, (acc, curr) => {
+            ? evaluationStack->List.reduce(list{val, ...ancestorsStack}, (acc, curr) => {
                 list{curr, ...acc}
               })
             : ancestorsStack,
