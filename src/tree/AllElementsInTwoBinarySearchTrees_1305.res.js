@@ -86,7 +86,7 @@ function allElementsInTwoBinarySearchTrees(root1, root2) {
       continue ;
     };
   };
-  return Core__List.toArray(Core__List.reverse(inorderTraverse(/* [] */0, root1, root2, /* [] */0, /* [] */0)));
+  return Core__List.reverse(inorderTraverse(/* [] */0, root1, root2, /* [] */0, /* [] */0));
 }
 
 var n5 = TreeNode.make(5, Caml_option.some(TreeNode.make(3, undefined, undefined)), Caml_option.some(TreeNode.make(7, undefined, undefined)));

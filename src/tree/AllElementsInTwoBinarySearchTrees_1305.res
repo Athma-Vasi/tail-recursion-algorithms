@@ -46,7 +46,7 @@ let allElementsInTwoBinarySearchTrees = (
     }
   }
 
-  inorderTraverse(list{}, root1, root2, list{}, list{})->List.reverse->List.toArray
+  inorderTraverse(list{}, root1, root2, list{}, list{})->List.reverse
 }
 
 let n5 = TreeNode.make(
