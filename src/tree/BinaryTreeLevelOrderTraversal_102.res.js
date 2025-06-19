@@ -7,18 +7,18 @@ import * as Core__Array from "@rescript/core/src/Core__Array.res.js";
 import * as Core__Option from "@rescript/core/src/Core__Option.res.js";
 
 function binaryTreeLevelOrderTraversal(root) {
-  var traverse = function (levelValuesTable, _queue) {
+  var traverse = function (levelValuesTable, _stack) {
     while(true) {
-      var queue = _queue;
-      if (!queue) {
+      var stack = _stack;
+      if (!stack) {
         return levelValuesTable;
       }
-      var match = queue.hd;
+      var match = stack.hd;
       var node = match[0];
       var right = node.right;
       var left = node.left;
       var val = node.val;
-      var rest = queue.tl;
+      var rest = stack.tl;
       var level = match[1];
       var values = Core__Option.mapOr(levelValuesTable.get(level), {
             hd: val,
@@ -34,41 +34,41 @@ function binaryTreeLevelOrderTraversal(root) {
       levelValuesTable.set(level, values);
       if (left !== undefined) {
         if (right !== undefined) {
-          _queue = Core__List.concat(rest, {
-                hd: [
-                  left,
-                  level + 1 | 0
-                ],
-                tl: {
-                  hd: [
-                    right,
-                    level + 1 | 0
-                  ],
-                  tl: /* [] */0
-                }
-              });
-          continue ;
-        }
-        _queue = Core__List.concat(rest, {
-              hd: [
-                left,
-                level + 1 | 0
-              ],
-              tl: /* [] */0
-            });
-        continue ;
-      }
-      if (right !== undefined) {
-        _queue = Core__List.concat(rest, {
+          _stack = {
+            hd: [
+              left,
+              level + 1 | 0
+            ],
+            tl: {
               hd: [
                 right,
                 level + 1 | 0
               ],
-              tl: /* [] */0
-            });
+              tl: rest
+            }
+          };
+          continue ;
+        }
+        _stack = {
+          hd: [
+            left,
+            level + 1 | 0
+          ],
+          tl: rest
+        };
         continue ;
       }
-      _queue = rest;
+      if (right !== undefined) {
+        _stack = {
+          hd: [
+            right,
+            level + 1 | 0
+          ],
+          tl: rest
+        };
+        continue ;
+      }
+      _stack = rest;
       continue ;
     };
   };

@@ -1,12 +1,12 @@
-// T(n) = O(n^2)
+// T(n) = O(n)
 // S(n) = O(n)
 
 let binaryTreeLevelOrderTraversal = (root: option<TreeNode.t<int>>) => {
   let rec traverse = (
     levelValuesTable: Map.t<int, list<int>>,
-    queue: list<(TreeNode.t<int>, int)>,
+    stack: list<(TreeNode.t<int>, int)>,
   ) => {
-    switch queue {
+    switch stack {
     | list{} => levelValuesTable
     | list{(node, level), ...rest} => {
         let {left, right, val} = node
@@ -17,14 +17,10 @@ let binaryTreeLevelOrderTraversal = (root: option<TreeNode.t<int>>) => {
         switch (left, right) {
         | (None, None) => traverse(levelValuesTable, rest)
         | (None, Some(rightNode)) =>
-          traverse(levelValuesTable, rest->List.concat(list{(rightNode, level + 1)}))
-        | (Some(leftNode), None) =>
-          traverse(levelValuesTable, rest->List.concat(list{(leftNode, level + 1)}))
+          traverse(levelValuesTable, list{(rightNode, level + 1), ...rest})
+        | (Some(leftNode), None) => traverse(levelValuesTable, list{(leftNode, level + 1), ...rest})
         | (Some(leftNode), Some(rightNode)) =>
-          traverse(
-            levelValuesTable,
-            rest->List.concat(list{(leftNode, level + 1), (rightNode, level + 1)}),
-          )
+          traverse(levelValuesTable, list{(leftNode, level + 1), (rightNode, level + 1), ...rest})
         }
       }
     }
