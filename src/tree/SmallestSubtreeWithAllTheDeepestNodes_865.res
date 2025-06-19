@@ -109,4 +109,4 @@ let node5 = TreeNode.make(~val=5, ~left=Some(node6), ~right=Some(node2))
 let node1 = TreeNode.make(~val=1, ~left=Some(node0), ~right=Some(node8))
 let root = Some(TreeNode.make(~val=3, ~left=Some(node5), ~right=Some(node1)))
 let r1 = smallestSubtreeWithAllTheDeepestNodes(root)
-Console.log2("r1: ", r1)
+Console.log2("r1: ", r1) // [2, 7, 4]
