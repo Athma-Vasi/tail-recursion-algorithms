@@ -26,18 +26,18 @@ function sumRootToLeafNumbers(root) {
       var right = node.right;
       var left = node.left;
       var rest = stack.tl;
-      var newCollected = match[1] + node.val.toString();
+      var concatenated = match[1] + node.val.toString();
       if (left !== undefined) {
         if (right !== undefined) {
           _stack = {
             hd: [
               left,
-              newCollected
+              concatenated
             ],
             tl: {
               hd: [
                 right,
-                newCollected
+                concatenated
               ],
               tl: rest
             }
@@ -47,7 +47,7 @@ function sumRootToLeafNumbers(root) {
         _stack = {
           hd: [
             left,
-            newCollected
+            concatenated
           ],
           tl: rest
         };
@@ -57,14 +57,14 @@ function sumRootToLeafNumbers(root) {
         _stack = {
           hd: [
             right,
-            newCollected
+            concatenated
           ],
           tl: rest
         };
         continue ;
       }
       _stack = rest;
-      _sum = sum + Core__Option.mapOr(Core__Int.fromString(newCollected, undefined), 0, (function (s) {
+      _sum = sum + Core__Option.mapOr(Core__Int.fromString(concatenated, undefined), 0, (function (s) {
               return s;
             })) | 0;
       continue ;

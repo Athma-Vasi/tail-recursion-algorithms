@@ -7,15 +7,15 @@ let sumRootToLeafNumbers = (root: option<TreeNode.t<int>>) => {
     | list{} => sum
     | list{(node, collected), ...rest} => {
         let {left, right, val} = node
-        let newCollected = collected ++ Int.toString(val)
+        let concatenated = collected ++ Int.toString(val)
 
         switch (left, right) {
         | (None, None) =>
-          preorderTraverse(sum + Int.fromString(newCollected)->Option.mapOr(0, s => s), rest)
-        | (None, Some(rightNode)) => preorderTraverse(sum, list{(rightNode, newCollected), ...rest})
-        | (Some(leftNode), None) => preorderTraverse(sum, list{(leftNode, newCollected), ...rest})
+          preorderTraverse(sum + Int.fromString(concatenated)->Option.mapOr(0, s => s), rest)
+        | (None, Some(rightNode)) => preorderTraverse(sum, list{(rightNode, concatenated), ...rest})
+        | (Some(leftNode), None) => preorderTraverse(sum, list{(leftNode, concatenated), ...rest})
         | (Some(leftNode), Some(rightNode)) =>
-          preorderTraverse(sum, list{(leftNode, newCollected), (rightNode, newCollected), ...rest})
+          preorderTraverse(sum, list{(leftNode, concatenated), (rightNode, concatenated), ...rest})
         }
       }
     }
