@@ -1,3 +1,6 @@
+// T(n) = O(n)
+// S(n) = O(n)
+
 type nodeKind = Leaf | Branch
 
 // Computes the most frequent subtree sum(s) in a binary tree.
