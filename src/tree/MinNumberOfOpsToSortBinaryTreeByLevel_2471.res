@@ -1,4 +1,4 @@
-// T(n) = O(n)
+// T(n) = O(n^2)
 // S(n) = O(n)
 
 let minNumberOfOpsToSortBinaryTreeByLevel = (root: option<TreeNode.t<int>>) => {
