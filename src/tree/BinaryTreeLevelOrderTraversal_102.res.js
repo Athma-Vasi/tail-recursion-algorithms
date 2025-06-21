@@ -7,19 +7,19 @@ import * as Core__Array from "@rescript/core/src/Core__Array.res.js";
 import * as Core__Option from "@rescript/core/src/Core__Option.res.js";
 
 function binaryTreeLevelOrderTraversal(root) {
-  var traverse = function (levelValuesTable, _stack) {
+  var breadthFirstTraverse = function (levelValuesTable, _queue) {
     while(true) {
-      var stack = _stack;
-      if (!stack) {
+      var queue = _queue;
+      var match = queue.at(0);
+      if (match === undefined) {
         return levelValuesTable;
       }
-      var match = stack.hd;
+      var level = match[1];
       var node = match[0];
+      var rest = queue.slice(1);
       var right = node.right;
       var left = node.left;
       var val = node.val;
-      var rest = stack.tl;
-      var level = match[1];
       var values = Core__Option.mapOr(levelValuesTable.get(level), {
             hd: val,
             tl: /* [] */0
@@ -34,52 +34,41 @@ function binaryTreeLevelOrderTraversal(root) {
       levelValuesTable.set(level, values);
       if (left !== undefined) {
         if (right !== undefined) {
-          _stack = {
-            hd: [
-              left,
-              level + 1 | 0
-            ],
-            tl: {
-              hd: [
+          rest.push([
+                left,
+                level + 1 | 0
+              ]);
+          rest.push([
                 right,
                 level + 1 | 0
-              ],
-              tl: rest
-            }
-          };
+              ]);
+          _queue = rest;
           continue ;
         }
-        _stack = {
-          hd: [
-            left,
-            level + 1 | 0
-          ],
-          tl: rest
-        };
+        rest.push([
+              left,
+              level + 1 | 0
+            ]);
+        _queue = rest;
         continue ;
       }
       if (right !== undefined) {
-        _stack = {
-          hd: [
-            right,
-            level + 1 | 0
-          ],
-          tl: rest
-        };
+        rest.push([
+              right,
+              level + 1 | 0
+            ]);
+        _queue = rest;
         continue ;
       }
-      _stack = rest;
+      _queue = rest;
       continue ;
     };
   };
   if (root !== undefined) {
-    return Core__List.toArray(Core__List.reverse(Core__Array.reduce(Array.from(traverse(new Map(), {
-                                  hd: [
+    return Core__List.toArray(Core__List.reverse(Core__Array.reduce(Array.from(breadthFirstTraverse(new Map(), [[
                                     root,
                                     0
-                                  ],
-                                  tl: /* [] */0
-                                }).values()), /* [] */0, (function (acc, values) {
+                                  ]]).values()), /* [] */0, (function (acc, values) {
                           return {
                                   hd: Core__List.toArray(Core__List.reverse(values)),
                                   tl: acc

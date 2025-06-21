@@ -37,7 +37,7 @@ let binaryTreeLevelOrderTraversal = (root: option<TreeNode.t<int>>) => {
   switch root {
   | None => []
   | Some(node) =>
-    breadthFirstTraverse(Map.make(), list{(node, 0)})
+    breadthFirstTraverse(Map.make(), [(node, 0)])
     ->Map.values
     ->Array.fromIterator
     ->Array.reduce(list{}, (acc, values) => {
