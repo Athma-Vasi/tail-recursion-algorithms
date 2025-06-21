@@ -97,9 +97,9 @@ function mostFrequentSubtreeSum(root) {
         _rpnStack = rest;
         continue ;
       }
-      var subtreeSum = Core__List.reduce(evaluationStack, 0, (function (acc, num) {
+      var subtreeSum = Core__List.reduce(evaluationStack, val, (function (acc, num) {
               return acc + num | 0;
-            })) + val | 0;
+            }));
       var freq$1 = Core__Option.mapOr(freqTable.get(subtreeSum), 1, (function (f) {
               return f + 1 | 0;
             }));

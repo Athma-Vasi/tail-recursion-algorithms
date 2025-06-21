@@ -10,9 +10,9 @@ let mostFrequentSubtreeSum = (root: option<TreeNode.t<int>>) => {
   // recording both the value and whether the node is a leaf or branch.
   let rec postorderTraverse = (
     rpnStack: list<(int, nodeKind)>, // Accumulates node values in postorder
+    // Stack for manual tree traversal
     workingStack: list<TreeNode.t<int>>,
-  ): // Stack for manual tree traversal
-  list<(int, nodeKind)> => {
+  ): list<(int, nodeKind)> => {
     switch workingStack {
     // Traversal is done
     | list{} => rpnStack
@@ -68,7 +68,7 @@ let mostFrequentSubtreeSum = (root: option<TreeNode.t<int>>) => {
       // Branch: simulate RPN evaluation by combining top values
       | Branch => {
           // Compute sum of this branch: left + right + current node value
-          let subtreeSum = evaluationStack->List.reduce(0, (acc, num) => acc + num) + val
+          let subtreeSum = evaluationStack->List.reduce(val, (acc, num) => acc + num)
 
           // Update frequency table
           let freq = freqTable->Map.get(subtreeSum)->Option.mapOr(1, f => f + 1)
