@@ -1,26 +1,34 @@
 // T(n) = O(n)
 // S(n) = O(n)
-
 let binaryTreeLevelOrderTraversal = (root: option<TreeNode.t<int>>) => {
-  let rec traverse = (
+  let rec breadthFirstTraverse = (
     levelValuesTable: Map.t<int, list<int>>,
-    stack: list<(TreeNode.t<int>, int)>,
+    queue: array<(TreeNode.t<int>, int)>,
   ) => {
-    switch stack {
-    | list{} => levelValuesTable
-    | list{(node, level), ...rest} => {
+    switch queue->Array.at(0) {
+    | None => levelValuesTable
+    | Some((node, level)) => {
+        let rest = queue->Array.sliceToEnd(~start=1)
         let {left, right, val} = node
         let values =
           levelValuesTable->Map.get(level)->Option.mapOr(list{val}, vals => list{val, ...vals})
         levelValuesTable->Map.set(level, values)
 
         switch (left, right) {
-        | (None, None) => traverse(levelValuesTable, rest)
-        | (None, Some(rightNode)) =>
-          traverse(levelValuesTable, list{(rightNode, level + 1), ...rest})
-        | (Some(leftNode), None) => traverse(levelValuesTable, list{(leftNode, level + 1), ...rest})
-        | (Some(leftNode), Some(rightNode)) =>
-          traverse(levelValuesTable, list{(leftNode, level + 1), (rightNode, level + 1), ...rest})
+        | (None, None) => breadthFirstTraverse(levelValuesTable, rest)
+        | (None, Some(rightNode)) => {
+            rest->Array.push((rightNode, level + 1))
+            breadthFirstTraverse(levelValuesTable, rest)
+          }
+        | (Some(leftNode), None) => {
+            rest->Array.push((leftNode, level + 1))
+            breadthFirstTraverse(levelValuesTable, rest)
+          }
+        | (Some(leftNode), Some(rightNode)) => {
+            rest->Array.push((leftNode, level + 1))
+            rest->Array.push((rightNode, level + 1))
+            breadthFirstTraverse(levelValuesTable, rest)
+          }
         }
       }
     }
@@ -29,7 +37,7 @@ let binaryTreeLevelOrderTraversal = (root: option<TreeNode.t<int>>) => {
   switch root {
   | None => []
   | Some(node) =>
-    traverse(Map.make(), list{(node, 0)})
+    breadthFirstTraverse(Map.make(), list{(node, 0)})
     ->Map.values
     ->Array.fromIterator
     ->Array.reduce(list{}, (acc, values) => {
