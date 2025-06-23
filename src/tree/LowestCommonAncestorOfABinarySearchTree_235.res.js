@@ -74,32 +74,68 @@ function lowestCommonAncestorOfABinarySearchTree(root, p, q) {
     };
   };
   if (root !== undefined) {
-    var _lowestCommonAncestor;
-    var _evaluationStack = /* [] */0;
     var _rpnStack = postorderTraverse(/* [] */0, {
           hd: root,
           tl: /* [] */0
         });
+    var _lowestCommonAncestor;
+    var _evaluationStack = /* [] */0;
     while(true) {
-      var rpnStack = _rpnStack;
       var evaluationStack = _evaluationStack;
       var lowestCommonAncestor = _lowestCommonAncestor;
+      var rpnStack = _rpnStack;
       if (!rpnStack) {
         return lowestCommonAncestor;
       }
       var rest = rpnStack.tl;
       var match = rpnStack.hd;
+      var nodeKind = match[1];
       var val = match[0];
-      if (match[1] === "Leaf") {
-        _rpnStack = rest;
+      if (nodeKind === "Leaf") {
         _evaluationStack = {
-          hd: val,
+          hd: [
+            val,
+            nodeKind
+          ],
           tl: evaluationStack
         };
+        _rpnStack = rest;
         continue ;
       }
-      var isLCA = Core__List.size(evaluationStack) < 2 ? false : Core__List.size(Core__List.reduce(evaluationStack, /* [] */0, (function (acc, num) {
-                    if (num === p || num === q) {
+      var match$1 = Core__List.reduceWithIndex(evaluationStack, [
+            /* [] */0,
+            /* [] */0
+          ], (function (acc, curr, idx) {
+              var nodeKind = curr[1];
+              var sliced = acc[1];
+              var topLeaves = acc[0];
+              var match = idx < 2;
+              if (match && nodeKind === "Leaf") {
+                return [
+                        {
+                          hd: [
+                            curr[0],
+                            nodeKind
+                          ],
+                          tl: topLeaves
+                        },
+                        sliced
+                      ];
+              } else {
+                return [
+                        topLeaves,
+                        {
+                          hd: curr,
+                          tl: sliced
+                        }
+                      ];
+              }
+            }));
+      var topLeaves = match$1[0];
+      var original = Core__List.reverse(match$1[1]);
+      var isLCA = Core__List.size(topLeaves) < 2 ? false : Core__List.size(Core__List.reduce(topLeaves, /* [] */0, (function (acc, param) {
+                    var val = param[0];
+                    if (val === p || val === q) {
                       return {
                               hd: true,
                               tl: acc
@@ -108,22 +144,15 @@ function lowestCommonAncestorOfABinarySearchTree(root, p, q) {
                       return acc;
                     }
                   }))) === 2;
-      var sliced = Core__List.reduceWithIndex(evaluationStack, /* [] */0, (function (acc, curr, idx) {
-              if (idx === 0 || idx === 1) {
-                return acc;
-              } else {
-                return {
-                        hd: curr,
-                        tl: acc
-                      };
-              }
-            }));
-      _rpnStack = rest;
       _evaluationStack = {
-        hd: val,
-        tl: sliced
+        hd: [
+          val,
+          "Leaf"
+        ],
+        tl: original
       };
       _lowestCommonAncestor = isLCA ? val : lowestCommonAncestor;
+      _rpnStack = rest;
       continue ;
     };
   }
