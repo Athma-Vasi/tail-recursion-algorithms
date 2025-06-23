@@ -20,9 +20,9 @@ function lowestCommonAncestorOfABinarySearchTree(root, p, q) {
       if (left !== undefined) {
         if (right !== undefined) {
           _workingStack = {
-            hd: left,
+            hd: right,
             tl: {
-              hd: right,
+              hd: left,
               tl: rest
             }
           };

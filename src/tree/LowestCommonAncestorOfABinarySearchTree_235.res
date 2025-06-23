@@ -38,7 +38,7 @@ let lowestCommonAncestorOfABinarySearchTree = (
 
         // Both children: push value with Branch tag, process left and right next
         | (Some(leftNode), Some(rightNode)) =>
-          postorderTraverse(list{(val, Branch), ...rpnStack}, list{leftNode, rightNode, ...rest})
+          postorderTraverse(list{(val, Branch), ...rpnStack}, list{rightNode, leftNode, ...rest})
         }
       }
     }
