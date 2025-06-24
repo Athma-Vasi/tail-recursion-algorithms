@@ -15,7 +15,7 @@ let lowestCommonAncestorOfABinaryTree_III = (root: option<TreeNode.t<int>>, p: i
   ) => {
     switch stack {
     // No more nodes to explore: value not found
-    | list{} => pathToRoot
+    | list{} => pathToRoot->List.reverse
 
     // Pop current node and continue traversal
     | list{(node, pathSoFar), ...rest} => {
@@ -24,8 +24,8 @@ let lowestCommonAncestorOfABinaryTree_III = (root: option<TreeNode.t<int>>, p: i
         let newPath = list{val, ...pathSoFar}
 
         switch val === valueToFind {
-        // Found the target node: return the full path
-        | true => newPath
+        // Found the target node
+        | true => preorderTraverse(newPath, valueToFind, rest)
 
         // Keep exploring children
         | false =>
@@ -73,8 +73,8 @@ let lowestCommonAncestorOfABinaryTree_III = (root: option<TreeNode.t<int>>, p: i
   | None => Int32.min_int // Invalid case
   | Some(node) => {
       // Find paths from root to p and q
-      let pPath = preorderTraverse(list{}, p, list{(node, list{})})->List.reverse
-      let qPath = preorderTraverse(list{}, q, list{(node, list{})})->List.reverse
+      let pPath = preorderTraverse(list{}, p, list{(node, list{})})
+      let qPath = preorderTraverse(list{}, q, list{(node, list{})})
       // Return the last common node in both paths
       findLastMatchingElement(pPath, qPath)
     }

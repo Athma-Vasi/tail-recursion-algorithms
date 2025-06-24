@@ -7,11 +7,12 @@ import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as Core__Option from "@rescript/core/src/Core__Option.res.js";
 
 function lowestCommonAncestorOfABinaryTree_III(root, p, q) {
-  var preorderTraverse = function (pathToRoot, valueToFind, _stack) {
+  var preorderTraverse = function (_pathToRoot, valueToFind, _stack) {
     while(true) {
       var stack = _stack;
+      var pathToRoot = _pathToRoot;
       if (!stack) {
-        return pathToRoot;
+        return Core__List.reverse(pathToRoot);
       }
       var match = stack.hd;
       var node = match[0];
@@ -25,7 +26,9 @@ function lowestCommonAncestorOfABinaryTree_III(root, p, q) {
         tl: newPath_1
       };
       if (val === valueToFind) {
-        return newPath;
+        _stack = rest;
+        _pathToRoot = newPath;
+        continue ;
       }
       if (left !== undefined) {
         if (right !== undefined) {
@@ -70,20 +73,20 @@ function lowestCommonAncestorOfABinaryTree_III(root, p, q) {
   if (root === undefined) {
     return Int32.min_int;
   }
-  var pPath = Core__List.reverse(preorderTraverse(/* [] */0, p, {
-            hd: [
-              root,
-              /* [] */0
-            ],
-            tl: /* [] */0
-          }));
-  var qPath = Core__List.reverse(preorderTraverse(/* [] */0, q, {
-            hd: [
-              root,
-              /* [] */0
-            ],
-            tl: /* [] */0
-          }));
+  var pPath = preorderTraverse(/* [] */0, p, {
+        hd: [
+          root,
+          /* [] */0
+        ],
+        tl: /* [] */0
+      });
+  var qPath = preorderTraverse(/* [] */0, q, {
+        hd: [
+          root,
+          /* [] */0
+        ],
+        tl: /* [] */0
+      });
   var _stack = /* [] */0;
   var _index = 0;
   while(true) {
