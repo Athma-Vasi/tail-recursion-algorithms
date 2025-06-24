@@ -1,3 +1,9 @@
+// T(n) = O(k·n + k·h)
+// Where: n is the number of nodes in the tree
+// k is the number of target nodes in nodes
+// h is the height of the tree (bounded by n)
+// S(n) = O(k·h)
+
 let lowestCommonAncestorOfABinaryTree_IV = (root: option<TreeNode.t<int>>, nodes: array<int>) => {
   // Traverses the binary tree in preorder (root, left, right) to find the path
   // from the root to a specific target value. If found, returns the path as a list of node values.
