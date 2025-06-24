@@ -103,8 +103,8 @@ function lowestCommonAncestorOfABinaryTree_IV(root, nodes) {
                 acc.add(node);
                 return acc;
               } else {
-                acc.add(0);
-                acc.add(0);
+                acc.add(Int32.min_int);
+                acc.add(Int32.max_int);
                 return acc;
               }
             }

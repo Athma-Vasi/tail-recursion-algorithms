@@ -61,8 +61,8 @@ let lowestCommonAncestorOfABinaryTree_IV = (root: option<TreeNode.t<int>>, nodes
         switch path->List.get(nodeIdx) {
         | None => {
             // Force mismatch by adding duplicate
-            acc->Set.add(0)
-            acc->Set.add(0)
+            acc->Set.add(Int32.min_int)
+            acc->Set.add(Int32.max_int)
             acc
           }
         | Some(node) => {
