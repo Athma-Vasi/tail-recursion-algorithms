@@ -13,10 +13,9 @@ let checkIfTwoExpressionTreesAreEquivalent = (
     curr1: option<TreeNode.t<string>>, // current node in tree 1
     curr2: option<TreeNode.t<string>>, // current node in tree 2
     stack1: list<TreeNode.t<string>>, // traversal stack for tree 1
+    // traversal stack for tree 2
     stack2: list<TreeNode.t<string>>,
   ) => {
-    // traversal stack for tree 2
-
     switch (curr1, curr2) {
     // Both current nodes are None, need to process top of stacks
     | (None, None) =>
