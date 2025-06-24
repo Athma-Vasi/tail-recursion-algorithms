@@ -146,3 +146,22 @@ let tree: option<TreeNode.t<int>> = Some(
 )
 let r1 = lowestCommonAncestorOfABinarySearchTree(tree, 2, 8)
 Console.log2("r1: ", r1) // 6
+
+// for binary search trees:
+// let rec traverse = (lca: option<int>, curr: option<TreeNode.t<int>>) => {
+//   switch curr {
+//   | None => lca
+//   | Some(node) => {
+//       let {left, right, val} = node
+//       switch (p < val, q < val, p > val, q > val) {
+//       // both smaller, go left
+//       | (true, true, _, _) => traverse(lca, left)
+//       // both greater, go right
+//       | (_, _, true, true) => traverse(lca, right)
+//       // diverge: found lowest common ancestor
+//       | _ => traverse(Some(val), None)
+//       }
+//     }
+//   }
+// }
+// traverse(None, root)
