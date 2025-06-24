@@ -10,10 +10,9 @@ let lowestCommonAncestorOfABinaryTree_III = (root: option<TreeNode.t<int>>, p: i
   let rec preorderTraverse = (
     pathToRoot: list<int>, // Unused if early exit occurs
     valueToFind: int,
+    // Stack holds (node, path so far)
     stack: list<(TreeNode.t<int>, list<int>)>,
   ) => {
-    // Stack holds (node, path so far)
-
     switch stack {
     // No more nodes to explore: value not found
     | list{} => pathToRoot
