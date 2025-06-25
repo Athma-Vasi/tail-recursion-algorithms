@@ -142,38 +142,39 @@ function countUnivalueSubtrees(root) {
             }
           }
           }(leavesCount)));
-      var sliced = match$1[1];
-      var topLeaves = match$1[0];
-      var match$2 = Core__List.reduce(topLeaves, [
-            new Set(),
+      var match$2 = Core__List.reduce(match$1[0], [
+            /* [] */0,
             univalueCount
-          ], (function(val){
-          return function (acc, param) {
-            var univalueChecks = acc[0];
-            univalueChecks.add(param[0] === val);
-            return [
-                    univalueChecks,
-                    acc[1] + param[1] | 0
-                  ];
-          }
-          }(val)));
-      var withLeaves = match$2[1];
-      var univalueChecks = match$2[0];
-      var newCount = univalueChecks.has(false) ? withLeaves : withLeaves + 1 | 0;
-      console.log("\n");
-      console.log("topLeaves", Core__List.toArray(topLeaves));
-      console.log("sliced", Core__List.toArray(sliced));
-      console.log("univalueChecks", univalueChecks);
-      console.log("withLeaves", withLeaves);
-      console.log("newCount", newCount);
-      console.log("rest", Core__List.toArray(rest));
+          ], (function (acc, param) {
+              return [
+                      {
+                        hd: param[0],
+                        tl: acc[0]
+                      },
+                      acc[1] + param[1] | 0
+                    ];
+            }));
+      var countWithLeaves = match$2[1];
+      var leavesValues = match$2[0];
+      var newCount;
+      if (leavesValues) {
+        var restLeaves = leavesValues.tl;
+        var topLeaf = leavesValues.hd;
+        newCount = restLeaves ? (
+            val === topLeaf && val === restLeaves.hd ? countWithLeaves + 1 | 0 : countWithLeaves
+          ) : (
+            val === topLeaf ? countWithLeaves + 1 | 0 : countWithLeaves
+          );
+      } else {
+        newCount = countWithLeaves;
+      }
       _evaluationStack = {
         hd: [
           val,
           "Leaf",
           newCount
         ],
-        tl: sliced
+        tl: match$1[1]
       };
       _leavesCount = 0;
       _univalueCount = newCount;
