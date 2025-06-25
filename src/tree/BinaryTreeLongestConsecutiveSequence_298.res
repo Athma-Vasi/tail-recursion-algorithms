@@ -1,3 +1,6 @@
+// T(n) = O(n * log(n))
+// S(n) = O(n)
+
 let binaryTreeLongestConsecutiveSequence = (root: option<TreeNode.t<int>>) => {
   // Performs a preorder traversal to find all downward consecutive sequences in the binary tree
   let rec preorderTraverse = (
