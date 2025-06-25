@@ -90,10 +90,7 @@ let maximumAverageSubtree = (root: option<TreeNode.t<int>>) => {
               let avg = (val + topLeaf) / 2
               // Determine max among the single leaf value, average, and current maxAverage
               let newMaxAverage =
-                [topLeaf, avg, maxAverage]
-                ->Array.toSorted((a1, a2) => Int.compare(a2, a1)) // Sort descending
-                ->Array.at(0) // Select max value
-                ->Option.getOr(-1) // Default fallback
+                [topLeaf, avg, maxAverage]->Array.reduce(-2, (max, curr) => max > curr ? max : curr)
 
               switch restLeaves {
               // Only one leaf subtree exists: update stack with new max average
@@ -104,10 +101,9 @@ let maximumAverageSubtree = (root: option<TreeNode.t<int>>) => {
                   let avg = (val + topLeaf + nextTopLeaf) / 3
                   // Determine max among the two leaf values, their combined average, and maxAverage
                   let newMaxAverage =
-                    [topLeaf, nextTopLeaf, avg, maxAverage]
-                    ->Array.toSorted((a1, a2) => Int.compare(a2, a1))
-                    ->Array.at(0)
-                    ->Option.getOr(-1)
+                    [topLeaf, nextTopLeaf, avg, maxAverage]->Array.reduce(-2, (max, curr) =>
+                      max > curr ? max : curr
+                    )
 
                   // Update stack and continue processing
                   processRPNStack(rest, newMaxAverage, list{(newMaxAverage, Leaf), ...sliced})
