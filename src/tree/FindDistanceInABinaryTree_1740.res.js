@@ -19,10 +19,10 @@ function findDistanceInABinaryTree(root, p, q) {
       }
       var match = stack.hd;
       var node = match[0];
-      var right = node.right;
-      var left = node.left;
       var val = node.val;
       var rest = stack.tl;
+      var left = node.left;
+      var right = node.right;
       var newPath_1 = match[1];
       var newPath = {
         hd: val,

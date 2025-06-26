@@ -18,11 +18,11 @@ function lowestCommonAncestorOfDeepestLeaves(root) {
       }
       var match = workingStack.hd;
       var node = match[0];
-      var right = node.right;
-      var left = node.left;
       var val = node.val;
       var rest = workingStack.tl;
       var depth = match[1];
+      var left = node.left;
+      var right = node.right;
       var newMaxDepth = maxDepth > depth ? maxDepth : depth;
       if (left !== undefined) {
         if (right !== undefined) {

@@ -14,10 +14,10 @@ function countNodesEqualToAverageOfSubtree(root) {
         return rpnStack;
       }
       var top = workingStack.hd;
-      var right = top.right;
-      var left = top.left;
       var val = top.val;
       var rest = workingStack.tl;
+      var left = top.left;
+      var right = top.right;
       if (left !== undefined) {
         if (right !== undefined) {
           _workingStack = {

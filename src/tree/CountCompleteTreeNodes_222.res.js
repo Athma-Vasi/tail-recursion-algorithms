@@ -17,9 +17,9 @@ function countCompleteTreeNodes(root) {
         return count;
       }
       var popped = stack.hd;
-      var right = popped.right;
-      var left = popped.left;
       var rest = stack.tl;
+      var left = popped.left;
+      var right = popped.right;
       if (left !== undefined) {
         if (right !== undefined) {
           _stack = {

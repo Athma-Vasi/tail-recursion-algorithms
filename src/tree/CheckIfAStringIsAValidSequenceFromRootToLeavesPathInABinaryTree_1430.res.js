@@ -14,9 +14,9 @@ function checkIfAStringIsAValidSequenceFromRootToLeavesPathInABinaryTree(root, s
       }
       var match = stack.hd;
       var node = match[0];
-      var right = node.right;
-      var left = node.left;
       var rest = stack.tl;
+      var left = node.left;
+      var right = node.right;
       var newPathSoFar_0 = node.val;
       var newPathSoFar_1 = match[1];
       var newPathSoFar = {

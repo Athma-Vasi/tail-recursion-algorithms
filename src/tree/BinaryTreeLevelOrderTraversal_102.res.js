@@ -17,9 +17,9 @@ function binaryTreeLevelOrderTraversal(root) {
       var level = match[1];
       var node = match[0];
       var rest = queue.slice(1);
-      var right = node.right;
-      var left = node.left;
       var val = node.val;
+      var left = node.left;
+      var right = node.right;
       var values = Core__Option.mapOr(levelValuesTable.get(level), {
             hd: val,
             tl: /* [] */0

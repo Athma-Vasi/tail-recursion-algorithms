@@ -25,12 +25,13 @@ function findModeInBinarySearchTree(root) {
       }
       var popped = stack.hd;
       var val = popped.val;
+      var right = popped.right;
       var freq = Core__Option.mapOr(freqTable.get(val), 1, (function (f) {
               return f + 1 | 0;
             }));
       freqTable.set(val, freq);
       _stack = stack.tl;
-      _curr = popped.right;
+      _curr = right;
       continue ;
     };
   };

@@ -21,10 +21,10 @@ function twoSumIV_BST(root, k) {
         return exists;
       }
       var popped = stack.hd;
-      var right = popped.right;
-      var left = popped.left;
       var val = popped.val;
       var rest = stack.tl;
+      var left = popped.left;
+      var right = popped.right;
       var exists_ = values.has(k - val | 0);
       values.add(val);
       if (left !== undefined) {

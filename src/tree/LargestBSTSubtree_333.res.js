@@ -17,9 +17,9 @@ function largestBSTSubtree(root) {
               ];
       }
       var top = workingStack.hd;
-      var right = top.right;
-      var left = top.left;
       var rest = workingStack.tl;
+      var left = top.left;
+      var right = top.right;
       if (left !== undefined) {
         if (right !== undefined) {
           nodeLeavesCountTable.set(top, 2);

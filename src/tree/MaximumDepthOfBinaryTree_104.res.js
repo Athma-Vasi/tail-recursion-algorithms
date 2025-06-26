@@ -22,10 +22,10 @@ function maximumDepthOfBinaryTree(root) {
       }
       var match = queue.hd;
       var poppedNode = match[0];
-      var right = poppedNode.right;
-      var left = poppedNode.left;
       var rest = queue.tl;
       var depth = match[1];
+      var left = poppedNode.left;
+      var right = poppedNode.right;
       var newMaxDepth = maxDepth > depth ? maxDepth : depth;
       if (left !== undefined) {
         if (right !== undefined) {

@@ -15,10 +15,10 @@ function mostFrequentSubtreeSum(root) {
         return rpnStack;
       }
       var node = workingStack.hd;
-      var right = node.right;
-      var left = node.left;
       var val = node.val;
       var rest = workingStack.tl;
+      var left = node.left;
+      var right = node.right;
       if (left !== undefined) {
         if (right !== undefined) {
           _workingStack = {

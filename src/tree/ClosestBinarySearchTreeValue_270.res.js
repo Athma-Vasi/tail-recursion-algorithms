@@ -25,10 +25,11 @@ function closestBinarySearchTreeValue(root, target) {
       }
       var node = stack.hd;
       var val = node.val;
+      var right = node.right;
       var distance = val - target;
       var absDistance = distance < 1.0 ? distance * -1.0 : distance;
       _stack = stack.tl;
-      _curr = node.right;
+      _curr = right;
       _valuesDistances = {
         hd: [
           val,

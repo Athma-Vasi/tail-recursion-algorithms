@@ -13,9 +13,9 @@ function binaryTreePreorderTraversal(root) {
         return result;
       }
       var popped = stack.hd;
-      var right = popped.right;
-      var left = popped.left;
       var rest = stack.tl;
+      var left = popped.left;
+      var right = popped.right;
       var newResult_0 = popped.val;
       var newResult = {
         hd: newResult_0,

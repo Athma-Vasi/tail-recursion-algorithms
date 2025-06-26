@@ -16,9 +16,9 @@ function smallestStringStartingFromLeaf(root) {
       }
       var match = stack.hd;
       var node = match[0];
-      var right = node.right;
-      var left = node.left;
       var rest = stack.tl;
+      var left = node.left;
+      var right = node.right;
       var $$char = String.fromCharCode(97 + node.val | 0);
       var newPath = $$char + match[1];
       if (left !== undefined) {
