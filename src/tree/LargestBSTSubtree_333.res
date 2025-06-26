@@ -17,7 +17,7 @@ let largestBSTSubtree = (root: option<TreeNode.t<int>>) => {
     // If no more nodes to process, return the stack and table
     | list{} => (rpnStack, nodeLeavesCountTable)
     | list{top, ...rest} => {
-        let {left, right, val} = top
+        let {left, right} = top
 
         switch (left, right) {
         // Case 1: No children → it's a leaf
@@ -65,10 +65,9 @@ let largestBSTSubtree = (root: option<TreeNode.t<int>>) => {
     rpnStack: list<(TreeNode.t<int>, nodeKind)>,
     nodeLeavesCountTable: Map.t<TreeNode.t<int>, int>,
     largestSize: int,
+    // Each entry: (value, node kind, subtree size)
     evaluationStack: list<(int, nodeKind, int)>,
   ) => {
-    // Each entry: (value, node kind, subtree size)
-
     switch rpnStack {
     // Final result: return largest BST size found
     | list{} => largestSize
@@ -119,13 +118,14 @@ let largestBSTSubtree = (root: option<TreeNode.t<int>>) => {
           | list{smaller, ...restSizes} =>
             switch restSizes {
             | list{} => largestSize
-            | list{larger, ..._empty} =>
-              smaller < node.val && node.val < larger
-                ? {
-                    let newBSTSize = countWithLeaves + 1
-                    largestSize > newBSTSize ? largestSize : newBSTSize
-                  }
-                : largestSize
+            | list{larger, ..._nextRestLeaves} =>
+              switch smaller < node.val && node.val < larger {
+              | true => {
+                  let newBSTSize = countWithLeaves + 1
+                  largestSize > newBSTSize ? largestSize : newBSTSize
+                }
+              | false => largestSize
+              }
             }
           }
 
@@ -141,7 +141,7 @@ let largestBSTSubtree = (root: option<TreeNode.t<int>>) => {
     }
   }
 
-  // Main execution begins here
+  // Main begins here
   switch root {
   // Edge case: empty tree
   | None => -1
