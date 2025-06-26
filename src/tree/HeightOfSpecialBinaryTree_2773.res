@@ -76,7 +76,7 @@ let heightOfSpecialBinaryTree = (root: option<TreeNode.t<int>>) => {
     switch stack {
     | list{} => height
     | list{(node, parentNode, heightSoFar), ...rest} => {
-        let {left, right, val} = node
+        let {left, right} = node
         let newHeight = max(height, heightSoFar)
 
         switch (left, right) {
