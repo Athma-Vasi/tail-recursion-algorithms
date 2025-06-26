@@ -39,7 +39,7 @@ let checkIfAStringIsAValidSequenceFromRootToLeavesPathInABinaryTree = (
         ->List.reverse
         ->List.reduce(String.make(), (seqAcc, pos) => seqAcc ++ Int.toString(pos))
 
-      serialized === sequence ? true : acc
+      serialized === sequence || acc
     })
   }
 }
