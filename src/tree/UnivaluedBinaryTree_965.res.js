@@ -21,10 +21,10 @@ function univaluedBinaryTree(root) {
         return isUnivalued;
       }
       var popped = stack.hd;
+      var right = popped.right;
+      var left = popped.left;
       var val = popped.val;
       var rest = stack.tl;
-      var left = popped.left;
-      var right = popped.right;
       if (left !== undefined) {
         if (right !== undefined) {
           _stack = {

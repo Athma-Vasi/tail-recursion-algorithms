@@ -18,10 +18,10 @@ function deepestLeavesSum(root) {
       }
       var match = workingStack.hd;
       var top = match[0];
+      var right = top.right;
+      var left = top.left;
       var rest = workingStack.tl;
       var level = match[1];
-      var left = top.left;
-      var right = top.right;
       var newLVStack_0 = [
         top.val,
         level

@@ -22,11 +22,11 @@ function heightOfSpecialBinaryTree(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var rest = stack.tl;
       var heightSoFar = match[2];
       var parentNode = match[1];
-      var left = node.left;
-      var right = node.right;
       var newHeight = height > heightSoFar ? height : heightSoFar;
       if (left !== undefined) {
         if (right !== undefined) {

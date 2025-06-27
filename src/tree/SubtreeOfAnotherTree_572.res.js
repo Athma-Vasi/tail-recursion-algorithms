@@ -12,9 +12,9 @@ function subtreeOfAnotherTree(root, subRoot) {
         return serialized;
       }
       var top = workingStack.hd;
-      var rest = workingStack.tl;
-      var left = top.left;
       var right = top.right;
+      var left = top.left;
+      var rest = workingStack.tl;
       var serialized_ = serialized.concat("->" + top.val.toString());
       if (left !== undefined) {
         if (right !== undefined) {

@@ -23,9 +23,9 @@ function sumRootToLeafNumbers(root) {
       }
       var match = stack.hd;
       var node = match[0];
-      var rest = stack.tl;
-      var left = node.left;
       var right = node.right;
+      var left = node.left;
+      var rest = stack.tl;
       var concatenated = match[1] + node.val.toString();
       if (left !== undefined) {
         if (right !== undefined) {

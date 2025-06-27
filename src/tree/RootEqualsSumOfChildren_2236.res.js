@@ -7,8 +7,8 @@ function rootEqualsSumOfChildren(root) {
   if (root === undefined) {
     return false;
   }
-  var left = root.left;
   var right = root.right;
+  var left = root.left;
   if (left !== undefined && right !== undefined) {
     return root.val === (left.val + right.val | 0);
   } else {

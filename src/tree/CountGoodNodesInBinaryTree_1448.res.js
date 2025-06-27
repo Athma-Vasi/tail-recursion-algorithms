@@ -21,11 +21,11 @@ function countGoodNodesInBinaryTree(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var val = node.val;
       var rest = stack.tl;
       var maxSoFar = match[1];
-      var left = node.left;
-      var right = node.right;
       var newMax = val >= maxSoFar ? val : maxSoFar;
       var newCount = val >= maxSoFar ? count + 1 | 0 : count;
       if (left !== undefined) {

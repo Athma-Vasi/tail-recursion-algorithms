@@ -16,11 +16,11 @@ function findLargestValueInEachTreeRow(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var val = node.val;
       var rest = stack.tl;
       var level = match[1];
-      var left = node.left;
-      var right = node.right;
       var values = Core__Option.mapOr(levelValuesTable.get(level), {
             hd: val,
             tl: /* [] */0

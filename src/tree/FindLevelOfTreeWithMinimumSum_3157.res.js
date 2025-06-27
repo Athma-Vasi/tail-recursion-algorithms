@@ -14,10 +14,10 @@ function findLevelOfTreeWithMinimumSum(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var rest = stack.tl;
       var level = match[1];
-      var left = node.left;
-      var right = node.right;
       var sums = Core__Option.getOr(levelSumsTable.get(level), 0);
       levelSumsTable.set(level, sums + node.val | 0);
       if (left !== undefined) {

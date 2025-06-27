@@ -13,9 +13,9 @@ function binaryTreePostorderTraversal(root) {
         return resultStack;
       }
       var popped = workingStack.hd;
-      var rest = workingStack.tl;
-      var left = popped.left;
       var right = popped.right;
+      var left = popped.left;
+      var rest = workingStack.tl;
       var newResultStack_0 = popped.val;
       var newResultStack = {
         hd: newResultStack_0,

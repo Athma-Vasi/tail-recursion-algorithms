@@ -14,10 +14,10 @@ function binaryTreePaths(root) {
       }
       var match = stack.hd;
       var poppedNode = match[0];
+      var right = poppedNode.right;
+      var left = poppedNode.left;
       var rest = stack.tl;
       var path = match[1];
-      var left = poppedNode.left;
-      var right = poppedNode.right;
       if (left !== undefined) {
         if (right !== undefined) {
           var leftPath = path.concat("->" + left.val.toString());

@@ -14,9 +14,9 @@ function boundaryOfBinaryTree(root) {
         return Core__List.reverse(leaves);
       }
       var node = stack.hd;
-      var rest = stack.tl;
-      var left = node.left;
       var right = node.right;
+      var left = node.left;
+      var rest = stack.tl;
       if (left !== undefined) {
         if (right !== undefined) {
           _stack = {
@@ -62,10 +62,10 @@ function boundaryOfBinaryTree(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var rest = stack.tl;
       var level = match[1];
-      var left = node.left;
-      var right = node.right;
       levelLeftmostTable.set(level, node.val);
       if (left !== undefined) {
         if (right !== undefined) {
@@ -120,10 +120,10 @@ function boundaryOfBinaryTree(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var rest = stack.tl;
       var level = match[1];
-      var left = node.left;
-      var right = node.right;
       levelRightmostTable.set(level, node.val);
       if (left !== undefined) {
         if (right !== undefined) {

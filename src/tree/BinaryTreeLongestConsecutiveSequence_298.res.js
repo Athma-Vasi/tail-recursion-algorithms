@@ -16,11 +16,11 @@ function binaryTreeLongestConsecutiveSequence(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var val = node.val;
       var rest = stack.tl;
       var sequence = match[1];
-      var left = node.left;
-      var right = node.right;
       var match$1;
       if (sequence) {
         var restSeq = sequence.tl;

@@ -24,9 +24,8 @@ function rangeSumOfBST(root, low, high) {
     }
     var top = stack.hd;
     var val = top.val;
-    var right = top.right;
     _stack = stack.tl;
-    _curr = right;
+    _curr = top.right;
     _result = val >= low && val <= high ? result + val | 0 : result;
     continue ;
   };

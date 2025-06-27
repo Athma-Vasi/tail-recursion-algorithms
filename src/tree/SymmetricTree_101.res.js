@@ -16,11 +16,11 @@ function symmetricTree(root) {
       }
       var match = stack.hd;
       var poppedNode = match[0];
+      var right = poppedNode.right;
+      var left = poppedNode.left;
       var val = poppedNode.val;
       var rest = stack.tl;
       var level = match[1];
-      var left = poppedNode.left;
-      var right = poppedNode.right;
       var values = Core__Option.mapOr(levelValuesTable.get(level), {
             hd: val,
             tl: /* [] */0

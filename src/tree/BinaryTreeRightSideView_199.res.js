@@ -14,10 +14,10 @@ function binaryTreeRightSideView(root) {
       }
       var match = stack.hd;
       var node = match[0];
+      var right = node.right;
+      var left = node.left;
       var rest = stack.tl;
       var level = match[1];
-      var left = node.left;
-      var right = node.right;
       levelRightmostTable.set(level, node.val);
       if (left !== undefined) {
         if (right !== undefined) {

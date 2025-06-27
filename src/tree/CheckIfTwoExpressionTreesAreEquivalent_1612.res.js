@@ -63,13 +63,12 @@ function checkIfTwoExpressionTreesAreEquivalent(root1, root2) {
           continue ;
         }
         var val = top1.val;
-        var right = top1.right;
         var freq1$1 = Core__Option.mapOr(charsFreqs1.get(val), 1, (function (f) {
                 return f + 1 | 0;
               }));
         charsFreqs1.set(val, freq1$1);
         _stack1 = rest1;
-        _curr1 = right;
+        _curr1 = top1.right;
         continue ;
       }
       if (!stack2) {
@@ -80,13 +79,12 @@ function checkIfTwoExpressionTreesAreEquivalent(root1, root2) {
       }
       var top2$1 = stack2.hd;
       var val$1 = top2$1.val;
-      var right$1 = top2$1.right;
       var freq2$1 = Core__Option.mapOr(charsFreqs2.get(val$1), 1, (function (f) {
               return f + 1 | 0;
             }));
       charsFreqs2.set(val$1, freq2$1);
       _stack2 = stack2.tl;
-      _curr2 = right$1;
+      _curr2 = top2$1.right;
       continue ;
     };
   };
